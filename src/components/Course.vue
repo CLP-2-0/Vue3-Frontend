@@ -1,0 +1,27 @@
+<template>
+<div>
+    <NavbarActive />
+    <ul class="list-group container">
+        <li class="mb-4 bg-light p-2"><router-link to="/teacher/dashboard/course/lesson" class="text-reset">A simple default list group item</router-link></li>
+        <li class="mb-4 bg-light p-2">A simple default list group item</li>
+        <li class="mb-4 bg-light p-2">A simple default list group item</li>
+        <li class="mb-4 bg-light p-2">A simple default list group item</li>
+    </ul>
+</div>
+</template>
+
+<script>
+
+import NavbarActive from './NavbarActive.vue'
+export default {
+    name:'Course',
+    components:{
+        NavbarActive,
+    }
+}
+
+</script>
+
+<style>
+
+</style>
