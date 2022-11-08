@@ -4,6 +4,7 @@ import Signup from '../components/Signup.vue';
 import Dashboard from '../components/Dashboard.vue';
 import Lesson from '../components/Lesson.vue';
 import Course from '../components/Course.vue';
+import PublisherDashboard from '../components/Publisher/PublisherDashboard.vue';
 
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
             path:'/teacher/dashboard/course/lesson', 
             name:'Lesson', 
             component: Lesson
+        },
+        {
+            path:'/publisher/dashboard', 
+            name:'Publisher Dashboard', 
+            component: PublisherDashboard
         },
     ],
     

@@ -27,15 +27,14 @@ export default {
 .grid-container{
     display:grid;
     grid-template-columns:auto auto auto;
-    justify-content:space-between;
-    width: 70vw;
-    margin: auto;
+    justify-content:space-around;
+    /* margin: auto; */
 }
 .image{
     height: 40vh;
-    width: 100%;
-    min-width: 20vw;
-    max-width: 400px;
+    width: 18vw;
+    min-width: 200px;
+    max-width: 300px;
     background: url("../assets/class-logo.png");
     background-size: cover;
     background-position: center;
@@ -54,5 +53,15 @@ export default {
     text-align: center;
     color: rgb(92, 92, 92);
 
+}
+@media (max-width: 760px) and (min-width:450px) {
+    .grid-container{
+    grid-template-columns:auto auto;
+  }
+}
+@media (max-width: 450px) {
+   .grid-container{
+    grid-template-columns:auto;
+  }
 }
 </style>

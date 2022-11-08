@@ -14,7 +14,7 @@
     </nav>
 
         <div class="container-fluid header-container">
-            <span>Class Name/ Lesson Name (just example)</span>
+            <span class="container">Class Name/ Lesson Name (just example)</span>
         </div>
 </div>
     
@@ -31,10 +31,6 @@ export default {
         text-decoration: none;
         text-transform: uppercase;
     }
-    nav{
-        height: 7vh;
-        min-height: 60px; 
-    }
     .header-container{
         height: 7vh;
         background-color: rgb(230, 239, 245);
@@ -47,8 +43,6 @@ export default {
     left:50%;
     top:50%;
     transform: translate(-50%, -50%);
-    width: 80vw;
-    max-width:1440px;
     font-size: 1em;
     margin: auto;
     font-size: 1.2em;
