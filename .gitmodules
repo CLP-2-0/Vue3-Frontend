@@ -1,0 +1,3 @@
+[submodule "thirdparty/TooN"]
+	path = thirdparty/TooN
+	url = git://github.com/edrosten/TooN.git
