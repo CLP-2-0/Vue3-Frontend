@@ -17,26 +17,28 @@
             type="text"
             cols="10"
             rows="1"
+            id="pinyinId"
             :pinyin="red.pinyin"
-            @blur="addToRed()"
+            @blur="addToRed(index)"
           ></textarea>
         </td>
         <td>
           <textarea
             name="grammar"
-            id="type"
             cols="10"
             rows="1"
-            @input="addToRed()"
+            id="grammarId"
+            @blur="addToRed(index)"
           ></textarea>
         </td>
         <td>
           <textarea
             name="meaning"
-            id="meaning"
             cols="40"
             rows="1"
-            @input="addToRed()"
+            id="meaningId"
+            v-model="red.meaning"
+            @input="addToRed(index)"
           ></textarea>
         </td>
       </tr>
@@ -47,19 +49,23 @@
 <script>
 export default {
   props: ["red"],
-  emits: ["red"],
-  pinyinnew: pinyin,
+  //   meaning: [],
+  //   pinyin: [],
+  //   grammar: [],
+  //   emits: ["red"],
 
   //   emits: ["update:type", 'update:pinyin'],
   name: "Mock",
   components: {},
 
   methods: {
-    addToRed() {
-      this.red.pinyin = pinyinnew;
-      this.red.grammer = document.getElementsByName("grammar");
-      this.red.meaning = document.getElementsByName("meaning");
+    addToRed(index) {
+      this.red[index].pinyin = document.getElementById("pinyinId").value;
+      this.red[index].grammar = document.getElementById("grammarId").value;
+      this.red[index].meaning = document.getElementById("meaningId").value;
       console.log(this.red);
+      console.log(document.getElementById("pinyinId").value);
+      //
       //   this.red.pinyin = document.getElementsByName("pinyin");
     },
   },

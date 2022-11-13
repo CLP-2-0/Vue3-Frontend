@@ -66,11 +66,7 @@ export default {
       },
       content: "",
       title: "",
-      red: [
-        { word: "vipul", pinyin: "", grammar: "", meaning: "" },
-        { word: "chase", pinyin: "", grammer: "", meaning: "" },
-        { word: "bao", pinyin: "", grammar: "", meaning: "" },
-      ],
+      red: [],
       yellow: [],
       // pinyin: [],
       // type: [],
@@ -98,6 +94,7 @@ export default {
               grammar: "",
               meaning: "",
             });
+            console.log(this.red);
           } else if (
             spanChild.getAttribute("style") == "color: rgb(237, 125, 49);"
           ) {
