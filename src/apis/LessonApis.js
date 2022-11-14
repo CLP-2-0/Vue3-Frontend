@@ -1,19 +1,26 @@
 import axios from "axios";
 
-const getOneLesson = async () => {
-    const instance = axios.create({
-      baseURL: "http://localhost:8000",
-      timeout: 1000,
-    });
-    return await instance
-      .get("/lessons/1")
+// Create instance for Lesson API 
+//******************************* */
+const instance = axios.create({
+  baseURL: "http://localhost:8000/lessons",
+  timeout: 1000,
+});
+//******************************* */
+
+const getLessons = async () => {
+     return await instance.get("")
       .then((res) => {
-        console.log(res.data)
+        // console.log("this from apis")
+        // console.log(res.data)
         return res.data;
       })
       .catch((error) => {
-        console.error(error.response.data);
+        console.error("Error calling getOneLesson", error.response.data);
+        return null;
       });
   }
 
-  export default {getOneLesson}
+  export default {
+    getLessons
+  }
