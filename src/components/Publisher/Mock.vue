@@ -18,7 +18,6 @@
             cols="10"
             rows="1"
             id="pinyinId"
-            :pinyin="red.pinyin"
             @blur="addToRed(index)"
           ></textarea>
         </td>
@@ -44,17 +43,17 @@
       </tr>
     </tbody>
   </table>
+  <div class="btn-container">
+    <button type="button" class="btn btn-outline-success" @click="saveTable">
+      Save vocab
+    </button>
+  </div>
 </template>
 
 <script>
 export default {
   props: ["red"],
-  //   meaning: [],
-  //   pinyin: [],
-  //   grammar: [],
-  //   emits: ["red"],
 
-  //   emits: ["update:type", 'update:pinyin'],
   name: "Mock",
   components: {},
 
@@ -67,6 +66,9 @@ export default {
       console.log(document.getElementById("pinyinId").value);
       //
       //   this.red.pinyin = document.getElementsByName("pinyin");
+    },
+    saveTable() {
+      var vocabList = JSON.stringify(red);
     },
   },
 };
