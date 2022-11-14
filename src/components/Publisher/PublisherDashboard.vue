@@ -9,19 +9,24 @@
             <h1>testing</h1>
   
             <div style="margin-top:30px">
-            <table class="table table-hover" id="example">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
                     <th>Content</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr v-for="lesson in lessons" :key="lesson.id">
                     <td>{{lesson.id}}</td>
-                    <td>{{lesson.name}}</td>
-                    <td>{{lesson.content}}</td>
+                    <td>{{lesson.title}}</td>
+                    <td class="text"><div >
+                        <button class="btn btn-light mx-3">Edit</button>
+                        <button class="btn btn-light">Delete</button>
+                    </div>
+                    </td>
+                    
                 </tr>
                 
                 </tbody>
@@ -56,11 +61,11 @@ export default {
         axios.get("http://localhost:8000/lessons")
             .then((res)=>
             {
-                this.lessons = res.data;
-            
+                this.lessons = res.data.data;
+                console.log(res.data.data);
             })
         },
-    data: function() {
+    data() {
             return {
                 lessons:[]
             }
@@ -70,5 +75,7 @@ export default {
 </script>
 
 <style>
-
+.text{
+    text-align: right;
+}
 </style>
