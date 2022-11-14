@@ -11,8 +11,8 @@ const instance = axios.create({
 const getLessons = async () => {
      return await instance.get("")
       .then((res) => {
-        console.log("this from apis")
-        console.log(res.data)
+        // console.log("this from apis")
+        // console.log(res.data)
         return res.data;
       })
       .catch((error) => {

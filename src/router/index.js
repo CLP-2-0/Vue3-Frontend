@@ -5,6 +5,7 @@ import Dashboard from '../components/Dashboard.vue';
 import Lesson from '../components/Lesson.vue';
 import Course from '../components/Course.vue';
 import PublisherDashboard from '../components/Publisher/PublisherDashboard.vue';
+import LessonDetail from '@/components/Publisher/LessonDetail.vue';
 
 
 const router = createRouter({
@@ -40,6 +41,12 @@ const router = createRouter({
             name:'Publisher Dashboard', 
             component: PublisherDashboard
         },
+        {
+            path:'/publisher/dashboard/:id',
+            name: 'Lesson Detail',
+            component: LessonDetail,
+            // props: true,
+        }
     ],
     
 })

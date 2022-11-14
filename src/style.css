@@ -17,7 +17,7 @@
 a{
   color: white !important;
   text-decoration: none !important;
-  text-transform: uppercase !important;
+  /* text-transform: uppercase !important; */
 }
 li{
   text-decoration: none;

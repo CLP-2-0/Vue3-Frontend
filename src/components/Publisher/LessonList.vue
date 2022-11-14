@@ -10,10 +10,15 @@
                 </tr>
                 </thead> -->
                 <tbody>
-                <tr v-for="lesson in lessons" :key="lesson.id">
-                    <td>Lesson {{lesson.id}}: {{lesson.title}}</td>
+                <tr v-for="lesson in lessons" :key="lesson.id" >
+                    <td >
+                        <router-link :to="{ name:'Lesson Detail', params: {id:lesson.id} }">
+                           <div class="text-dark ">Lesson {{lesson.id}}: {{lesson.title}} </div> 
+                        </router-link>
+                        
+                    </td>
                     <td class="text-right"><div >
-                        <button class="btn btn-light mx-3">Edit</button>
+                        <button class="btn btn-light mx-3 ">Edit</button>
                         <button class="btn btn-light">Delete</button>
                     </div>
                     </td>

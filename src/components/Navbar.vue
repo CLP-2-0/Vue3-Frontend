@@ -13,10 +13,4 @@ export default {
 </script>
 
 <style>
-    div>a{
-        color: rgb(255, 255, 255);
-        text-decoration: none;
-        text-transform: uppercase
-    }
-    
 </style>
