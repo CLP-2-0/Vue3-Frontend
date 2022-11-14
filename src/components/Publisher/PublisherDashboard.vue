@@ -2,80 +2,67 @@
     <div>
         <NavbarActive />
         <div class="container">
-            <!-- <BookEditor /> -->
-
-            <!-- ************************************ -->
-            <!-- TESTING call API -->
-            <h1>testing</h1>
-  
-            <div style="margin-top:30px">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Content</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr v-for="lesson in lessons" :key="lesson.id">
-                    <td>{{lesson.id}}</td>
-                    <td>{{lesson.title}}</td>
-                    <td class="text"><div >
-                        <button class="btn btn-light mx-3">Edit</button>
-                        <button class="btn btn-light">Delete</button>
-                    </div>
-                    </td>
-                    
-                </tr>
-                
-                </tbody>
-            </table>
-            </div>
             
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">ADD+</button>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog ">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add lesson</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                        <div class="mb-3">
+                            <label for="#" class="form-label center-label">Lesson #</label>
+                            <input type="text" class="form-control" id="lessonNumber" aria-describedby="emailHelp">
 
-            <!-- ********************************** -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="#" class="form-label">Tilte</label>
+                            <input type="text" class="form-control" id="lessonTitle">
+                        </div>
+                        
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary text-center">Create</button>
+                        <!-- <button type="button" class="btn btn-warning" data-bs-dismiss="modal">Close</button> -->
+                    </div>
+                </div>
+            </div>
+            </div>
 
+            <LessonList />
+            <!-- <BookEditor /> -->
         </div>
-
-       
+        
+        
     </div>
 </template>
 
 <script>
 import NavbarActive from '../NavbarActive.vue'
-// import BookEditor from './BookEditor.vue'
-
-import axios from 'axios';
+import BookEditor from './BookEditor.vue'
+import LessonList from './LessonList.vue';
 
 export default {
     name:'Publisher Dashboard',
     components:{
         NavbarActive,
-        // BookEditor,
+        BookEditor,
+        LessonList
     },
-    // ************************************************************************************************************************
-    // test  axios.get("https://jsonplaceholder.typicode.com/users")
-    mounted(){
-        //API Call
-        axios.get("http://localhost:8000/lessons")
-            .then((res)=>
-            {
-                this.lessons = res.data.data;
-                console.log(res.data.data);
-            })
-        },
     data() {
-            return {
-                lessons:[]
-            }
-        }
-     //  ************************************************************************************************************************
+      return {
+        
+      }
+    }
 }
 </script>
 
 <style>
-.text{
-    text-align: right;
-}
+
 </style>

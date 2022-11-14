@@ -39,6 +39,7 @@
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import Mock from './Mock.vue'
+import VocabApis from "../../apis/VocabApis";
 
 export default {
   name: "quil-editor",
@@ -71,7 +72,7 @@ export default {
     };
   },
   methods: {
-    save() {
+    async save() {
       this.title = document.getElementById("titleInput").value;
       document.getElementById("title").innerHTML = this.title;
 
@@ -92,11 +93,18 @@ export default {
         }
         
       }
+
+      const res = await VocabApis.save()
       
       console.log(this.red)
       console.log(this.yellow)
+      console.log(res)
     },
+    mounted() {
+      this.save();
+    }
   },
+
 };
 </script>
 
