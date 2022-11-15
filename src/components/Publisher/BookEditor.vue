@@ -59,7 +59,7 @@ export default {
             "underline",
             "link",
             "clean",
-            { color: [] },
+            { color: ['red', 'rgb(237, 125, 49)'] },
             { background: [] },
           ],
         },
