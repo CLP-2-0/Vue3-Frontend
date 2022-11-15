@@ -24,7 +24,8 @@
                         <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Vocabulary</button>
                     </div>
                     <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel">{{msg}}</div>
+                        
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"><Book :lessonIdx=1 /></div>
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel">{{msg}}</div>
                         <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">{{msg}}</div>
                         <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">{{msg}}</div>
@@ -45,10 +46,12 @@
 
 <script>
 import NavbarActive from './NavbarActive.vue'
+import Book from './Book.vue'
 export default {
     name:'Course',
     components:{
         NavbarActive,
+        Book
     },
     data() {
     return {
