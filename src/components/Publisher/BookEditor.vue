@@ -10,6 +10,7 @@
           placeholder="Enter title here..."
         />
       </div>
+
     </div>
     <div class="content-block">
       <label class="col-sm-1 col-form-label">Content:</label>
@@ -27,25 +28,32 @@
       <!-- for binding content from quill-editor need v-model:content='' and contentType='html' -->
     </div>
 
+
     <div class="preview">
       <div class="title-container"><div id="title"></div></div>
       <div id="content" class="content ql-editor"></div>
     </div>
   </div>
+
   <Mock :red="red" />
+
 </template>
 
 <script>
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
+
 import Mock from "./Mock.vue";
+
 
 export default {
   name: "quil-editor",
   title: "Book Editor",
   components: {
     QuillEditor,
+
     Mock,
+
   },
   data() {
     return {
@@ -67,6 +75,7 @@ export default {
       content: "",
       title: "",
       red: [],
+
       yellow: [],
       // pinyin: [],
       // type: [],
@@ -74,6 +83,7 @@ export default {
   },
   methods: {
     save() {
+
       this.title = document.getElementById("titleInput").value;
       document.getElementById("title").innerHTML = this.title;
 
@@ -82,6 +92,7 @@ export default {
       let children = contentElement.children;
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
+
         let spanChildren = child.children;
         for (let j = 0; j < spanChildren.length; j++) {
           let spanChild = spanChildren[j];
@@ -106,7 +117,7 @@ export default {
       console.log(this.red);
       console.log(this.yellow);
     },
-  },
+
 };
 </script>
 
