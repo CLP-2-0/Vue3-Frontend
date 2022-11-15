@@ -18,8 +18,8 @@
                 <!-- horizon tab here -->
                 <div class="d-flex align-items-start adjuster">
                     <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link active"  data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Pinyin</button>
-                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Chinese</button>
+                        <button class="nav-link active"  data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Chinese</button>
+                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Pinyin</button>
                         <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Grammar</button>
                         <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Vocabulary</button>
                     </div>
@@ -67,7 +67,7 @@ export default {
         /* need to find the way to fix it  */
     }
     .tab-adjuster{
-        max-width: 70vw !important;
+        /* max-width: 70vw !important; */
     }
 
 </style>

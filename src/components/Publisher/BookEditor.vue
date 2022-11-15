@@ -116,6 +116,7 @@ export default {
 
       console.log(this.red);
       console.log(this.yellow);
+      console.log(this.content)
     },
 
 }}
