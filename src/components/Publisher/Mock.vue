@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 export default {
   props: ["red"],
 
@@ -68,14 +68,20 @@ export default {
       //
       //   this.red.pinyin = document.getElementsByName("pinyin");
     },
-    saveTable() {
-      new tableData = new FormData();
-
-      for((r, index) in red){
-        tableData.append(index, r.word, r.pinyin, r.grammar, r.meaning);
-      }
-      axios.post('')
-    },
+    // saveTable() {
+    // //  axios({
+    // //   url: '',
+    // //   method: 'post',
+    // //   data: red
+    // //  })
+    // //  .then(function(response)
+    // //  {
+    // //   console.log(response);
+    // //  })
+    // //  .catch(function(error){
+    // //   console.log(error);
+    // //  });
+    // },
   },
 };
 </script>
