@@ -1,10 +1,11 @@
 <template>
     <div>
         <NavbarActive />
-        <div class="container">
-            <BookEditor />
+        <div class="container">            
+            <LessonList />
+            <!-- <BookEditor /> -->
         </div>
-        <LessonList />
+        
         
     </div>
 </template>
@@ -13,12 +14,18 @@
 import NavbarActive from '../NavbarActive.vue'
 import BookEditor from './BookEditor.vue'
 import LessonList from './LessonList.vue';
+
 export default {
     name:'Publisher Dashboard',
     components:{
         NavbarActive,
         BookEditor,
         LessonList
+    },
+    data() {
+      return {
+        
+      }
     }
 }
 </script>
