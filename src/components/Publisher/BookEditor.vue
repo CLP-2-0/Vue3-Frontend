@@ -94,6 +94,7 @@ export default {
           if (spanChild.getAttribute("style") == "color: red;") {
             // this.red.word = spanChild.innerHTML;
             this.red.push({
+              id: "",
               word: spanChild.innerHTML,
               pinyin: "",
               grammar: "",
