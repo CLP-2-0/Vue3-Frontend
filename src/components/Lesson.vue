@@ -1,8 +1,8 @@
 <template>
   <div>
     <NavbarActive/>
-    <div class="container">
-        <div class='tab-adjuster'>   
+    
+        <div class='container tab-adjuster'>   
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Book</button>
@@ -40,8 +40,7 @@
         </div>
     </div>
     </div>
-    
-  </div> 
+
 </template>
 
 <script>
@@ -62,12 +61,13 @@ export default {
 </script>
 
 <style>
-    .adjuster{
-        /* margin-left: -9vw; */
-        /* need to find the way to fix it  */
-    }
+    /**  .adjuster{
+        margin-left: -9vw; 
+        need to find the way to fix it  
+    } 
+    **/
     .tab-adjuster{
-        /* max-width: 70vw !important; */
+        max-width: 80vw !important;
     }
 
 </style>
