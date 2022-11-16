@@ -62,7 +62,7 @@ export default {
             "underline",
             "link",
             "clean",
-            { color: [] },
+            { color: ['red', 'rgb(237, 125, 49)'] },
             { background: [] },
           ],
         },
@@ -110,9 +110,12 @@ export default {
 
       console.log(this.red);
       console.log(this.yellow);
+      console.log(this.content)
     },
-  },
-};
+
+
+}}
+
 </script>
 
 <style>
