@@ -78,6 +78,7 @@ export default {
   },
   methods: {
     save() {
+      red.length = 0;
       this.title = document.getElementById("titleInput").value;
       document.getElementById("title").innerHTML = this.title;
 
