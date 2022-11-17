@@ -36,7 +36,6 @@
             cols="40"
             rows="1"
             id="meaningId"
-            v-model="red.meaning"
             @input="addToRed(index)"
           ></textarea>
         </td>
@@ -60,6 +59,7 @@ export default {
 
   methods: {
     addToRed(index) {
+      this.red[index].id = index;
       this.red[index].pinyin = document.getElementById("pinyinId").value;
       this.red[index].grammar = document.getElementById("grammarId").value;
       this.red[index].meaning = document.getElementById("meaningId").value;
@@ -68,21 +68,20 @@ export default {
       //
       //   this.red.pinyin = document.getElementsByName("pinyin");
     },
-    // saveTable() {
-    // //  axios({
-    // //   url: '',
-    // //   method: 'post',
-    // //   data: red
-    // //  })
-    // //  .then(function(response)
-    // //  {
-    // //   console.log(response);
-    // //  })
-    // //  .catch(function(error){
-    // //   console.log(error);
-    // //  });
+    // async saveTable(lessonid) {
+    //  axios({
+    //   url: await instance.get(),
+    //   method: 'post',
+    //   data: red
+    //  })
+    //  .then(function(response)
+    //  {
+    //   console.log(response);
+    //  })
+    //  .catch(function(error){
+    //   console.log(error);
+    //  });
     // },
   },
 };
 </script>
-
