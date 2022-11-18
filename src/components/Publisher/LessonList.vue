@@ -94,6 +94,7 @@ export default {
             // console.log("lessons res:", this.lessons)
         },
         async addClick() {
+            this.flagEdit = 0
             // console.log("this is click")
             this.modalTitle = "Add lesson"
             this.newLessons.LessonId = '';
