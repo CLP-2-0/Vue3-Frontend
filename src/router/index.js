@@ -32,7 +32,7 @@ const router = createRouter({
             component: SectionDetail
         },
         {
-            path:'/teacher/dashboard/section/lesson', 
+            path:'/teacher/dashboard/section/lesson:id', 
             name:'Lesson', 
             component: Lesson
         },
