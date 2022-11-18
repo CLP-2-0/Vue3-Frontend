@@ -94,13 +94,11 @@ export default {
           if (spanChild.getAttribute("style") == "color: red;") {
             // this.red.word = spanChild.innerHTML;
             this.red.push({
-              id: "",
               word: spanChild.innerHTML,
+              meaning: "",
               pinyin: "",
               grammar: "",
-              meaning: "",
             });
-            console.log(this.red);
           } else if (
             spanChild.getAttribute("style") == "color: rgb(237, 125, 49);"
           ) {
