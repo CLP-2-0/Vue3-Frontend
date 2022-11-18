@@ -17,7 +17,7 @@
             type="text"
             cols="10"
             rows="1"
-            id="pinyinId"
+            :id="'pinyinId' + index"
             @blur="addToRed(index)"
           ></textarea>
         </td>
@@ -26,7 +26,7 @@
             name="grammar"
             cols="10"
             rows="1"
-            id="grammarId"
+            :id="'typeId' + index"
             @blur="addToRed(index)"
           ></textarea>
         </td>
@@ -35,8 +35,7 @@
             name="meaning"
             cols="40"
             rows="1"
-            id="meaningId"
-            v-model="red.meaning"
+            :id="'meaningId' + index"
             @input="addToRed(index)"
           ></textarea>
         </td>
@@ -51,6 +50,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 // import axios from "axios";
 export default {
   props: ["red"],
@@ -60,29 +61,34 @@ export default {
 
   methods: {
     addToRed(index) {
-      this.red[index].pinyin = document.getElementById("pinyinId").value;
-      this.red[index].grammar = document.getElementById("grammarId").value;
-      this.red[index].meaning = document.getElementById("meaningId").value;
-      console.log(this.red);
-      console.log(document.getElementById("pinyinId").value);
+      this.red[index].meaning = document.getElementById(
+        "meaningId" + index
+      ).value;
+
+      this.red[index].pinyin = document.getElementById(
+        "pinyinId" + index
+      ).value;
+      this.red[index].grammar = document.getElementById("typeId" + index).value;
+
+      // console.log(this.red);
+      // console.log(document.getElementById("pinyinId").value);
       //
       //   this.red.pinyin = document.getElementsByName("pinyin");
     },
-    // saveTable() {
-    // //  axios({
-    // //   url: '',
-    // //   method: 'post',
-    // //   data: red
-    // //  })
-    // //  .then(function(response)
-    // //  {
-    // //   console.log(response);
-    // //  })
-    // //  .catch(function(error){
-    // //   console.log(error);
-    // //  });
-    // },
+    // lessonId = window.location.pathname.split("/").pop()
+    async saveTable() {
+      console.log(JSON.stringify(this.red));
+      await axios
+        .post("http://localhost:8000/vocabs/save-vocab/1", {
+          vocabs: this.red,
+        })
+        .then((res) => {
+          this.arraylist = res.data;
+        })
+        .catch(function (error) {
+          console.log("error:", error);
+        });
+    },
   },
 };
 </script>
-

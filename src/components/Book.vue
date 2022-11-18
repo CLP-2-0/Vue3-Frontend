@@ -40,6 +40,8 @@ export default {
           $(`#vocab${i}`).popover({
             container: "body",
             html: true,
+            placement: 'bottom',
+            trigger: 'manual',
             content: function () {
               return (
                 '<div class="popover-message">' +
@@ -50,7 +52,14 @@ export default {
                 "</div>"
               );
             },
+          }).click(function(e) {
+                e.stopPropagation();
+                $(this).popover('show');
+            });
+          $('html').click(function() {
+              $(`#vocab${i}`).popover('hide');
           });
+
         }
       }
     },

@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     save() {
-      this.red.length = 0
+      this.red.length = 0;
       this.title = document.getElementById("titleInput").value;
       document.getElementById("title").innerHTML = this.title;
 
@@ -96,11 +96,10 @@ export default {
             // this.red.word = spanChild.innerHTML;
             this.red.push({
               word: spanChild.innerHTML,
-              pinyin: "",
-              grammar: "",
               meaning: "",
+              pinyin: "",
+              type: "",
             });
-            console.log(this.red);
           } else if (
             spanChild.getAttribute("style") == "color: rgb(237, 125, 49);"
           ) {

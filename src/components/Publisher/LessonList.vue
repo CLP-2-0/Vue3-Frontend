@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container tab-adjuster">
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" @click="addClick()">New Lesson</button>
             <!-- Modal -->
@@ -19,7 +19,6 @@
                             <input type="text" class="form-control" v-model="newLessons.LessonId" v-if="flagEdit==1" disabled>
                             
                             
-
                         </div>
                         <div class="mb-3">
                             <label for="#" class="form-label">Tilte</label>
@@ -50,7 +49,7 @@
                 <tr v-for="lesson in lessons" :key="lesson.id" >
                     <td >
                         <router-link :to="{ name:'Lesson Detail', params: {id:lesson.id} }">
-                           <div class="text-dark ">Lesson {{lesson.id}}: {{lesson.title}} </div> 
+                           <div class="text-dark m-3">Lesson {{lesson.id}}: {{lesson.title}} </div> 
                         </router-link>
                         
                     </td>
