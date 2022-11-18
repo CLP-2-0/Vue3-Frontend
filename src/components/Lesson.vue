@@ -23,7 +23,7 @@
                         <button class="nav-link" id="v-pills-vocab-tab" data-bs-toggle="pill" data-bs-target="#v-pills-vocab" type="button" role="tab" aria-controls="v-pills-vocab" aria-selected="false">Vocabs</button>
                     </div>
                     <div class="tab-content flex-grow-1 ms-3" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-chinese" role="tabpanel" aria-labelledby="v-pills-chinese-tab"><Book :lessonIdx=1 /></div>
+                        <div class="tab-pane fade show active" id="v-pills-chinese" role="tabpanel" aria-labelledby="v-pills-chinese-tab"><Book :lessonIdx=this.$route.params.id /></div>
                         <div class="tab-pane fade" id="v-pills-pinyin" role="tabpanel" aria-labelledby="v-pills-pinyin-tab">This is pinyin tab</div>
                         <div class="tab-pane fade" id="v-pills-grammar" role="tabpanel" aria-labelledby="v-pills-grammar-tab">This is grammar tab</div>
                         <div class="tab-pane fade" id="v-pills-vocab" role="tabpanel" aria-labelledby="v-pills-vocab-tab">This is Vocab tab</div>
@@ -44,18 +44,21 @@
 <script>
 import NavbarActive from './NavbarActive.vue'
 import Book from './Book.vue'
+
 export default {
     name:'LessonList',
-    prop:['id'],
     components:{
         NavbarActive,
         Book
     },
     data() {
     return {
-      msg:""
     }
   },
+  mounted() {
+    console.log(this.$route.params.id)
+  }
+
 }
 </script>
 
