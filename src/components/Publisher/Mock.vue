@@ -26,7 +26,7 @@
             name="grammar"
             cols="10"
             rows="1"
-            :id="'grammarId' + index"
+            :id="'typeId' + index"
             @blur="addToRed(index)"
           ></textarea>
         </td>
@@ -68,31 +68,26 @@ export default {
       this.red[index].pinyin = document.getElementById(
         "pinyinId" + index
       ).value;
-      this.red[index].grammar = document.getElementById(
-        "grammarId" + index
-      ).value;
+      this.red[index].grammar = document.getElementById("typeId" + index).value;
 
       // console.log(this.red);
       // console.log(document.getElementById("pinyinId").value);
       //
       //   this.red.pinyin = document.getElementsByName("pinyin");
     },
+    // lessonId = window.location.pathname.split("/").pop()
     async saveTable() {
-      console.log(this.red);
-      // await axios
-      //   .post(
-      //     `http://localhost:3000/vocabs/save-vocab/{lessonId}`,
-      //     { lessonId },
-      //     {
-      //       arraylist: this.red,
-      //     }
-      //   )
-      //   .then((res) => {
-      //     this.arraylist = res.data;
-      //   })
-      //   .catch(function (error) {
-      //     console.log("error:", error);
-      //   });
+      console.log(JSON.stringify(this.red));
+      await axios
+        .post("http://localhost:8000/vocabs/save-vocab/1", {
+          vocabs: this.red,
+        })
+        .then((res) => {
+          this.arraylist = res.data;
+        })
+        .catch(function (error) {
+          console.log("error:", error);
+        });
     },
   },
 };
