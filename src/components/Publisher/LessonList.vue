@@ -19,7 +19,6 @@
                             <input type="text" class="form-control" v-model="newLessons.LessonId" v-if="flagEdit==1" disabled>
                             
                             
-
                         </div>
                         <div class="mb-3">
                             <label for="#" class="form-label">Tilte</label>
