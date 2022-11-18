@@ -40,6 +40,7 @@ export default {
           $(`#vocab${i}`).popover({
             container: "body",
             html: true,
+            placement: 'bottom',
             trigger: 'manual',
             content: function () {
               return (
