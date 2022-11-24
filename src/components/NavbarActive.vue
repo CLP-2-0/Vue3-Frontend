@@ -6,7 +6,7 @@
             <router-link to="/">Home</router-link>
             
             <div class="nav-link">
-                <router-link to="/teacher/dashboard">Dashboard</router-link>
+                <!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
                 <router-link to="/teacher/dashboard"><i class="fa fa-solid fa-user px-3" style="color:white"></i></router-link>
             </div>
             
@@ -14,7 +14,7 @@
     </nav>
 
         <div class="container-fluid header-container">
-            <span class="container">Class Name/ Lesson Name (just example)</span>
+            <span class="container">Current location</span>
         </div>
 </div>
     

@@ -1,19 +1,23 @@
 import axios from "axios";
 
-const save = async () => {
+const saveVocabs = async (lessonId, vocabs) => {
     const instance = axios.create({
       baseURL: "http://localhost:8000",
       timeout: 1000,
     });
+    console.log(vocabs)
     return await instance
-      .get("/vocab/1")
-      .then((res) => {
-        console.log(res.data)
-        return res.data;
-      })
-      .catch((error) => {
-        console.error(error.response.data);
-      });
+    .post(`/vocabs/${lessonId}`, 
+      vocabs,
+    )
+    .then((res) => {
+      console.log("sent")
+    })
+    .catch(function (error) {
+      console.log("error:", error);
+    });
+
+        
   }
 
-  export default {save}
+  export default {saveVocabs}
