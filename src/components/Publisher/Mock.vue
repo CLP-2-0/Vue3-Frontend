@@ -19,16 +19,16 @@
             rows="1"
             :id="'pinyinId' + index"
             @blur="addToRed(index)"
-          ></textarea>
+          >{{ r.pinyin }}</textarea>
         </td>
         <td>
           <textarea
-            name="grammar"
+            name="type"
             cols="10"
             rows="1"
             :id="'typeId' + index"
             @blur="addToRed(index)"
-          ></textarea>
+          >{{ r.type }}</textarea>
         </td>
         <td>
           <textarea
@@ -37,7 +37,7 @@
             rows="1"
             :id="'meaningId' + index"
             @input="addToRed(index)"
-          ></textarea>
+          >{{r.meaning}}</textarea>
         </td>
       </tr>
     </tbody>
@@ -51,13 +51,18 @@
 
 <script>
 import axios from "axios";
+import VocabApis from "@/apis/VocabApis"
 
-// import axios from "axios";
 export default {
-  props: ["red"],
+  props: ["red", "lessonIdx", "title", "content"],
 
   name: "Mock",
   components: {},
+  data() {
+    return {
+      vocabs: []
+    };
+  },
 
   methods: {
     addToRed(index) {
@@ -68,26 +73,23 @@ export default {
       this.red[index].pinyin = document.getElementById(
         "pinyinId" + index
       ).value;
-      this.red[index].grammar = document.getElementById("typeId" + index).value;
+      this.red[index].type = document.getElementById("typeId" + index).value;
 
-      // console.log(this.red);
-      // console.log(document.getElementById("pinyinId").value);
-      //
-      //   this.red.pinyin = document.getElementsByName("pinyin");
     },
-    // lessonId = window.location.pathname.split("/").pop()
+    async updateLesson(){
+            await axios.put("http://localhost:8000/lessons/"+this.lessonIdx,
+            {   id:this.lessonIdx,
+                title:this.title,
+                content: this.content
+            })
+            .then((res) =>{
+                console.log("new content", this.content);
+                
+            })
+        },
     async saveTable() {
-      console.log(JSON.stringify(this.red));
-      await axios
-        .post("http://localhost:8000/vocabs/save-vocab/1", {
-          vocabs: this.red,
-        })
-        .then((res) => {
-          this.arraylist = res.data;
-        })
-        .catch(function (error) {
-          console.log("error:", error);
-        });
+      this.updateLesson()
+      const res = await VocabApis.saveVocabs(this.lessonIdx, this.red)
     },
   },
 };

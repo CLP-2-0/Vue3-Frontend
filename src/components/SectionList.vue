@@ -3,7 +3,7 @@
  
   <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
     <div class="col-6 col-md-4 mb-4">
-       <router-link to="/teacher/dashboard/course"> <div class="image"><div>CHIN10123 FAL2022</div></div></router-link>
+       <router-link to="/teacher/dashboard/section"> <div class="image"><div>CHIN10123 FAL2022</div></div></router-link>
     </div>
     <div class="col-6 col-md-4 mb-4">
        <router-link to="/"> <div class="image"><div>CHIN10123 FAL2022</div></div></router-link>

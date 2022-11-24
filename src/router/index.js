@@ -3,7 +3,7 @@ import Home from '../components/Home.vue';
 import Signup from '../components/Signup.vue';
 import Dashboard from '../components/Dashboard.vue';
 import Lesson from '../components/Lesson.vue';
-import Course from '../components/Course.vue';
+import SectionDetail from '../components/SectionDetail.vue';
 import PublisherDashboard from '../components/Publisher/PublisherDashboard.vue';
 import LessonDetail from '@/components/Publisher/LessonDetail.vue';
 
@@ -27,12 +27,12 @@ const router = createRouter({
             component: Dashboard
         },
         {
-            path:'/teacher/dashboard/course', 
-            name:'Course', 
-            component: Course
+            path:'/teacher/dashboard/section', 
+            name:'LessonList', 
+            component: SectionDetail
         },
         {
-            path:'/teacher/dashboard/course/lesson', 
+            path:'/teacher/dashboard/section/lesson:id', 
             name:'Lesson', 
             component: Lesson
         },
@@ -45,7 +45,7 @@ const router = createRouter({
             path:'/publisher/dashboard/:id',
             name: 'Lesson Detail',
             component: LessonDetail,
-            // props: true,
+            props: true,
         }
     ],
     

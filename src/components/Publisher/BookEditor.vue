@@ -8,6 +8,7 @@
           class="form-control"
           id="titleInput"
           placeholder="Enter title here..."
+          
         />
       </div>
     </div>
@@ -33,7 +34,7 @@
     </div>
   </div>
 
-  <Mock :red="red" />
+  <Mock :red="red" :lessonIdx="lessonIdx" :title="title" :content="content" />
 </template>
 
 <script>
@@ -41,6 +42,7 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 import Mock from "./Mock.vue";
+import LessonApis from "@/apis/LessonApis";
 
 export default {
   name: "quil-editor",
@@ -50,6 +52,7 @@ export default {
 
     Mock,
   },
+  props: ["lessonIdx"],
   data() {
     return {
       editorOption: {
@@ -62,21 +65,30 @@ export default {
             "underline",
             "link",
             "clean",
-            { color: [] },
+            { color: ['red', 'rgb(237, 125, 49)'] },
             { background: [] },
           ],
         },
       },
-      content: "",
+      content: '',
       title: "",
       red: [],
 
       yellow: [],
-      // pinyin: [],
-      // type: [],
+      modelName: ""
     };
   },
   methods: {
+    async getLesson() {
+      const res = await LessonApis.getLessonbyId(this.lessonIdx);
+      this.title = res.data.title;
+      this.content = res.data.content;
+      this.red = res.data.vocabs;
+      document.getElementById("titleInput").value = this.title
+      document.getElementById("content").innerHTML = this.content;
+      document.getElementById("title").innerHTML = this.title;
+      // this.content = "<p>\t<span style=\"color: red;\">无论是否</span><span style=\"color: black;\">学习</span><span style=\"color: red;\">过</span><span style=\"color: black;\">中文，大家</span><span style=\"color: red;\">对</span><span style=\"color: black;\">“你好”这</span><span style=\"color: red;\">句</span><span style=\"color: black;\">问候语</span><span style=\"color: red;\">都</span><span style=\"color: black;\">很</span><span style=\"color: red;\">熟悉</span><span style=\"color: black;\">。“你好”</span><span style=\"color: red;\">类似于</span><span style=\"color: black;\">英文中的“hello”，但是</span><span style=\"color: red;\">没有</span><span style=\"color: black;\">“hello”在英文中</span><span style=\"color: red;\">那么</span><span style=\"color: black;\">常见。</span></p>"
+    },
     save() {
       this.red.length = 0;
       this.title = document.getElementById("titleInput").value;
@@ -108,11 +120,13 @@ export default {
         }
       }
 
-      console.log(this.red);
-      console.log(this.yellow);
     },
-  },
-};
+
+
+},
+mounted() {
+  this.getLesson()
+}}
 </script>
 
 <style>

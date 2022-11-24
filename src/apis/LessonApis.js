@@ -22,7 +22,7 @@ const getLessons = async () => {
   }
 
   const getLessonbyId = async (lessonId) => {
-    return await instance.get("/lessons/${lessonId}")
+    return await instance.get(`/lessons/${lessonId}`)
      .then((res) => {
        // console.log("this from apis")
        // console.log(res.data)
@@ -35,10 +35,14 @@ const getLessons = async () => {
  }
 
  const createLesson = async (lessonContent) => {
-  return await instance.get("/lessons/")
+  
+  return await post("http://localhost:8000/lessons/", {
+    id: lessonContent.id,
+    title: lessonContent.title,
+    content: lessonContent.content
+  })
   .then((res) => {
-    // console.log("this from apis")
-    // console.log(res.data)
+    console.log(res.data)
     return res.data;
   })
   .catch((error) => {
@@ -50,5 +54,6 @@ const getLessons = async () => {
 
   export default {
     getLessons,
-    createLesson
+    createLesson,
+    getLessonbyId
   }
