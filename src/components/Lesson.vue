@@ -15,7 +15,7 @@
             aria-controls="nav-book"
             aria-selected="true"
           >
-            Book
+            Book1
           </button>
           <button
             class="nav-link"
@@ -145,9 +145,7 @@
                 id="v-pills-pinyin"
                 role="tabpanel"
                 aria-labelledby="v-pills-pinyin-tab"
-              >
-                This is pinyin tab
-              </div>
+              ></div>
               <div
                 class="tab-pane fade"
                 id="v-pills-grammar"
@@ -162,6 +160,7 @@
                 role="tabpanel"
                 aria-labelledby="v-pills-vocab-tab"
               >
+                <Vocabs></Vocabs>
                 This is Vocab tab
               </div>
             </div>
@@ -208,10 +207,14 @@
 
 <script>
 import NavbarActive from "./NavbarActive.vue";
+import Translate from "./Translate.vue";
+import Vocabs from "./Vocabs.vue";
 export default {
   name: "Course",
   components: {
     NavbarActive,
+    Translate,
+    Vocabs,
   },
   data() {
     return {

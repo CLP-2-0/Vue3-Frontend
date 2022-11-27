@@ -1,26 +1,26 @@
 <template>
-  <div class="btn-container">
-    <button
-      type="button"
-      class="btn btn-outline-success"
-      @click="chineseToPinyin"
-    >
-      Save
-    </button>
-  </div>
+  <button
+    type="button"
+    class="btn btn-outline-success"
+    @click="chineseToPinyin"
+  >
+    translate
+  </button>
 </template>
 <script>
-// import { pinyin } from "@napi-rs/pinyin";
+// import { translate } from "@vitalets/google-translate-api";
+// import { pinyin } from "@napi-rs/pinyin-darwin-arm64";
 export default {
   props: [],
-  text: "中心",
   data() {
     return;
   },
   methods: {
-    // chineseToPinyin(text) {
-    //   console.log(pinyin(text));
-    // },
+    async chineseToPinyin() {
+      // const { text } = await translate("Привет, мир! Как дела?", { to: "en" });
+      // console.log(text);
+      // console.log(pinyin("中心"));
+    },
   },
 };
 </script>
