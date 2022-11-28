@@ -15,7 +15,7 @@
             aria-controls="nav-book"
             aria-selected="true"
           >
-            Book1
+            Book
           </button>
           <button
             class="nav-link"
@@ -160,7 +160,7 @@
                 role="tabpanel"
                 aria-labelledby="v-pills-vocab-tab"
               >
-                <Vocabs></Vocabs>
+                <Vocabs :lessonIdx="this.$route.params.id"></Vocabs>
                 This is Vocab tab
               </div>
             </div>

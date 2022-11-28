@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import LessonApis from "@/apis/LessonApis";
+import LessonApis from "@/apis/LessonApis.js";
 
 export default {
   name: "Book",

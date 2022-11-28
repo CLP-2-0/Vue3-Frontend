@@ -1,5 +1,5 @@
 <template>
-  <table>
+  <table class="table">
     <thead>
       <tr>
         <th scope="col">汉字</th>
@@ -7,34 +7,41 @@
         <th scope="col">词性</th>
         <th scope="col">英文意思</th>
       </tr>
-      <tbody>
-        <tr v-for="(v, index) in res">
-            <th scope="row">{{ v.data.word}}</th>
-            <td>
-                {{v.data.pinyin}}
-            </td>
-            <td>
-                {{v.data.type}}
-            </td>
-            <td>
-                {{v.data.meaning}}
-            </td>
-        </tr>
-      </tbody>
     </thead>
+    <tbody>
+      <tr v-for="(v, index) in Vocabs">
+        <th scope="row">{{ v.word }}</th>
+        <td>
+          {{ v.pinyin }}
+        </td>
+        <td>
+          {{ v.type }}
+        </td>
+        <td>
+          {{ v.meaning }}
+        </td>
+      </tr>
+    </tbody>
   </table>
 </template>
 <script>
-import VocabApis from "@/api/VocabsApis";
+import LessonApis from "@/apis/LessonApis.js";
+
 export default {
-  props: [lessonIdx],
+  props: ["lessonIdx"],
+  data() {
+    return {
+      Vocabs: [],
+    };
+  },
   methods: {
-    async Vocabs() {
-      const res = await VocabApis.getVocabsBylessonId(this.lessonIdx);
+    async getVocabs() {
+      const res = await LessonApis.getLessonbyId(this.lessonIdx);
+      this.Vocabs = res.data.vocabs;
     },
   },
-  mounted(){
-    this.Vocabs();
-  }
+  mounted() {
+    this.getVocabs();
+  },
 };
 </script>
