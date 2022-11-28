@@ -19,7 +19,8 @@
             rows="1"
             :id="'pinyinId' + index"
             @blur="addToRed(index)"
-          >{{ r.pinyin }}</textarea>
+            >{{ r.pinyin }}</textarea
+          >
         </td>
         <td>
           <textarea
@@ -28,7 +29,8 @@
             rows="1"
             :id="'typeId' + index"
             @blur="addToRed(index)"
-          >{{ r.type }}</textarea>
+            >{{ r.type }}</textarea
+          >
         </td>
         <td>
           <textarea
@@ -37,7 +39,8 @@
             rows="1"
             :id="'meaningId' + index"
             @input="addToRed(index)"
-          >{{r.meaning}}</textarea>
+            >{{ r.meaning }}</textarea
+          >
         </td>
       </tr>
     </tbody>
@@ -51,7 +54,7 @@
 
 <script>
 import axios from "axios";
-import VocabApis from "@/apis/VocabApis"
+import VocabApis from "@/apis/VocabApis";
 
 export default {
   props: ["red", "lessonIdx", "title", "content"],
@@ -60,7 +63,7 @@ export default {
   components: {},
   data() {
     return {
-      vocabs: []
+      vocabs: [],
     };
   },
 
@@ -74,22 +77,21 @@ export default {
         "pinyinId" + index
       ).value;
       this.red[index].type = document.getElementById("typeId" + index).value;
-
     },
-    async updateLesson(){
-            await axios.put("http://localhost:8000/lessons/"+this.lessonIdx,
-            {   id:this.lessonIdx,
-                title:this.title,
-                content: this.content
-            })
-            .then((res) =>{
-                console.log("new content", this.content);
-                
-            })
-        },
+    async updateLesson() {
+      await axios
+        .put("http://localhost:8000/lessons/" + this.lessonIdx, {
+          id: this.lessonIdx,
+          title: this.title,
+          content: this.content,
+        })
+        .then((res) => {
+          console.log("new content", this.content);
+        });
+    },
     async saveTable() {
-      this.updateLesson()
-      const res = await VocabApis.saveVocabs(this.lessonIdx, this.red)
+      this.updateLesson();
+      const res = await VocabApis.saveVocabs(this.lessonIdx, this.red);
     },
   },
 };
