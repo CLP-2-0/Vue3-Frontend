@@ -28,36 +28,45 @@ export default {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
-      document.getElementById("title").innerHTML = this.title;
-      document.getElementById("content").innerHTML = this.content;
-      this.vocabs = res.data.vocabs;
+
+      document.getElementById('title').innerHTML = this.title
+      document.getElementById('content').innerHTML = this.content
+      this.vocabs = res.data.vocabs
+
       let vocabs = document.getElementsByTagName("span");
+      let j = 0;
       for (let i = 0; i < vocabs.length; i++) {
         if (vocabs[i].getAttribute("style") == "color: red;") {
-          vocabs[i].setAttribute("id", `vocab${i}`);
+          vocabs[i].setAttribute("id", `vocab${j}`);
           vocabs[i].setAttribute("type", "button");
-          console.log(this.vocabs[i]);
 
-          $(`#vocab${i}`).popover({
+
+          
+            $(`#vocab${j}`).popover({
+
             container: "body",
             html: true,
             placement: "bottom",
             // trigger: 'manual',
             content: function () {
+              let id = $(this)[0].getAttribute('id')
+              id = id.substring(5)
+              console.log("id", id)
               return (
-                '<div class="popover-message">' +
-                "Meaning: " +
-                res.data.vocabs[i].meaning +
-                "<br/>" +
-                "Pinyin: " +
-                res.data.vocabs[i].pinyin +
-                "<br/>" +
-                "Type: " +
-                res.data.vocabs[i].type +
+
+                '<div class="popover-message">' +  
+                "Meaning: " + res.data.vocabs[id].meaning+ '<br/>' +
+                "Pinyin: " + res.data.vocabs[id].pinyin + '<br/>' +
+                "Type: " + res.data.vocabs[id].type +
+
                 "</div>"
               );
             },
-          });
+          })
+          
+          j++
+
+
           // $(`#vocab${i}`).click(function(e) {
           //       e.stopPropagation();
           //       $(this).popover('show');
@@ -67,10 +76,16 @@ export default {
           // });
         }
       }
+
+      
     },
+    updateDOM() {
+      
+    }
   },
-  mounted() {
-    this.getLessonById();
+  created() {
+    this.getLessonById()
+    
   },
 };
 </script>
