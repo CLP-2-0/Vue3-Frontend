@@ -47,7 +47,6 @@ export default {
             content: function () {
               let id = $(this)[0].getAttribute('id')
               id = id.substring(5)
-              console.log("id", id)
               return (
                 '<div class="popover-message">' +  
                 "Meaning: " + res.data.vocabs[id].meaning+ '<br/>' +
@@ -72,9 +71,6 @@ export default {
         
       }
       }
-      
-    },
-    updateDOM() {
       
     }
   },

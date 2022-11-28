@@ -3,7 +3,7 @@ import axios from "axios";
 const saveVocabs = async (lessonId, vocabs) => {
     const instance = axios.create({
       baseURL: "http://localhost:8000",
-      timeout: 1000,
+      timeout: 3000,
     });
     console.log(vocabs)
     return await instance
