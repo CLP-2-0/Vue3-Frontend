@@ -1,6 +1,11 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
+    <h1>
+      <ruby>
+        {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
+        ><rp>)</rp>
+      </ruby>
+    </h1>
   </div>
 
   <div>
