@@ -1,22 +1,20 @@
 <template>
-    <div>
-        <NavbarActive />
-        <SectionList />
-    </div>
+  <div>
+    <NavbarActive />
+    <SectionList />
+  </div>
 </template>
 
 <script>
-import NavbarActive from './NavbarActive.vue'
-import SectionList from './SectionList.vue'
+import NavbarActive from "./NavbarActive.vue";
+import SectionList from "./SectionList.vue";
 export default {
-    name:'Dashboard',
-    components:{
-        NavbarActive,
-        SectionList,
-    }
-}
+  name: "Dashboard",
+  components: {
+    NavbarActive,
+    SectionList
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

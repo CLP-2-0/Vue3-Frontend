@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       title: "",
-      PinyinContent: "",
+      PinyinContent: ""
     };
   },
   methods: {
@@ -25,10 +25,10 @@ export default {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = await pinyin(res.data.title);
       this.PinyinContent = await pinyin(res.data.content);
-    },
+    }
   },
   created() {
     this.chineseToPinyin();
-  },
+  }
 };
 </script>
