@@ -149,7 +149,7 @@
                 role="tabpanel"
                 aria-labelledby="v-pills-pinyin-tab"
               >
-                <Translate></Translate>
+                <Translate :lessonIdx="this.$route.params.id" />
                 vipul testing
               </div>
               <div
@@ -166,7 +166,7 @@
                 role="tabpanel"
                 aria-labelledby="v-pills-vocab-tab"
               >
-                This is Vocab tab
+                <Vocabs :lessonIdx="this.$route.params.id"></Vocabs>
               </div>
             </div>
           </div>
@@ -224,10 +224,10 @@ export default {
   },
   props: ["id"],
   // data() {
-  //      return {
-  //         id: this.$route.params.id,
-  //      };
-  //     }
+  //   return {
+  //     id: this.$route.params.id,
+  //   };
+  // },
 };
 </script>
 

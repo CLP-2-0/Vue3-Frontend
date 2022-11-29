@@ -40,7 +40,7 @@ export default {
       this.Vocabs = res.data.vocabs;
     },
   },
-  mounted() {
+  created() {
     this.getVocabs();
   },
 };
