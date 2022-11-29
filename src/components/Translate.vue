@@ -1,17 +1,21 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
+    <h1>
+      <ruby>
+        {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
+        ><rp>)</rp>
+      </ruby>
+    </h1>
   </div>
 
   <div>
-    <p>{{ PinyinContent }}</p>
+    <!-- <p>{{ PinyinContent }}</p> -->
   </div>
 
-<ruby>
-  <rb v-for="ch in characters">{{ch}}</rb>
-  <rp>(</rp><rt>{{PinyinContent}}</rt><rp>)</rp>
-</ruby>
- 
+  <ruby v-for="(ch, index) in characters">
+    {{ ch }} <rp>(</rp><rt style="font-size: 0.7em">{{ pinyins[index] }}</rt
+    ><rp>)</rp>
+  </ruby>
 </template>
 <script>
 // import { translate } from "@vitalets/google-translate-api";
@@ -19,6 +23,7 @@
 
 import * as pinyin from "chinese-to-pinyin";
 import LessonApis from "@/apis/LessonApis";
+
 export default {
   props: ["lessonIdx"],
   data() {
@@ -28,7 +33,7 @@ export default {
       chineseTitle: "",
       chineseContent: "",
       characters: [],
-      pinyins: [] 
+      pinyins: [],
     };
   },
   methods: {
@@ -36,22 +41,20 @@ export default {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = await pinyin(res.data.title);
       this.PinyinContent = await pinyin(res.data.content);
-      this.chineseTitle = res.data.title
-      this.chineseContent = res.data.content
+      this.chineseTitle = res.data.title;
+      this.chineseContent = res.data.content;
       this.chineseContent = this.chineseContent.replace(/(<([^>]+)>)/gi, "");
 
-      this.characters = this.chineseContent.split('')
+      this.characters = this.chineseContent.split("");
 
-      for(let ch of this.characters) {
-        this.pinyins.push(pinyin(ch))
+      for (let ch of this.characters) {
+        this.pinyins.push(pinyin(ch));
       }
-      console.log(this.pinyins)
-      
-      
-    }
+      console.log(this.pinyins);
+    },
   },
   created() {
     this.chineseToPinyin();
-  }
+  },
 };
 </script>

@@ -218,14 +218,13 @@ export default {
     NavbarActive,
     Translate,
     Vocabs,
-    Book
+    Book,
   },
   data() {
     return {
-      msg:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate."
+      msg: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.",
     };
-  }
+  },
 };
 </script>
 
