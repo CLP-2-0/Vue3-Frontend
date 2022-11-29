@@ -211,12 +211,14 @@
 import NavbarActive from "./NavbarActive.vue";
 import Translate from "./Translate.vue";
 import Vocabs from "./Vocabs.vue";
+import Book from "./Book.vue";
 export default {
   name: "Course",
   components: {
     NavbarActive,
     Translate,
     Vocabs,
+    Book,
   },
   data() {
     return {

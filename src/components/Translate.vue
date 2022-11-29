@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="container">
     <h1>{{ title }}</h1>
-  </div>
-  <div>
-    <p>{{ PinyinContent }}</p>
+    <div>
+      <p>{{ PinyinContent }}</p>
+    </div>
   </div>
 </template>
 <script>
