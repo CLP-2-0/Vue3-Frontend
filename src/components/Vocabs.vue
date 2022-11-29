@@ -31,17 +31,17 @@ export default {
   props: ["lessonIdx"],
   data() {
     return {
-      Vocabs: [],
+      Vocabs: []
     };
   },
   methods: {
     async getVocabs() {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.Vocabs = res.data.vocabs;
-    },
+    }
   },
   created() {
     this.getVocabs();
-  },
+  }
 };
 </script>

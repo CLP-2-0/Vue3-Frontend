@@ -20,7 +20,7 @@ export default {
     return {
       title: "",
       content: "",
-      vocabs: [],
+      vocabs: []
     };
   },
   methods: {
@@ -29,9 +29,9 @@ export default {
       this.title = res.data.title;
       this.content = res.data.content;
 
-      document.getElementById('title').innerHTML = this.title
-      document.getElementById('content').innerHTML = this.content
-      this.vocabs = res.data.vocabs
+      document.getElementById("title").innerHTML = this.title;
+      document.getElementById("content").innerHTML = this.content;
+      this.vocabs = res.data.vocabs;
 
       let vocabs = document.getElementsByTagName("span");
       let j = 0;
@@ -40,31 +40,30 @@ export default {
           vocabs[i].setAttribute("id", `vocab${j}`);
           vocabs[i].setAttribute("type", "button");
 
-
-          
-            $(`#vocab${j}`).popover({
-
+          $(`#vocab${j}`).popover({
             container: "body",
             html: true,
             placement: "bottom",
             // trigger: 'manual',
-            content: function () {
-              let id = $(this)[0].getAttribute('id')
-              id = id.substring(5)
+            content: function() {
+              let id = $(this)[0].getAttribute("id");
+              id = id.substring(5);
               return (
-
-                '<div class="popover-message">' +  
-                "Meaning: " + res.data.vocabs[id].meaning+ '<br/>' +
-                "Pinyin: " + res.data.vocabs[id].pinyin + '<br/>' +
-                "Type: " + res.data.vocabs[id].type +
-
+                '<div class="popover-message">' +
+                "Meaning: " +
+                res.data.vocabs[id].meaning +
+                "<br/>" +
+                "Pinyin: " +
+                res.data.vocabs[id].pinyin +
+                "<br/>" +
+                "Type: " +
+                res.data.vocabs[id].type +
                 "</div>"
               );
-            },
-          })
-          
-          j++
+            }
+          });
 
+          j++;
 
           // $(`#vocab${i}`).click(function(e) {
           //       e.stopPropagation();
@@ -75,14 +74,11 @@ export default {
           // });
         }
       }
-
-      
     }
   },
   created() {
-    this.getLessonById()
-    
-  },
+    this.getLessonById();
+  }
 };
 </script>
 

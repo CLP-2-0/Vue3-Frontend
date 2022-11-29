@@ -170,38 +170,38 @@
           <!-- Vertical end here -->
         </div>
         <!-- horizon tab end -->
-      </div>
-      <div
-        class="tab-pane fade"
-        id="nav-profile"
-        role="tabpanel"
-        aria-labelledby="nav-profile-tab"
-      >
-        {{ msg }}
-      </div>
-      <div
-        class="tab-pane fade"
-        id="nav-contact"
-        role="tabpanel"
-        aria-labelledby="nav-contact-tab"
-      >
-        {{ msg }}
-      </div>
-      <div
-        class="tab-pane fade"
-        id="nav-contact"
-        role="tabpanel"
-        aria-labelledby="nav-contact-tab"
-      >
-        {{ msg }}
-      </div>
-      <div
-        class="tab-pane fade"
-        id="nav-contact"
-        role="tabpanel"
-        aria-labelledby="nav-contact-tab"
-      >
-        {{ msg }}
+        <div
+          class="tab-pane fade"
+          id="nav-assignment"
+          role="tabpanel"
+          aria-labelledby="nav-assignment-tab"
+        >
+          assignment tab here
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-exam"
+          role="tabpanel"
+          aria-labelledby="nav-exam-tab"
+        >
+          this is exam tab
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-forum"
+          role="tabpanel"
+          aria-labelledby="nav-forum-tab"
+        >
+          this is forum tab
+        </div>
+        <div
+          class="tab-pane fade"
+          id="nav-class"
+          role="tabpanel"
+          aria-labelledby="nav-class-tab"
+        >
+          this is class tab
+        </div>
       </div>
     </div>
   </div>
@@ -218,13 +218,18 @@ export default {
     NavbarActive,
     Translate,
     Vocabs,
+<<<<<<< HEAD
     Book,
+=======
+    Book
+>>>>>>> 8f3657b9f52cc35ef6b59dff931d2cdd808aefc5
   },
   data() {
     return {
-      msg: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.",
+      msg:
+        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate."
     };
-  },
+  }
 };
 </script>
 
