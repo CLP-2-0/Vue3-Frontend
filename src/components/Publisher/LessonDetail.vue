@@ -150,7 +150,6 @@
                 aria-labelledby="v-pills-pinyin-tab"
               >
                 <Translate :lessonIdx="this.$route.params.id" />
-                vipul testing
               </div>
               <div
                 class="tab-pane fade"
@@ -214,6 +213,7 @@ import NavbarActive from "../NavbarActive.vue";
 import LessonList from "./LessonList.vue";
 import BookEditor from "./BookEditor.vue";
 import Translate from "../Translate.vue";
+import Vocabs from "../Vocabs.vue";
 export default {
   name: "Lesson Detail",
   components: {
@@ -221,6 +221,7 @@ export default {
     LessonList,
     BookEditor,
     Translate,
+    Vocabs,
   },
   props: ["id"],
   // data() {
