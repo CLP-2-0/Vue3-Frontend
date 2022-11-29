@@ -145,7 +145,9 @@
                 id="v-pills-pinyin"
                 role="tabpanel"
                 aria-labelledby="v-pills-pinyin-tab"
-              ></div>
+              >
+                <Translate :lessonIdx="this.$route.params.id" />
+              </div>
               <div
                 class="tab-pane fade"
                 id="v-pills-grammar"
