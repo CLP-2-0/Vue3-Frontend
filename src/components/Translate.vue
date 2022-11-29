@@ -1,15 +1,14 @@
 <template>
-  <div class="container">
+  <div>
     <h1>{{ title }}</h1>
   </div>
 
   <div>
-    <p>{{ PinyinContent }}</p>
+    <!-- <p>{{ PinyinContent }}</p> -->
   </div>
 
-  <ruby>
-    <rb v-for="ch in characters">{{ ch }}</rb>
-    <rp>(</rp><rt>{{ PinyinContent }}</rt
+  <ruby v-for="(ch, index) in characters">
+    {{ ch }} <rp>(</rp><rt>{{ pinyins[index] }}</rt
     ><rp>)</rp>
   </ruby>
 </template>
