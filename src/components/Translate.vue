@@ -1,15 +1,17 @@
 <template>
   <div class="container">
     <h1>{{ title }}</h1>
-    <div>
-      <p>{{ PinyinContent }}</p>
-    </div>
-    <div>
-      <ruby>
-        {{ this.contentChinese }} <rp v-for="vi in PinyinContent">{{ vi }}</rp>
-      </ruby>
-    </div>
   </div>
+
+  <div>
+    <p>{{ PinyinContent }}</p>
+  </div>
+
+  <ruby>
+    <rb v-for="ch in characters">{{ ch }}</rb>
+    <rp>(</rp><rt>{{ PinyinContent }}</rt
+    ><rp>)</rp>
+  </ruby>
 </template>
 <script>
 // import { translate } from "@vitalets/google-translate-api";
@@ -24,19 +26,27 @@ export default {
     return {
       title: "",
       PinyinContent: "",
-      letter: ``,
-      contentChinese: "",
+      chineseTitle: "",
+      chineseContent: "",
+      characters: [],
+      pinyins: [],
     };
   },
   methods: {
     async chineseToPinyin() {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = await pinyin(res.data.title);
-      this.contentChinese = res.data.content;
-      this.contentchinese = this.contentChinese.replace(/(<([^>]+)>)/gi, "");
-      this.PinyinContent = await pinyin(this.contentChinese);
+      this.PinyinContent = await pinyin(res.data.content);
+      this.chineseTitle = res.data.title;
+      this.chineseContent = res.data.content;
+      this.chineseContent = this.chineseContent.replace(/(<([^>]+)>)/gi, "");
 
-      // var letter = ``;
+      this.characters = this.chineseContent.split("");
+
+      for (let ch of this.characters) {
+        this.pinyins.push(pinyin(ch));
+      }
+      console.log(this.pinyins);
     },
   },
   created() {
