@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import LessonApis from "@/apis/LessonApis";
+import LessonApis from "@/apis/LessonApis.js";
 
 export default {
   name: "Book",
@@ -28,6 +28,7 @@ export default {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
+
       document.getElementById('title').innerHTML = this.title
       document.getElementById('content').innerHTML = this.content
       this.vocabs = res.data.vocabs
@@ -38,16 +39,20 @@ export default {
         if (vocabs[i].getAttribute("style") == "color: red;") {
           vocabs[i].setAttribute("id", `vocab${j}`);
           vocabs[i].setAttribute("type", "button");
+
+
           
             $(`#vocab${j}`).popover({
+
             container: "body",
             html: true,
-            placement: 'bottom',
+            placement: "bottom",
             // trigger: 'manual',
             content: function () {
               let id = $(this)[0].getAttribute('id')
               id = id.substring(5)
               return (
+
                 '<div class="popover-message">' +  
                 "Meaning: " + res.data.vocabs[id].meaning+ '<br/>' +
                 "Pinyin: " + res.data.vocabs[id].pinyin + '<br/>' +
@@ -60,6 +65,7 @@ export default {
           
           j++
 
+
           // $(`#vocab${i}`).click(function(e) {
           //       e.stopPropagation();
           //       $(this).popover('show');
@@ -67,10 +73,9 @@ export default {
           // $('html').click(function() {
           //     $(`#vocab${i}`).popover('hide');
           // });
+        }
+      }
 
-        
-      }
-      }
       
     }
   },
