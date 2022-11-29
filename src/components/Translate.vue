@@ -7,7 +7,7 @@
   </div>
 </template>
 <script>
-// import { translate } from "@vitalets/google-translate-api";
+// import { translate } from "@vitalets/google-translate-api ";
 // import { pinyin } from "@napi-rs/pinyin-darwin-arm64"
 
 import * as pinyin from "chinese-to-pinyin";
