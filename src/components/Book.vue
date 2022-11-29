@@ -11,7 +11,6 @@
 
 <script>
 import LessonApis from "@/apis/LessonApis";
-
 export default {
   name: "Book",
   components: {},
@@ -31,7 +30,7 @@ export default {
       document.getElementById('title').innerHTML = this.title
       document.getElementById('content').innerHTML = this.content
       this.vocabs = res.data.vocabs
-
+      
       let vocabs = document.getElementsByTagName("span");
       let j = 0;
       for (let i = 0; i < vocabs.length; i++) {
@@ -75,8 +74,7 @@ export default {
     }
   },
   created() {
-    this.getLessonById()
-    
+    this.getLessonById()    
   },
 };
 </script>
