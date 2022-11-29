@@ -7,7 +7,7 @@
     <!-- <p>{{ PinyinContent }}</p> -->
   </div>
 
-  <ruby v-for="(ch, index) in characters">
+  <ruby v-for="(ch, index) in characters" style="font-size: 2rem">
     {{ ch }} <rp>(</rp><rt>{{ pinyins[index] }}</rt
     ><rp>)</rp>
   </ruby>
