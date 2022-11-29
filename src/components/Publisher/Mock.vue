@@ -63,7 +63,7 @@ export default {
   components: {},
   data() {
     return {
-      vocabs: [],
+      vocabs: []
     };
   },
 
@@ -83,16 +83,16 @@ export default {
         .put("http://localhost:8000/lessons/" + this.lessonIdx, {
           id: this.lessonIdx,
           title: this.title,
-          content: this.content,
+          content: this.content
         })
-        .then((res) => {
+        .then(res => {
           console.log("new content", this.content);
         });
     },
     async saveTable() {
       this.updateLesson();
       const res = await VocabApis.saveVocabs(this.lessonIdx, this.red);
-    },
-  },
+    }
+  }
 };
 </script>

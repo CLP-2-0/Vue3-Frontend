@@ -221,9 +221,9 @@ export default {
     LessonList,
     BookEditor,
     Translate,
-    Vocabs,
+    Vocabs
   },
-  props: ["id"],
+  props: ["id"]
   // data() {
   //   return {
   //     id: this.$route.params.id,
