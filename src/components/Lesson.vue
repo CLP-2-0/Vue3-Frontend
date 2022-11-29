@@ -218,18 +218,13 @@ export default {
     NavbarActive,
     Translate,
     Vocabs,
-<<<<<<< HEAD
     Book,
-=======
-    Book
->>>>>>> 8f3657b9f52cc35ef6b59dff931d2cdd808aefc5
   },
   data() {
     return {
-      msg:
-        "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate."
+      msg: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.",
     };
-  }
+  },
 };
 </script>
 
