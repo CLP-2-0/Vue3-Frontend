@@ -2,9 +2,16 @@
   <div>
     <h1>{{ title }}</h1>
   </div>
+
   <div>
     <p>{{ PinyinContent }}</p>
   </div>
+
+<ruby>
+  <rb v-for="ch in characters">{{ch}}</rb>
+  <rp>(</rp><rt>{{PinyinContent}}</rt><rp>)</rp>
+</ruby>
+ 
 </template>
 <script>
 // import { translate } from "@vitalets/google-translate-api";
@@ -17,7 +24,11 @@ export default {
   data() {
     return {
       title: "",
-      PinyinContent: ""
+      PinyinContent: "",
+      chineseTitle: "",
+      chineseContent: "",
+      characters: [],
+      pinyins: [] 
     };
   },
   methods: {
@@ -25,6 +36,18 @@ export default {
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = await pinyin(res.data.title);
       this.PinyinContent = await pinyin(res.data.content);
+      this.chineseTitle = res.data.title
+      this.chineseContent = res.data.content
+      this.chineseContent = this.chineseContent.replace(/(<([^>]+)>)/gi, "");
+
+      this.characters = this.chineseContent.split('')
+
+      for(let ch of this.characters) {
+        this.pinyins.push(pinyin(ch))
+      }
+      console.log(this.pinyins)
+      
+      
     }
   },
   created() {
