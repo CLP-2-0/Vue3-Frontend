@@ -1,21 +1,24 @@
 <template>
   <div>
-    <h1>
-      <ruby>
+    <div class="container">
+      <div class="center-div">
+        <div id="title">
+          <ruby>
         {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
         ><rp>)</rp>
       </ruby>
-    </h1>
-  </div>
-
-  <div>
-    <!-- <p>{{ PinyinContent }}</p> -->
-  </div>
-
-  <ruby v-for="(ch, index) in characters">
+        </div>
+      </div>
+      <div id="content">
+        <ruby v-for="(ch, index) in characters">
     {{ ch }} <rp>(</rp><rt style="font-size: 0.7em">{{ pinyins[index] }}</rt
     ><rp>)</rp>
   </ruby>
+      </div>
+    </div>
+  </div>
+
+
 </template>
 <script>
 // import { translate } from "@vitalets/google-translate-api";
@@ -58,3 +61,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.center-div {
+  display: flex;
+  justify-content: center;
+}
+</style>

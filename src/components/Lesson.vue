@@ -163,7 +163,6 @@
                 aria-labelledby="v-pills-vocab-tab"
               >
                 <Vocabs :lessonIdx="this.$route.params.id"></Vocabs>
-                This is Vocab tab
               </div>
             </div>
           </div>
