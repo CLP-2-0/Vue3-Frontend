@@ -50,11 +50,7 @@
 							</div>
 							<div class="mb-3">
 								<label for="#" class="form-label">Tilte</label>
-								<input
-									type="text"
-									class="form-control"
-									v-model="newLessons.LessonTitle"
-								/>
+								<input type="text" class="form-control" v-model="newLessons.LessonTitle" />
 							</div>
 						</form>
 					</div>
@@ -93,12 +89,8 @@
 				<tbody>
 					<tr v-for="lesson in lessons" :key="lesson.id">
 						<td>
-							<router-link
-								:to="{ name: 'Lesson Detail', params: { id: lesson.id } }"
-							>
-								<div class="text-dark m-3">
-									Lesson {{ lesson.id }}: {{ lesson.title }}
-								</div>
+							<router-link :to="{ name: 'Lesson Detail', params: { id: lesson.id } }">
+								<div class="text-dark m-3">Lesson {{ lesson.id }}: {{ lesson.title }}</div>
 							</router-link>
 						</td>
 						<td class="text-right">
@@ -109,11 +101,9 @@
 									data-bs-target="#exampleModal"
 									@click="editClick(lesson)"
 								>
-									Edit
+									Rename
 								</button>
-								<button class="btn btn-light" @click="deleteLesson(lesson.id)">
-									Delete
-								</button>
+								<button class="btn btn-light" @click="deleteLesson(lesson.id)">Delete</button>
 							</div>
 						</td>
 					</tr>
@@ -194,12 +184,10 @@
 				if (!confirm('Are you sure you want to delete')) {
 					return;
 				}
-				await axios
-					.delete('http://localhost:8000/lessons/' + id)
-					.then((res) => {
-						this.getLessons();
-						alert('Deleted Successfully');
-					});
+				await axios.delete('http://localhost:8000/lessons/' + id).then((res) => {
+					this.getLessons();
+					alert('Deleted Successfully');
+				});
 			},
 		},
 		mounted() {
