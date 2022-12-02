@@ -83,10 +83,14 @@ export default {
       this.title = res.data.title;
       this.content = res.data.content;
       this.red = res.data.vocabs;
+      
       document.getElementById("titleInput").value = this.title;
       document.getElementById("content").innerHTML = this.content;
       document.getElementById("title").innerHTML = this.title;
-      // this.content = "<p>\t<span style=\"color: red;\">无论是否</span><span style=\"color: black;\">学习</span><span style=\"color: red;\">过</span><span style=\"color: black;\">中文，大家</span><span style=\"color: red;\">对</span><span style=\"color: black;\">“你好”这</span><span style=\"color: red;\">句</span><span style=\"color: black;\">问候语</span><span style=\"color: red;\">都</span><span style=\"color: black;\">很</span><span style=\"color: red;\">熟悉</span><span style=\"color: black;\">。“你好”</span><span style=\"color: red;\">类似于</span><span style=\"color: black;\">英文中的“hello”，但是</span><span style=\"color: red;\">没有</span><span style=\"color: black;\">“hello”在英文中</span><span style=\"color: red;\">那么</span><span style=\"color: black;\">常见。</span></p>"
+      
+      //Binding content to QuillEditor
+      this.$refs.quillEditor.setHTML(this.content);
+
     },
     save() {
       this.red.length = 0;
