@@ -1,7 +1,7 @@
 <template>
   <div>
     <NavbarActive />
-
+    <div class="container">
     <div class="container tab-adjuster mb-5">
       <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -204,6 +204,7 @@
       </div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -228,11 +229,5 @@ export default {
 </script>
 
 <style>
-.adjuster {
-  /* margin-left: -9vw; */
-  /* need to find the way to fix it  */
-}
-.tab-adjuster {
-  max-width: 70vw !important;
-}
+
 </style>

@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavbarActive />
+    <div class = "container">
     <div class="container tab-adjuster mb-5">
       <!-- Testing current location. Erase it when fisnih ********************************************* -->
       <!-- <h4><span class='text-success'>//testing where we are</span> This is <span class='text-danger'>lesson {{ id }} </span></h4>
@@ -205,6 +206,7 @@
         </div>
       </div>
     </div>
+  </div>
   </div>
 </template>
 
