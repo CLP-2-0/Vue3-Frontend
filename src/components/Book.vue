@@ -25,6 +25,7 @@ export default {
   },
   methods: {
     async getLessonById() {
+      
       const res = await LessonApis.getLessonbyId(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
@@ -33,6 +34,7 @@ export default {
       document.getElementById("content").innerHTML = this.content;
       this.vocabs = res.data.vocabs;
 
+      console.log("this is Book and content here", this.title);
       let vocabs = document.getElementsByTagName("span");
       let j = 0;
       for (let i = 0; i < vocabs.length; i++) {
