@@ -142,7 +142,10 @@
                 role="tabpanel"
                 aria-labelledby="v-pills-chinese-tab"
               >
+                
                 <BookEditor :lessonIdx="id" />
+                
+
               </div>
               <div
                 class="tab-pane fade"
@@ -216,6 +219,7 @@ import LessonList from "./LessonList.vue";
 import BookEditor from "./BookEditor.vue";
 import Translate from "../Translate.vue";
 import Vocabs from "../Vocabs.vue";
+import Book from "../Book.vue";
 export default {
   name: "Lesson Detail",
   components: {
@@ -223,7 +227,8 @@ export default {
     LessonList,
     BookEditor,
     Translate,
-    Vocabs
+    Vocabs,
+    Book,
   },
   props: ["id"]
   // data() {
