@@ -157,7 +157,22 @@
 									role="tabpanel"
 									aria-labelledby="v-pills-chinese-tab"
 								>
-									<BookEditor :lessonIdx="id" />
+                <div class="container btn-container">
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Edit Book
+                </button> 
+                </div>
+                <div class="collapse show" id="collapseExample">
+                  <div class="">
+                    <Book :lessonIdx="id"></Book>     
+                  </div>
+                </div>
+                <div class="collapse " id="collapseExample">
+                  <div class="">
+                      <BookEditor :lessonIdx="id" />  
+                  </div>
+                </div>
+									
 								</div>
 								<div
 									class="tab-pane fade"

@@ -28,8 +28,8 @@
 		</div>
 
 		<div class="preview">
-			<div class="title-container"><div id="title"></div></div>
-			<div id="content" class="content ql-editor"></div>
+			<div class="title-container"><div id="title-preview"></div></div>
+			<div id="content-preview" class="content ql-editor"></div>
 		</div>
 	</div>
 
@@ -85,8 +85,8 @@
 				this.red = res.data.vocabs;
 
 				document.getElementById('titleInput').value = this.title;
-				document.getElementById('content').innerHTML = this.content;
-				document.getElementById('title').innerHTML = this.title;
+				document.getElementById('content-preview').innerHTML = this.content;
+				document.getElementById('title-preview').innerHTML = this.title;
 
 				//Binding content to QuillEditor
 				this.$refs.quillEditor.setHTML(this.content);
@@ -96,7 +96,7 @@
 				this.title = document.getElementById('titleInput').value;
 				document.getElementById('title').innerHTML = this.title;
 
-				let contentElement = document.getElementById('content');
+				let contentElement = document.getElementById('content-preview');
 				contentElement.innerHTML = this.content;
 				let children = contentElement.children;
 				for (let i = 0; i < children.length; i++) {
