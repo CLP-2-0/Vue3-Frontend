@@ -3,15 +3,15 @@
     <div class="container">
       <div class="center-div">
         <div id="title">
-          <ruby>
+          <ruby style="font-size:20px">
         {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
         ><rp>)</rp>
       </ruby>
         </div>
       </div>
-      <div id="content">
-        <ruby v-for="(ch, index) in characters">
-    {{ ch }} <rp>(</rp><rt style="font-size: 0.7em">{{ pinyins[index] }}</rt
+      <div id="content" style="line-height:300%">
+        <ruby v-for="(ch, index) in characters" style="font-size:20px">
+    {{ ch }} <rp>(</rp><rt style="">{{ pinyins[index] }}</rt
     ><rp>)</rp>
   </ruby>
       </div>

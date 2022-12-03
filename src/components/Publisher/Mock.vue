@@ -49,10 +49,7 @@
 		<button
 			type="button"
 			class="btn btn-outline-success"
-			data-bs-toggle="collapse"
-			data-bs-target="#collapseEditor"
-			aria-expanded="false"
-			aria-controls="collapseEditor"
+			data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
 			@click="saveTable"
 		>
 			Save vocab
