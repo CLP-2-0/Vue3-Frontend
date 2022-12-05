@@ -48,11 +48,11 @@
 	<div class="btn-container">
 		<button
 			type="button"
-			class="btn btn-outline-success"
+			class="btn btn-outline-success col-2"
 			data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
 			@click="saveTable"
 		>
-			Save vocab
+			Save
 		</button>
 	</div>
 </template>

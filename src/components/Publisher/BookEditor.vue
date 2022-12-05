@@ -20,8 +20,8 @@
 				:options="editorOption"
 			/>
 			<div class="btn-container">
-				<button type="button" class="btn btn-outline-success" @click="save">
-					Save
+				<button type="button" class="btn btn-outline-success col-2" @click="save">
+					Generate Vocab
 				</button>
 			</div>
 			<!-- for binding content from quill-editor need v-model:content='' and contentType='html' -->
