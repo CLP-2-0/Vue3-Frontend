@@ -1,16 +1,16 @@
 import axios from "axios";
 
+// Create instance for Vocab API 
+//******************************* */
+const baseURI = import.meta.env.VITE_URI
 const instance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: baseURI,
   timeout: 1000,
 });
+//******************************* */
 
 const saveVocabs = async (lessonId, vocabs) => {
 
-    const instance = axios.create({
-      baseURL: "http://localhost:8000",
-      timeout: 3000,
-    });
     console.log(vocabs)
     return await instance
     .post(`/vocabs/${lessonId}`, 
