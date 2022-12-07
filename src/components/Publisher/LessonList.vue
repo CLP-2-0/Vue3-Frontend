@@ -134,57 +134,46 @@
 			async getLessons() {
 				const res = await LessonApis.getLessons();
 				this.lessons = res.data;
-				// console.log("this from list",res.data)
-				// console.log("lessons res:", this.lessons)
 			},
 			async addClick() {
 				this.flagEdit = 0;
-				// console.log("this is click")
 				this.modalTitle = 'Add lesson';
 				this.newLessons.LessonId = '';
 				this.newLessons.LessonTitle = '';
 			},
 			async editClick(lesson) {
 				this.flagEdit = 1;
-				// console.log(lesson.id)
-				// console.log(lesson.title)
 				this.modalTitle = 'Edit lesson';
 				this.newLessons.LessonTitle = lesson.title;
 				this.newLessons.LessonId = lesson.id;
 			},
 			async createLesson() {
-				await axios
-					.post('http://localhost:8000/lessons/', {
-						id: this.newLessons.LessonId,
-						title: this.newLessons.LessonTitle,
-					})
-					.then((res) => {
-						console.log(res.data);
-						console.log(this.newLessons);
-						// alert("Created Successfully")
-						this.getLessons();
-						this.$router.go(this.$router.currentRoute);
-					});
+				let lessonBody = {
+					id: this.newLessons.LessonId,
+					title: this.newLessons.LessonTitle
+				}
+				await LessonApis.createLesson(lessonBody)
+				.then(async (res) => {
+					await this.getLessons();
+				})
+				
 			},
 			async updateLesson() {
-				await axios
-					.put('http://localhost:8000/lessons/' + this.newLessons.LessonId, {
-						id: this.newLessons.LessonId,
-						title: this.newLessons.LessonTitle,
-					})
-					.then((res) => {
-						console.log(res.data);
-						console.log(this.newLessons);
-						this.getLessons();
-						// alert("Updated Successfully")
-						this.$router.go(this.$router.currentRoute);
-					});
+				let lessonBody = {
+					id: this.newLessons.LessonId,
+					title: this.newLessons.LessonTitle
+				}
+				await LessonApis.updateLesson(lessonBody, this.newLessons.LessonId)
+				.then(async (res) => {
+					await this.getLessons();
+				})
 			},
 			async deleteLesson(id) {
 				if (!confirm('Are you sure you want to delete')) {
 					return;
 				}
-				await axios.delete('http://localhost:8000/lessons/' + id).then((res) => {
+				await LessonApis.deleteLesson(id)
+				.then((res) => {
 					this.getLessons();
 					alert('Deleted Successfully');
 				});
