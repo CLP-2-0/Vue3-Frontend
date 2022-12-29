@@ -4,7 +4,6 @@ import axios from "axios";
 const baseURI = import.meta.env.VITE_URI
 const instance = axios.create({
   baseURL: baseURI,
-  timeout: 1000,
 });
 //******************************* */
 
@@ -14,7 +13,7 @@ const getLessons = async () => {
         return res.data;
       })
       .catch((error) => {
-        console.error("Error calling getLesson", error.response.data);
+        console.error("Error calling getLesson", error);
         return null;
       });
   }
@@ -25,7 +24,7 @@ const getLessons = async () => {
        return res.data;
      })
      .catch((error) => {
-       console.error("Error calling getOneLesson", error.response.data);
+       console.error("Error calling getOneLesson", error);
        return null;
      });
  }
