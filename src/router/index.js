@@ -6,6 +6,7 @@ import Lesson from '../components/Lesson.vue';
 import SectionDetail from '../components/SectionDetail.vue';
 import PublisherDashboard from '../components/Publisher/PublisherDashboard.vue';
 import LessonDetail from '@/components/Publisher/LessonDetail.vue';
+import NewStudent from '@/components/NewStudent.vue';
 
 const router = createRouter({
 	history: createWebHistory(),
@@ -45,6 +46,12 @@ const router = createRouter({
 			path: '/publisher/dashboard/:id',
 			name: 'Lesson Detail',
 			component: LessonDetail,
+			props: true,
+		},
+		{
+			path: '/student',
+			name: 'New Student',
+			component: NewStudent,
 			props: true,
 		},
 	],

@@ -1,31 +1,32 @@
 <template>
-  <div class="container grid-container">
+  <div class="container grid-container" >
     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
-    <div class="col-6 col-md-4 mb-4">
+    <div class="col-6 col-md-4 mb-4" v-for="section in sections" :key="section.id">
       <router-link to="/teacher/dashboard/section">
-        <div class="image"><div>CHIN10123 FAL2022</div></div></router-link
-      >
-    </div>
-    <div class="col-6 col-md-4 mb-4">
-      <router-link to="/">
-        <div class="image"><div>CHIN10123 FAL2022</div></div></router-link
-      >
-    </div>
-    <div class="col-6 col-md-4 mb-4">
-      <router-link to="/">
-        <div class="image"><div>CHIN10123 FAL2022</div></div></router-link
-      >
-    </div>
-    <div class="col-6 col-md-4 mb-4">
-      <router-link to="/">
-        <div class="image"><div>CHIN10123 FAL2022</div></div></router-link
+        <div class="image"><div>{{section.section}}</div></div></router-link
       >
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import SectionApis from "@/apis/SectionApis.js"
+export default {
+  data() {
+    return {
+      sections: []
+    }
+  }, 
+  methods: {
+    async getSections() {
+      const res = await SectionApis.getSections();
+			this.sections = res.data;
+    }
+  },
+  mounted() {
+    this.getSections();
+  }
+};
 </script>
 
 <style>
