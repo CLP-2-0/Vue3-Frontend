@@ -1,22 +1,19 @@
 import axios from "axios";
-
 // Create instance for Lesson API 
 //******************************* */
+const baseURI = import.meta.env.VITE_URI
 const instance = axios.create({
-  baseURL: "http://localhost:8000",
-  timeout: 1000,
+  baseURL: baseURI,
 });
 //******************************* */
 
 const getLessons = async () => {
      return await instance.get("/lessons")
       .then((res) => {
-        // console.log("this from apis")
-        // console.log(res.data)
         return res.data;
       })
       .catch((error) => {
-        console.error("Error calling getLesson", error.response.data);
+        console.error("Error calling getLesson", error);
         return null;
       });
   }
@@ -24,36 +21,64 @@ const getLessons = async () => {
   const getLessonbyId = async (lessonId) => {
     return await instance.get(`/lessons/${lessonId}`)
      .then((res) => {
-       // console.log("this from apis")
-       // console.log(res.data)
        return res.data;
      })
      .catch((error) => {
-       console.error("Error calling getOneLesson", error.response.data);
+       console.error("Error calling getOneLesson", error);
        return null;
      });
  }
 
- const createLesson = async (lessonContent) => {
-  
-  return await post("http://localhost:8000/lessons/", {
-    id: lessonContent.id,
-    title: lessonContent.title,
-    content: lessonContent.content
-  })
+ const createLesson = async (lessonBody) => {
+
+  return await instance
+  .post("/lessons", 
+    lessonBody,
+  )
+
   .then((res) => {
-    console.log(res.data)
-    return res.data;
+    console.log("sent");
   })
-  .catch((error) => {
-    console.error("Error calling getOneLesson", error.response.data);
-    return null;
+  .catch(function (error) {
+    console.log("error:", error);
   });
-}
+};
+
+const updateLesson = async (lessonBody, lessonId) => {
+
+  return await instance
+  .put(`/lessons/${lessonId}`, 
+    lessonBody,
+  )
+
+  .then((res) => {
+    console.log("updated");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+};
+
+const deleteLesson = async (lessonId) => {
+
+  return await instance
+  .delete(`/lessons/${lessonId}`)
+
+  .then((res) => {
+    console.log("deleted");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+};
+
+
   
 
   export default {
     getLessons,
     createLesson,
-    getLessonbyId
+    getLessonbyId,
+    updateLesson,
+    deleteLesson
   }

@@ -1,6 +1,5 @@
 import axios from "axios";
-
-// Create instance for Vocab API 
+// Create instance for Lesson API 
 //******************************* */
 const baseURI = import.meta.env.VITE_URI
 const instance = axios.create({
@@ -8,15 +7,13 @@ const instance = axios.create({
   timeout: 1000,
 });
 //******************************* */
+const createSection = async (sectionBody) => {
 
-const saveVocabs = async (lessonId, vocabs) => {
-
-    console.log(vocabs)
     return await instance
-    .post(`/vocabs/${lessonId}`, 
-      vocabs,
+    .post("/sections", 
+      sectionBody,
     )
-
+  
     .then((res) => {
       console.log("sent");
     })
@@ -25,18 +22,19 @@ const saveVocabs = async (lessonId, vocabs) => {
     });
 };
 
-const getVocabsBylessonId = async (lessonId) => {
-  return await instance
-    .get(`/lessons/${lessonId}`)
+const getSections = async() => {
+    let username = "gamer_std1"
+    return await instance.get(`/sections/${username}/all`)
     .then((res) => {
-      // console.log("this from apis")
-      // console.log(res.data)
       return res.data;
     })
     .catch((error) => {
-      console.error("Error calling getOneLesson", error.response.data);
+      console.error("Error calling getSection", error);
       return null;
     });
-};
+}
 
-export default { saveVocabs, getVocabsBylessonId };
+export default {
+    createSection,
+    getSections
+}
