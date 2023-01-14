@@ -18,7 +18,7 @@ const getLessons = async () => {
       });
   }
 
-  const getLessonbyId = async (lessonId) => {
+  const getLessonById = async (lessonId) => {
     return await instance.get(`/lessons/${lessonId}`)
      .then((res) => {
        return res.data;
@@ -45,7 +45,7 @@ const getLessons = async () => {
 };
 
 const updateLesson = async (lessonBody, lessonId) => {
-
+console.log(lessonBody)
   return await instance
   .put(`/lessons/${lessonId}`, 
     lessonBody,
@@ -78,7 +78,7 @@ const deleteLesson = async (lessonId) => {
   export default {
     getLessons,
     createLesson,
-    getLessonbyId,
+    getLessonById,
     updateLesson,
     deleteLesson
   }

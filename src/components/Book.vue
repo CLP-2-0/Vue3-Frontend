@@ -26,7 +26,7 @@ export default {
   methods: {
     async getLessonById() {
       
-      const res = await LessonApis.getLessonbyId(this.lessonIdx);
+      const res = await LessonApis.getLessonById(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
 
