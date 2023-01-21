@@ -108,7 +108,15 @@
                           type="button"
                           class="btn btn-primary btn-lg container-fluid mb-2"
                         >
-                          Login
+                          Login as Teacher
+                        </button></router-link
+                      >
+                      <router-link to="/student"
+                        ><button
+                          type="button"
+                          class="btn btn-primary btn-lg container-fluid mb-2"
+                        >
+                          Login as Student
                         </button></router-link
                       >
                       <!-- For now, log in will go to /teacher/dashboard. Just for testing -->

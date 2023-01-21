@@ -8,6 +8,7 @@
           class="form-control"
           id="titleInput"
           placeholder="Enter title here..."
+          v-model="title"
         />
       </div>
     </div>
@@ -28,8 +29,8 @@
     </div>
 
     <div class="preview">
-      <div class="title-container"><div id="title"></div></div>
-      <div id="content" class="content ql-editor"></div>
+      <div class="title-container"><div id="title-preview"></div></div>
+      <div id="content-preview" v-html="content" class="content ql-editor"></div>
     </div>
   </div>
 
@@ -49,7 +50,7 @@ export default {
   components: {
     QuillEditor,
 
-    Mock
+    Mock,
   },
   props: ["lessonIdx"],
   data() {
@@ -64,38 +65,39 @@ export default {
             "underline",
             "link",
             "clean",
-            { color: ["red", "rgb(237, 125, 49)"] },
-            { background: [] }
-          ]
-        }
+            { color: ["red", "rgb(237, 125, 49)", "black"] },
+            { background: [] },
+          ],
+        },
       },
       content: "",
       title: "",
       red: [],
+      oldVocabs: [],
 
       yellow: [],
-      modelName: ""
+      modelName: "",
     };
   },
   methods: {
     async getLesson() {
-      const res = await LessonApis.getLessonbyId(this.lessonIdx);
+      const res = await LessonApis.getLessonById(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
       this.red = res.data.vocabs;
-      document.getElementById("titleInput").value = this.title;
-      document.getElementById("content").innerHTML = this.content;
-      document.getElementById("title").innerHTML = this.title;
-      // this.content = "<p>\t<span style=\"color: red;\">无论是否</span><span style=\"color: black;\">学习</span><span style=\"color: red;\">过</span><span style=\"color: black;\">中文，大家</span><span style=\"color: red;\">对</span><span style=\"color: black;\">“你好”这</span><span style=\"color: red;\">句</span><span style=\"color: black;\">问候语</span><span style=\"color: red;\">都</span><span style=\"color: black;\">很</span><span style=\"color: red;\">熟悉</span><span style=\"color: black;\">。“你好”</span><span style=\"color: red;\">类似于</span><span style=\"color: black;\">英文中的“hello”，但是</span><span style=\"color: red;\">没有</span><span style=\"color: black;\">“hello”在英文中</span><span style=\"color: red;\">那么</span><span style=\"color: black;\">常见。</span></p>"
+      this.oldVocabs = res.data.vocabs;
+      console.log(this.oldVocabs)
+
+      //Binding content to QuillEditor
+      this.$refs.quillEditor.setHTML(this.content);
     },
     save() {
-      this.red.length = 0;
-      this.title = document.getElementById("titleInput").value;
-      document.getElementById("title").innerHTML = this.title;
-
-      let contentElement = document.getElementById("content");
-      contentElement.innerHTML = this.content;
+      // this.red.length = 0;
+      let contentElement = document.getElementById("content-preview");
+      // contentElement.innerHTML = this.content;
       let children = contentElement.children;
+      let n = 0; //index of old vocabs list
+      let vocabs = []
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
 
@@ -104,13 +106,20 @@ export default {
           let spanChild = spanChildren[j];
 
           if (spanChild.getAttribute("style") == "color: red;") {
-            // this.red.word = spanChild.innerHTML;
-            this.red.push({
+            if(this.oldVocabs.length > 0 && n < this.oldVocabs.length && spanChild.innerHTML.trim() == this.oldVocabs[n].word){
+              console.log("old word", this.oldVocabs[n].word)
+              vocabs.push(this.oldVocabs[n])
+              n++
+            } else {
+              console.log("print", spanChild.innerHTML)
+              vocabs.push({
               word: spanChild.innerHTML,
               meaning: "",
               pinyin: "",
-              type: ""
+              type: "",
             });
+            }
+            
           } else if (
             spanChild.getAttribute("style") == "color: rgb(237, 125, 49);"
           ) {
@@ -118,11 +127,13 @@ export default {
           }
         }
       }
-    }
+      console.log("v",vocabs)
+      this.red = vocabs
+    },
   },
   mounted() {
     this.getLesson();
-  }
+  },
 };
 </script>
 

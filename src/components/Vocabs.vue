@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     async getVocabs() {
-      const res = await LessonApis.getLessonbyId(this.lessonIdx);
+      const res = await LessonApis.getLessonById(this.lessonIdx);
       this.Vocabs = res.data.vocabs;
     }
   },

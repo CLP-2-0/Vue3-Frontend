@@ -1,6 +1,7 @@
 <template>
   <div>
     <NavbarActive />
+
     <!-- Breadcrumb justfornow - need change later -->
     <div class="container-fluid header-container">
       <div class="container">
@@ -15,34 +16,41 @@
     </div>
     <!-- end justfornow -->
 
-    <SectionList />
+    <div class="container">
+      <form>
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Enter Class Code:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleFormControlInput1"
+          />
+        </div>
+        <button type="button" class="btn btn-outline-success" @click="joinClass">
+          Join
+        </button>
+      </form>
+    </div>
   </div>
 </template>
 
 <script>
+import NavbarActive from "./NavbarActive.vue";
 
 export default {
-  name: "Dashboard",
+  name: "Publisher Dashboard",
   components: {
     NavbarActive,
-    SectionList,
   },
   data() {
-    return {
-      
-    }
+    return {};
   },
   methods: {
-
-  },
+	joinClass() {
+		
+	}
+  }
 };
 </script>
 
-<style>
-.addBtn {
-  margin-bottom: 20px;
-}
-.input-group-text {
-  border-radius: 0 0.375em 0.375em 0 !important;
-}
-</style>
+<style></style>

@@ -1,21 +1,22 @@
 <template>
-  <div >
-    <h1>
-      <ruby>
-        {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
-        ><rp>)</rp>
-      </ruby>
-    </h1>
-  </div>
-
   <div>
-    <!-- <p>{{ PinyinContent }}</p> -->
+    <div class="container">
+      <div class="center-div">
+        <div id="title">
+          <ruby style="font-size: 20px">
+            {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
+            ><rp>)</rp>
+          </ruby>
+        </div>
+      </div>
+      <div id="content" style="line-height: 300%">
+        <ruby v-for="(ch, index) in characters" style="font-size: 20px">
+          {{ ch }} <rp>(</rp><rt style="">{{ pinyins[index] }}</rt
+          ><rp>)</rp>
+        </ruby>
+      </div>
+    </div>
   </div>
-
-  <ruby v-for="(ch, index) in characters">
-    {{ ch }} <rp>(</rp><rt style="font-size: 0.7em">{{ pinyins[index] }}</rt
-    ><rp>)</rp>
-  </ruby>
 </template>
 <script>
 // import { translate } from "@vitalets/google-translate-api";
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     async chineseToPinyin() {
-      const res = await LessonApis.getLessonbyId(this.lessonIdx);
+      const res = await LessonApis.getLessonById(this.lessonIdx);
       this.title = await pinyin(res.data.title);
       this.PinyinContent = await pinyin(res.data.content);
       this.chineseTitle = res.data.title;
@@ -58,3 +59,10 @@ export default {
   },
 };
 </script>
+
+<style>
+.center-div {
+  display: flex;
+  justify-content: center;
+}
+</style>
