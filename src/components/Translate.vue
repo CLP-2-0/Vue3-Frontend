@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <div class="container">
-      <div class="center-div">
-        <div id="title">
-          <ruby style="font-size:20px">
+  <div >
+    <h1>
+      <ruby>
         {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
         ><rp>)</rp>
       </ruby>
