@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div >
     <h1>
       <ruby>
         {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
