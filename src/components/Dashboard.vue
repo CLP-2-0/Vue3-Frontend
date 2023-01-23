@@ -20,7 +20,8 @@
 </template>
 
 <script>
-
+import NavbarActive from "../components/NavbarActive.vue";
+import SectionList from "../components/SectionList.vue";
 export default {
   name: "Dashboard",
   components: {
@@ -28,13 +29,9 @@ export default {
     SectionList,
   },
   data() {
-    return {
-      
-    }
+    return {};
   },
-  methods: {
-
-  },
+  methods: {},
 };
 </script>
 
