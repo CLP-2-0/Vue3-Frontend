@@ -26,7 +26,18 @@
 			NavbarActive,
 			SectionList,
 		},
+		data() {
+			return {};
+		},
+		methods: {},
 	};
 </script>
 
-<style></style>
+<style>
+	.addBtn {
+		margin-bottom: 20px;
+	}
+	.input-group-text {
+		border-radius: 0 0.375em 0.375em 0 !important;
+	}
+</style>
