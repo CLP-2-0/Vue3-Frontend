@@ -195,7 +195,7 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						assignment tab here
+						<Homework :lessonIdx="this.$route.params.id"/>
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
 						this is exam tab
@@ -217,6 +217,8 @@
 	import Translate from './Translate.vue';
 	import Vocabs from './Vocabs.vue';
 	import Book from './Book.vue';
+	import Homework from './Homework.vue';
+
 	export default {
 		name: 'Course',
 		components: {
@@ -224,6 +226,7 @@
 			Translate,
 			Vocabs,
 			Book,
+			Homework
 		},
 		props: ['id'],
 		data() {
