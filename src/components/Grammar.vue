@@ -51,12 +51,13 @@ export default {
       let parser = new DOMParser();
       let doc = parser.parseFromString(this.content, "text/html");
       let underlined = doc.querySelectorAll("u");
-      for (let i = 0; i < underlined.length; i++) {
-        let element = underlined[i];
-        let underlinedChar = element.textContent;
-        let superscript = element.nextElementSibling.textContent;
-        gralist.push({ underlinedChar, superscript });
-      }
+      
+      // for (let i = 0; i < underlined.length; i++) {
+      //   let element = underlined[i];
+      //   let underlinedChar = element.textContent;
+      //   let superscript = element.nextElementSibling.
+      //   gralist.push({ underlinedChar, superscript });
+      // }
       console.log(doc);
     },
   },
