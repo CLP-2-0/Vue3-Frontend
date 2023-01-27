@@ -178,7 +178,7 @@
                   role="tabpanel"
                   aria-labelledby="v-pills-grammar-tab"
                 >
-                  <Grammar></Grammar>
+                  <Grammar />
                 </div>
                 <div
                   class="tab-pane fade"
@@ -244,6 +244,7 @@ export default {
     Translate,
     Vocabs,
     Book,
+    Grammar,
   },
   props: ["id"],
   data() {
