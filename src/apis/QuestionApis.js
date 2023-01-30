@@ -6,13 +6,14 @@ const instance = axios.create({
   baseURL: baseURI,
 });
 //******************************* */
-const createSection = async (sectionBody) => {
+const saveQuestion = async (lessonId, question) => {
 
+    console.log(question, lessonId)
     return await instance
-    .post("/sections", 
-      sectionBody,
+    .post(`/questions/${lessonId}`, 
+      question,
     )
-  
+
     .then((res) => {
       console.log("sent");
     })
@@ -21,19 +22,6 @@ const createSection = async (sectionBody) => {
     });
 };
 
-const getSections = async() => {
-    let username = "gamer_std1"
-    return await instance.get(`/sections/${username}/all`)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((error) => {
-      console.error("Error calling getSection", error);
-      return null;
-    });
-}
-
 export default {
-    createSection,
-    getSections
+    saveQuestion
 }

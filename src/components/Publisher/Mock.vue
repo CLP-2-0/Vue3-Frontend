@@ -48,11 +48,11 @@
 	<div class="btn-container">
 		<button
 			type="button"
-			class="btn btn-outline-success"
+			class="btn btn-outline-success col-2"
 			data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample"
 			@click="saveTable"
 		>
-			Save vocab
+			Save
 		</button>
 	</div>
 </template>
@@ -88,17 +88,28 @@
 					.put('http://localhost:8000/lessons/' + this.lessonIdx, {
 						id: this.lessonIdx,
 						title: this.title,
-						content: this.content,
+						content: this.content
 					})
 					.then((res) => {
 						console.log('new content', this.content);
 					});
+				
 			},
 			async saveTable() {
-				this.updateLesson();
-				const res = await VocabApis.saveVocabs(this.lessonIdx, this.red);
-				this.$router.go(this.$router.currentRoute);
+				console.log("mock", this.red)
+
+				await this.updateLesson(). then(async () => {
+				const res = await VocabApis.saveVocabs(this.lessonIdx, this.red)
+
+				})
+				.then (() => {
+					
+					this.$router.go(this.$router.currentRoute);
+				});
+				
 			},
 		},
+		mounted() {
+		}
 	};
 </script>

@@ -10,7 +10,7 @@
 						<li class="breadcrumb-item">
 							<router-link to="/publisher/dashboard" class="text-dark">Dashboard</router-link>
 						</li>
-						<li class="breadcrumb-item active" aria-current="page">Lessons {{ id }}</li>
+						<li class="breadcrumb-item active" aria-current="page">Lesson {{ id }}</li>
 					</ol>
 				</nav>
 			</div>
@@ -158,8 +158,8 @@
 									aria-labelledby="v-pills-chinese-tab"
 								>
                 <div class="container btn-container">
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  Edit Book
+                <button class="btn btn-primary col-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Edit
                 </button> 
                 </div>
                 <div class="collapse show" id="collapseExample">
@@ -208,7 +208,7 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						assignment tab here
+						<QuestionBank :lessonIdx="this.$route.params.id"/>
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
 						this is exam tab
@@ -232,6 +232,7 @@
 	import Translate from '../Translate.vue';
 	import Vocabs from '../Vocabs.vue';
 	import Book from '../Book.vue';
+	import QuestionBank from './QuestionBank.vue';
 	export default {
 		name: 'Lesson Detail',
 		components: {
@@ -241,6 +242,7 @@
 			Translate,
 			Vocabs,
 			Book,
+			QuestionBank
 		},
 		props: ['id'],
 		// data() {
