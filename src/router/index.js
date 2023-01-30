@@ -22,21 +22,36 @@ const router = createRouter({
 			component: Signup,
 		},
 		{
-			path: '/teacher/dashboard',
-			name: 'Dashboard',
-			component: Dashboard,
+			path: '/teacher',
+			children: [
+				{
+					path: 'dashboard',
+					name: 'Dashboard',
+					component: Dashboard,
+					props: true,
+				},
+				{
+					path: ':sid',
+					name: 'SectionDetail',
+					component: SectionDetail,
+					props: true,
+				},
+			]
 		},
-		{
-			path: '/teacher/dashboard/section',
-			name: 'LessonList',
-			component: SectionDetail,
-		},
-		{
-			path: '/teacher/dashboard/section/lesson:id',
-			name: 'Lesson',
-			component: Lesson,
-			props: true,
-		},
+		// {
+		// 	path: '/teacher/dashboard/:sid',
+		// 	name: 'SectionDetail',
+		// 	component: SectionDetail,
+		// 	children: [
+				{
+					path: '/:sid/lesson/:id',
+					name: 'Lesson',
+					component: Lesson,
+					props: true,
+				},
+		// 	]
+		// },
+		
 		{
 			path: '/publisher/dashboard',
 			name: 'Publisher Dashboard',
