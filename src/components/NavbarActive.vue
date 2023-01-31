@@ -2,13 +2,18 @@
 	<div>
 		<nav class="navbar navbar-dark bg-dark">
 			<div class="container-fluid m-2">
-				<router-link to="/">Home</router-link>
+				<img
+					src="https://brand.tcu.edu/wp-content/uploads/2015/12/TCULogo_purple_5X7-01.jpg"
+					class="float-start"
+					alt="..."
+					style="width: 60px"
+				/>
 
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
 					<router-link to="/teacher/dashboard"
-						><i class="fa fa-solid fa-user px-3" style="color: white"></i
-					></router-link>
+						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ userole }}</router-link
+					>
 
 					<button
 						type="button"
@@ -30,6 +35,11 @@
 
 <script>
 	export default {
+		data() {
+			return {
+				userole: localStorage.getItem('user_role'),
+			};
+		},
 		methods: {
 			logout() {
 				this.$store.dispatch('auth0Logout');
