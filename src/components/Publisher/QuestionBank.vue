@@ -75,6 +75,7 @@ export default {
             "clean",
             { color: ["red", "rgb(237, 125, 49)", "black"] },
             { background: [] },
+            "image"
           ],
         },
       },

@@ -10,8 +10,9 @@
 							<router-link to="/teacher/dashboard" class="text-dark">Dashboard</router-link>
 						</li>
 						<li class="breadcrumb-item">
-							<router-link to="/teacher/dashboard/section" class="text-dark"
-								>CHINESE10123</router-link
+							<router-link to="" class="text-dark"
+							@click="$router.go(-1)"
+								>All Lessons</router-link
 							>
 						</li>
 						<li class="breadcrumb-item active" aria-current="page">Lesson {{ id }}</li>
@@ -195,7 +196,7 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						assignment tab here
+						<Homework :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid"/>
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
 						this is exam tab
@@ -217,13 +218,16 @@
 	import Translate from './Translate.vue';
 	import Vocabs from './Vocabs.vue';
 	import Book from './Book.vue';
+	import Homework from './Homework.vue';
+
 	export default {
-		name: 'Course',
+		name: 'Lesson',
 		components: {
 			NavbarActive,
 			Translate,
 			Vocabs,
 			Book,
+			Homework
 		},
 		props: ['id'],
 		data() {

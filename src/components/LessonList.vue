@@ -12,7 +12,7 @@
           <tr v-for="lesson in lessons" :key="lesson.id" class="m-4">
             <td>
               <router-link :to="{ name: 'Lesson', params: { id: lesson.id } }">
-                <div class="text-dark m-3">
+                <div class="text-dark m-3" >
                   Lesson {{ lesson.id }}: {{ lesson.title }}
                 </div>
               </router-link>
@@ -26,7 +26,6 @@
 
 <script>
 import LessonApis from "@/apis/LessonApis";
-
 export default {
   name: "Lesson List",
   components: {},
@@ -41,11 +40,11 @@ export default {
       this.lessons = res.data;
       console.log("this from list", res.data);
       // console.log("lessons res:", this.lessons)
-    }
+    },
   },
   mounted() {
     this.getLessons();
-  }
+  },
 };
 </script>
 
