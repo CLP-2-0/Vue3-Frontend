@@ -6,7 +6,14 @@ import router from './router';
 export const store = createStore({
 	state: {
 		userIsAuthorized: false, //unit test login/logout function: userIsAuthorized true => login/ otherwise false => not login
-
+		userInfo: {
+			id: '',
+			email: '',
+			username: '',
+			nickname: '',
+			picture: '',
+			role: '',
+		},
 		auth0: new auth0.WebAuth({
 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
 			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
@@ -19,6 +26,16 @@ export const store = createStore({
 		setUserIsAuthenticated(state, replacement) {
 			state.userIsAuthorized = replacement;
 			console.log('check setUserIsAuthenticated');
+		},
+		setUserInfo(state, checkUserInfo) {
+			state.userInfo.id = checkUserInfo.data.data.id;
+			state.userInfo.email = checkUserInfo.data.data.email;
+			state.userInfo.username = checkUserInfo.data.data.username;
+			state.userInfo.nickname = checkUserInfo.data.data.nickname;
+			state.userInfo.picture = checkUserInfo.data.data.picture;
+			state.userInfo.role = checkUserInfo.data.data.role;
+
+			// console.log(state.userInfo);
 		},
 	},
 	actions: {
@@ -85,11 +102,18 @@ export const store = createStore({
 									}
 
 									//Check user's role
-									const checkUserRole = await axios.get(
+									const checkUserInfo = await axios.get(
 										`${import.meta.env.VITE_URI}/users/${username}`
 									);
-									const userRole = checkUserRole.data.data.role;
-									console.log('role :', userRole);
+
+									//Pass to state via mutations
+									context.commit('setUserInfo', checkUserInfo);
+
+									//check user role
+									const userRole = checkUserInfo.data.data.role;
+									localStorage.setItem('user_role', userRole);
+
+									// console.log('role :', userRole);
 									if (userRole === 'admin') {
 										console.log('go to admin dashboard now');
 										router.push('/publisher/dashboard');
