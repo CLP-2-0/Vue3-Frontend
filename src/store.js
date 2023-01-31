@@ -6,12 +6,7 @@ import router from './router';
 export const store = createStore({
 	state: {
 		userIsAuthorized: false, //unit test login/logout function: userIsAuthorized true => login/ otherwise false => not login
-		userInfo: {
-			username: '',
-			email: '',
-			role: '',
-		},
-		userRawData: {},
+
 		auth0: new auth0.WebAuth({
 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
 			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
@@ -24,17 +19,6 @@ export const store = createStore({
 		setUserIsAuthenticated(state, replacement) {
 			state.userIsAuthorized = replacement;
 			console.log('check setUserIsAuthenticated');
-		},
-		setUserInfo(state, user) {
-			state.userInfo.username = user.nickname;
-			state.userInfo.email = user.email;
-			// state.userInfo.role = user.app_metadata.role;
-			// state.userInfo.role = user.app_metadata.role;
-			console.log(user);
-		},
-		setUserRawData(state, userRawData) {
-			state.userRawData = userRawData;
-			state.userInfo.role = userRawData.app_metadata.role;
 		},
 	},
 	actions: {
@@ -52,65 +36,78 @@ export const store = createStore({
 					localStorage.setItem('expires_at', expiresAt);
 
 					// Fetch the user info using the access token
-					context.state.auth0.client.userInfo(
-						authResult.accessToken,
+					context.state.auth0.client.userInfo(authResult.accessToken, (err, user) => {
+						if (err) {
+							console.log(err);
+							return;
+						} else {
+							/* We want to moving user database from Auth0 to MongoDB cause client want to use Free Plan of Auth0. Can not using directly Custom Database
+							 */
 
-						(err, user) => {
-							if (err) {
-								console.log(err);
-								return;
+							//Get user info from Auth0
+							async function getUserData() {
+								try {
+									/*two way to get user info
+                                    * 1. axios
+                                        Example: 
+
+                                        const userInfo = await axios.get(
+										`https://${import.meta.env.VITE_AUTH0_DOMAIN}/userInfo`,
+										{
+											headers: {
+												Authorization: `Bearer ${authResult.accessToken}`,
+											},
+										}
+                                        console.log(userInfor.data);
+									);
+                                    * 2. user => from context.state.auth0.client.userInfor ( above )  
+                                    */
+
+									// console.log(userInfo.data);
+									const username = user.email.split('@')[0];
+
+									//Check if the user is existed in MongoDB
+									const checkUserMongoDB = await axios.get(
+										`${import.meta.env.VITE_URI}/users/${username}`
+									);
+									if (!checkUserMongoDB.data.data) {
+										await axios.post(`${import.meta.env.VITE_URI}/users`, {
+											id: user.sub.split('|')[1],
+											email: user.email,
+											username: user.email.split('@')[0],
+											nickname: user.nickname,
+											picture: user.picture,
+											role: 'student',
+										});
+										console.log('save');
+									} else {
+										console.log('skip');
+									}
+
+									//Check user's role
+									const checkUserRole = await axios.get(
+										`${import.meta.env.VITE_URI}/users/${username}`
+									);
+									const userRole = checkUserRole.data.data.role;
+									console.log('role :', userRole);
+									if (userRole === 'admin') {
+										console.log('go to admin dashboard now');
+										router.push('/publisher/dashboard');
+									} else if (userRole === 'teacher') {
+										console.log('go to teacher dashboard now');
+										router.push('/teacher/dashboard');
+									} else {
+										console.log('go to dashboard now');
+										router.push('/student');
+									}
+								} catch (error) {
+									console.error(error);
+								}
 							}
-							context.commit('setUserInfo', user);
 
-							//************NEED TO FIGURE OUT THE ROLE */
-							// const userId = user.sub.split('|')[1];
-
-							// axios
-							// 	.get(`https://${import.meta.env.VITE_AUTH0_DOMAIN}/api/v2/users/${userId}`, {
-							// 		headers: {
-							// 			Authorization: `Bearer ${authResult.accessToken}`,
-							// 		},
-							// 	})
-							// 	.then((response) => {
-							// 		// do something with the response data
-							// 		console.log(response.data);
-							// 	})
-							// 	.catch((error) => {
-							// 		console.log(error);
-							// 	});
-
-							// console.log('go to admin dashboard now');
-							// router.push('/publisher/dashboard');
-
-							//********************JUST FOR NOW */
-							console.log(user.nickname);
-							if (user.nickname === 'admin') {
-								console.log('go to admin dashboard now');
-								router.push('/publisher/dashboard');
-							} else if (user.nickname === 'teacher') {
-								console.log('go to teacher dashboard now');
-								router.push('/teacher/dashboard');
-							} else {
-								console.log('go to dashboard now');
-								router.push('/student');
-							}
+							getUserData();
 						}
-					);
-					// console.log(user.nickname);
-					// if (this.user.nickname === 'admin') {
-					// 	console.log('go to admin dashboard now');
-					// 	router.push('/publisher/dashboard');
-
-					// } else if (user.nickname === 'teacher') {
-					// 	console.log('go to teacher dashboard now');
-					// 	router.push('/teacher/dashboard');
-					// } else {
-					// 	console.log('go to dashboard now');
-					// 	router.push('/student');
-					// }
-
-					// console.log('go to admin dashboard now');
-					// router.push('/publisher/dashboard');
+					});
 				} else if (err) {
 					// alert('login failed. Error #KJN838');
 					router.push('/');
@@ -119,6 +116,7 @@ export const store = createStore({
 				}
 			});
 		},
+
 		auth0Logout(context) {
 			// No need to update the bearer in global axiosConfig to null because we are redirecting out of the application
 			// Clear Access Token and ID Token from local storage

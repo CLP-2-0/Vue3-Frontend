@@ -7,9 +7,8 @@
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
 					<router-link to="/teacher/dashboard"
-						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ username }}
-						{{ role }}</router-link
-					>
+						><i class="fa fa-solid fa-user px-3" style="color: white"></i
+					></router-link>
 
 					<button
 						type="button"
@@ -35,17 +34,6 @@
 			logout() {
 				this.$store.dispatch('auth0Logout');
 				console.log('logout');
-			},
-		},
-		computed: {
-			username() {
-				return this.$store.state.userInfo.username;
-			},
-			email() {
-				return this.$store.state.userInfo.email;
-			},
-			role() {
-				return this.$store.state.userInfo.role;
 			},
 		},
 	};
