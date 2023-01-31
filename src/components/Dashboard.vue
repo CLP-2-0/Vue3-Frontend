@@ -17,33 +17,3 @@
   
 	  <SectionList />
 	</div>
-  </template>
-  
-  <script>
-  import NavbarActive from "./NavbarActive.vue";
-  import SectionList from "./SectionList.vue"
-  export default {
-	name: "Dashboard",
-	components: {
-	  NavbarActive,
-	  SectionList,
-	},
-	data() {
-	  return {
-		
-	  }
-	},
-	methods: {
-  
-	},
-  };
-  </script>
-  
-  <style>
-  .addBtn {
-	margin-bottom: 20px;
-  }
-  .input-group-text {
-	border-radius: 0 0.375em 0.375em 0 !important;
-  }
-  </style>

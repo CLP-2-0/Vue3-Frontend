@@ -106,9 +106,10 @@
     <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
 
     <div class="col-6 col-md-4 mb-4" v-for="section in sections" :key="section.id">
-      <router-link to="/teacher/dashboard/section">
-        <div class="image"><div>{{section.section}}</div></div></router-link
-      >
+      <!-- <router-link :to="{ name: 'SectionDetail', params: { sid: section.id } }"> -->
+        <div class="image" type="button"><div @click="redirect(section.id)">{{section.section}}</div></div>
+        <!-- </router-link
+      > -->
     </div>
   </div>
 </template>
@@ -116,6 +117,7 @@
 <script>
 import { v4 as uuidv4 } from 'uuid';
 import SectionApis from "@/apis/SectionApis.js"
+import router from "@/router";
 export default {
   data() {
     return {
@@ -151,6 +153,9 @@ export default {
       navigator.clipboard.writeText(copyText.value);
       alert("Copied the text: " + copyText.value);
     },
+    redirect(sid) {
+      router.push(sid)
+    }
   },
   mounted() {
     this.getSections();

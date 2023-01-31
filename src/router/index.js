@@ -29,23 +29,35 @@ const router = createRouter({
 			component: Auth0Callback,
 		},
 		{
-			path: '/teacher/dashboard',
-			name: 'Dashboard',
-			component: Dashboard,
-			meta: {
-				requiresAuth: true,
-			},
+			path: '/teacher',
+			children: [
+				{
+					path: 'dashboard',
+					name: 'Dashboard',
+					component: Dashboard,
+					props: true,
+					meta: {
+						requiresAuth: true,
+					},
+				},
+				{
+					path: ':sid',
+					name: 'SectionDetail',
+					component: SectionDetail,
+					props: true,
+					meta: {
+						requiresAuth: true,
+					},
+				},
+			],
 		},
+		// {
+		// 	path: '/teacher/dashboard/:sid',
+		// 	name: 'SectionDetail',
+		// 	component: SectionDetail,
+		// 	children: [
 		{
-			path: '/teacher/dashboard/section',
-			name: 'LessonList',
-			component: SectionDetail,
-			meta: {
-				requiresAuth: true,
-			},
-		},
-		{
-			path: '/teacher/dashboard/section/lesson:id',
+			path: '/:sid/lesson/:id',
 			name: 'Lesson',
 			component: Lesson,
 			props: true,
@@ -53,6 +65,9 @@ const router = createRouter({
 				requiresAuth: true,
 			},
 		},
+		// 	]
+		// },
+
 		{
 			path: '/publisher/dashboard',
 			name: 'Publisher Dashboard',
