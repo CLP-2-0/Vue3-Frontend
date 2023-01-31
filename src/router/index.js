@@ -23,7 +23,7 @@ const router = createRouter({
 			name: 'SignUp',
 			component: Signup,
 		},
-    {
+		{
 			path: '/auth0callback',
 			name: 'Auth0Callback',
 			component: Auth0Callback,
@@ -36,30 +36,38 @@ const router = createRouter({
 					name: 'Dashboard',
 					component: Dashboard,
 					props: true,
+					meta: {
+						requiresAuth: true,
+					},
 				},
 				{
 					path: ':sid',
 					name: 'SectionDetail',
 					component: SectionDetail,
 					props: true,
+					meta: {
+						requiresAuth: true,
+					},
 				},
-			]
-
+			],
 		},
 		// {
 		// 	path: '/teacher/dashboard/:sid',
 		// 	name: 'SectionDetail',
 		// 	component: SectionDetail,
 		// 	children: [
-				{
-					path: '/:sid/lesson/:id',
-					name: 'Lesson',
-					component: Lesson,
-					props: true,
-				},
+		{
+			path: '/:sid/lesson/:id',
+			name: 'Lesson',
+			component: Lesson,
+			props: true,
+			meta: {
+				requiresAuth: true,
+			},
+		},
 		// 	]
 		// },
-		
+
 		{
 			path: '/publisher/dashboard',
 			name: 'Publisher Dashboard',
