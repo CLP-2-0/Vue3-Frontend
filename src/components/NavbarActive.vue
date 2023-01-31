@@ -9,6 +9,15 @@
 					<router-link to="/teacher/dashboard"
 						><i class="fa fa-solid fa-user px-3" style="color: white"></i
 					></router-link>
+
+					<button
+						type="button"
+						class="btn btn-primary btn-sm mt-1 ms-3"
+						@click="logout()"
+						v-if="this.$store.state.userIsAuthorized"
+					>
+						Logout
+					</button>
 				</div>
 			</div>
 		</nav>
@@ -20,7 +29,14 @@
 </template>
 
 <script>
-	export default {};
+	export default {
+		methods: {
+			logout() {
+				this.$store.dispatch('auth0Logout');
+				console.log('logout');
+			},
+		},
+	};
 </script>
 
 <style>
