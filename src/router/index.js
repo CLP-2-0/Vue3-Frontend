@@ -8,6 +8,7 @@ import PublisherDashboard from '../components/Publisher/PublisherDashboard.vue';
 import LessonDetail from '@/components/Publisher/LessonDetail.vue';
 import NewStudent from '@/components/NewStudent.vue';
 import Auth0Callback from '@/components/Auth0Callback.vue';
+import Profile from '@/components/Profile.vue';
 import store from '@/store';
 const router = createRouter({
 	history: createWebHistory(),
@@ -49,6 +50,17 @@ const router = createRouter({
 						requiresAuth: true,
 					},
 				},
+				
+				{
+					path: 'profile',
+					name: 'Profile',
+					component: Profile,
+					props: true,
+					meta: {
+						requiresAuth: true,
+					},
+				},
+				
 			],
 		},
 		// {

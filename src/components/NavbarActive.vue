@@ -6,8 +6,10 @@
 
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
-					<router-link to="/teacher/dashboard"
-						><i class="fa fa-solid fa-user px-3" style="color: white"></i
+					<!-- <router-link to="/teacher/profile" -->
+
+					<router-link to="/teacher/profile"
+						><i class="btn-primary fa fa-solid fa-user px-3" style="color: white"></i
 					></router-link>
 
 					<button
