@@ -34,7 +34,20 @@ const getHomeworkBySection = async (lessonId, section) => {
   });
 }
 
+const saveAnswerToAQuestion = async (username, id, answer) => {
+  return await instance
+  .post(`/graded-question/answer/${username}/${id}`, answer)
+
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
 export default {
     saveHomework,
-    getHomeworkBySection
+    getHomeworkBySection,
+    saveAnswerToAQuestion
 }
