@@ -29,7 +29,7 @@ const router = createRouter({
 			component: Auth0Callback,
 		},
 		{
-			path: '/teacher',
+			path: '/',
 			children: [
 				{
 					path: 'dashboard',
