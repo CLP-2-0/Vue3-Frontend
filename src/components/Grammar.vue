@@ -14,12 +14,15 @@
     </tr>
   </table>
   <div class="btn-container">
-    <button type="button" class="btn btn-outline-success">Save</button>
+    <button @click="saveMeanings" type="button" class="btn btn-outline-success">
+      Save
+    </button>
   </div>
 </template>
 
 <script>
 import LessonApis from "@/apis/LessonApis.js";
+import GrammarApis from "@/apis/GrammarApis.js";
 
 export default {
   props: ["lessonIdx"],
@@ -31,7 +34,22 @@ export default {
     };
   },
   methods: {
+    async getGrammarMeanings() {
+      console.log(this.meaning);
+      const res = await LessonApis.getGrammarsBylessonId(this.lessonIdx);
+      this.meanings = res.data;
+    },
+    async saveMeanings() {
+      await LessonApis.saveLessonGrammarMeanings(
+        this.lessonIdx,
+        this.meaning
+      ).then(async (res) => {
+        this.getGrammarMeanings();
+      });
+    },
     async testing() {
+      const resMean = await GrammarApis.getGrammarsBylessonId(this.lessonIdx);
+      console.log(resMean);
       const res = await LessonApis.getLessonById(this.lessonIdx);
       this.content = res.data.content;
       let parser = new DOMParser();
