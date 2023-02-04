@@ -8,10 +8,10 @@ const instance = axios.create({
 });
 //******************************* */
 
-const saveGrammars = async (lessonId, grammars) => {
-  console.log(grammars);
+const saveGrammars = async (lessonId, grammars, meanings) => {
+  console.log(grammars, meanings);
   return await instance
-    .post(`/grammars/${lessonId}`, grammars)
+    .post(`/grammars/${lessonId}`, grammars, meanings)
 
     .then((res) => {
       console.log("sent");
