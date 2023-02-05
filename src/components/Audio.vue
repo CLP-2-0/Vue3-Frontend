@@ -1,8 +1,8 @@
 <template>
     <div>
                   <div >
-                    <button class="btn btn-success" @click="startRecording">Start Recording</button>
-                    <button class="btn btn-danger" @click="stopRecording">Stop Recording</button>
+                    <button class="btn btn-success" @click="">Start Recording</button>
+                    <button class="btn btn-danger" @click="">Stop Recording</button>
   
                     <div class="audio-recording-container" id="recording">
                     <!-- <audio controls="" class="audio-element"></audio> -->

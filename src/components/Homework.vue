@@ -120,6 +120,7 @@ export default {
       this.questionsBank = res.data.questionsBank;
     },
     async createHomework() {
+      console.log("save")
       await HomeworkApis.saveHomework(
         this.lessonIdx,
         this.gradedQuestions,
@@ -132,6 +133,7 @@ export default {
         this.total = 0
         this.checkedQuestions = []
         this.update++
+        this.gradedQuestions = []
         
       })
 
