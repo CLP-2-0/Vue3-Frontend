@@ -10,7 +10,7 @@ const saveHomework = async (lessonId, homework, section) => {
 
     console.log(lessonId, homework, section)
     return await instance
-    .post(`/homework/${section}/${lessonId}`, 
+    .post(`homework/${section}/${lessonId}`, 
       homework,
     )
 
@@ -34,7 +34,34 @@ const getHomeworkBySection = async (lessonId, section) => {
   });
 }
 
+const saveAnswerToAQuestion = async (username, id, answer) => {
+  console.log("answer", answer, "id", id)
+  return await instance
+  .post(`/graded-question/answer/${username}/${id}`, answer)
+
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const getAnswersByQuestion = async (id) => {
+  return await instance
+  .get(`/graded-question/answers/${id}`)
+
+.then((res) => {
+  return res.data;
+})
+.catch(function (error) {
+  console.log("error:", error);
+});
+}
+
 export default {
     saveHomework,
-    getHomeworkBySection
+    getHomeworkBySection,
+    saveAnswerToAQuestion,
+    getAnswersByQuestion
 }
