@@ -31,7 +31,7 @@
           </div>
           <div class="card-body">
             <div class="form-group">
-              <label for="nickname">Nickname:</label>
+              <label for="nickname">Nickname: </label>
               <input
                 type="text"
                 class="form-control"
@@ -70,7 +70,7 @@
             </div>
             </div>
             <hr />
-            <button class="btn btn-primary btn-block" @click="updateProfile">Save Changes</button>
+            <button class="btn btn-primary btn-block" @click="updatedUser">Save Changes</button>
           </div>
         </div>
       </div>
@@ -81,6 +81,9 @@
   
   <script>
 	import NavbarActive from './NavbarActive.vue';
+  import UserApis from "@/apis/UserApis.js";
+  import { mapState } from 'vuex';
+
 
     export default {
     name: "Profile Page",
@@ -92,6 +95,14 @@ data() {
       nickname: "",
       email: "",
       hometown: "",
+      picture: "",
+      updatedData:[
+        {
+          updatedNickname: "",
+          updatedEmail: "",
+          updatedHometown: ""
+        }
+      ],
       errors: {}
     };
   },
@@ -131,8 +142,30 @@ data() {
       openFileInput() {
     document.getElementById("fileInput").click();
   },
-}
+  async getUserByUsername() {
+    const res = await UserApis.getUserByUsername(this.userInfo.nickname);
+    this.nickname = res.data.nickname;
+    this.email = res.data.email;
+    //this.hometown = res.data.hometown;
+    //this.picture = res.data.picture;
+
+    console.log(res.userInfo);
+  },
+  async updatedUser() {
+    const res = await UserApis.updatedUser(this.updatedData, this.userInfo.nickname);
+    this.updatedickname = res.data.updatedData.updatedNickname;
+    console.log(res.userInfo);
+  }
+},
+computed: {
+  ...mapState(["userInfo"])
+},
+mounted() {
+    this.getUserByUsername();
+    this.updatedUser();
+  }
 };
+
   </script>
   
   <style>
