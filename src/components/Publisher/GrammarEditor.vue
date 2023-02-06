@@ -18,9 +18,6 @@
       Save
     </button>
   </div>
-  <div>
-    <h1>this is grammar BookEditor</h1>
-  </div>
 </template>
 
 <script>
