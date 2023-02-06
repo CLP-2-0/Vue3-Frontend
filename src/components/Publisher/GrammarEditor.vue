@@ -10,15 +10,17 @@
     <tr v-for="(group, index) in gralist" :key="index">
       <td>{{ group.superscript }}</td>
       <td>{{ group.underlinedChars.join("...") }}</td>
-      <!-- <td><input type="text" v-model="meaning[index]" /></td> -->
-      <td>{{ meaning[index] }}</td>
+      <td><input type="text" v-model="meaning[index]" /></td>
     </tr>
   </table>
-  <!-- <div class="btn-container">
+  <div class="btn-container">
     <button @click="saveMeanings" type="button" class="btn btn-outline-success">
       Save
     </button>
-  </div> -->
+  </div>
+  <div>
+    <h1>this is grammar BookEditor</h1>
+  </div>
 </template>
 
 <script>

@@ -96,4 +96,6 @@ export default {
   getLessonById,
   updateLesson,
   deleteLesson,
+  saveLessonGrammarMeanings,
+  getLessonGrammarMeanings,
 };
