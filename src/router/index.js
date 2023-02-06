@@ -29,23 +29,35 @@ const router = createRouter({
 			component: Auth0Callback,
 		},
 		{
-			path: '/teacher/dashboard',
-			name: 'Dashboard',
-			component: Dashboard,
-			meta: {
-				requiresAuth: true,
-			},
+			path: '/',
+			children: [
+				{
+					path: 'dashboard',
+					name: 'Dashboard',
+					component: Dashboard,
+					props: true,
+					meta: {
+						requiresAuth: true,
+					},
+				},
+				{
+					path: ':sid',
+					name: 'SectionDetail',
+					component: SectionDetail,
+					props: true,
+					meta: {
+						requiresAuth: true,
+					},
+				},
+			],
 		},
+		// {
+		// 	path: '/teacher/dashboard/:sid',
+		// 	name: 'SectionDetail',
+		// 	component: SectionDetail,
+		// 	children: [
 		{
-			path: '/teacher/dashboard/section',
-			name: 'LessonList',
-			component: SectionDetail,
-			meta: {
-				requiresAuth: true,
-			},
-		},
-		{
-			path: '/teacher/dashboard/section/lesson:id',
+			path: '/:sid/lesson/:id',
 			name: 'Lesson',
 			component: Lesson,
 			props: true,
@@ -53,6 +65,9 @@ const router = createRouter({
 				requiresAuth: true,
 			},
 		},
+		// 	]
+		// },
+
 		{
 			path: '/publisher/dashboard',
 			name: 'Publisher Dashboard',
@@ -87,7 +102,7 @@ router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.path == '/auth0callback')) {
 		console.log('router.beforeEach found /auth0callback url');
 		store.dispatch('auth0HandleAuthentication');
-		next(false);
+		return;
 	}
 
 	// check if user is logged in (start assuming the user is not logged in = false)
@@ -112,8 +127,6 @@ router.beforeEach((to, from, next) => {
 		//check if user is Authenticated
 		if (routerAuthCheck) {
 			//user is Authenticated
-			//TODO: commit to Store that the user is authenticated
-
 			next();
 		} else {
 			//user is not authenticated

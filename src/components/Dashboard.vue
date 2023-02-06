@@ -31,6 +31,7 @@
 		},
 		methods: {},
 	};
+
 </script>
 
 <style>

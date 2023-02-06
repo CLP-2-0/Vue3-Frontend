@@ -7,12 +7,10 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
-							<router-link to="/teacher/dashboard" class="text-dark">Dashboard</router-link>
+							<router-link to="/dashboard" class="text-dark">Dashboard</router-link>
 						</li>
 						<li class="breadcrumb-item">
-							<router-link to="/teacher/dashboard/section" class="text-dark"
-								>CHINESE10123</router-link
-							>
+							<router-link to="" class="text-dark" @click="$router.go(-1)">All Lessons</router-link>
 						</li>
 						<li class="breadcrumb-item active" aria-current="page">Lesson {{ id }}</li>
 					</ol>
@@ -82,6 +80,7 @@
 							role="tab"
 							aria-controls="nav-class"
 							aria-selected="false"
+							v-if="isTeacherorAdmin"
 						>
 							Class
 						</button>
@@ -195,7 +194,7 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						assignment tab here
+						<Homework :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" />
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
 						this is exam tab
@@ -204,7 +203,7 @@
 						this is forum tab
 					</div>
 					<div class="tab-pane fade" id="nav-class" role="tabpanel" aria-labelledby="nav-class-tab">
-						this is class tab
+						<UserList :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" />
 					</div>
 				</div>
 			</div>
@@ -217,19 +216,30 @@
 	import Translate from './Translate.vue';
 	import Vocabs from './Vocabs.vue';
 	import Book from './Book.vue';
+	import Homework from './Homework.vue';
+	import UserList from './UserList.vue';
+
 	export default {
-		name: 'Course',
+		name: 'Lesson',
 		components: {
 			NavbarActive,
 			Translate,
 			Vocabs,
 			Book,
+			Homework,
+			UserList,
 		},
 		props: ['id'],
 		data() {
 			return {
 				msg: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.',
+				userRole: localStorage.getItem('user_role'),
 			};
+		},
+		computed: {
+			isTeacherorAdmin() {
+				return this.userRole === 'teacher' || this.userRole === 'admin';
+			},
 		},
 	};
 </script>
