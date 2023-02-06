@@ -98,6 +98,7 @@ export default {
       this.question = this.questions[0].question.question;
       this.point = this.questions[0].point;
       this.idx=this.questions[0].id
+      this.updateAnswer++
     },
     chooseQuestion(question, num) {
       this.curr = num;
@@ -109,7 +110,7 @@ export default {
       console.log("q",question)
     },
     async saveAnswer() {
-    let username = this.$store.state.userInfo.username
+    let username = localStorage.getItem('user_name')
     console.log("username", username)
     let type = this.selected[0].split('_')[0].slice(1) == 1 ? "text" : "audio"
     let answer = {
