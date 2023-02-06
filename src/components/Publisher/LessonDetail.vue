@@ -10,7 +10,7 @@
 						<li class="breadcrumb-item">
 							<router-link to="/publisher/dashboard" class="text-dark">Dashboard</router-link>
 						</li>
-						<li class="breadcrumb-item active" aria-current="page">Lessons {{ id }}</li>
+						<li class="breadcrumb-item active" aria-current="page">Lesson {{ id }}</li>
 					</ol>
 				</nav>
 			</div>
@@ -158,8 +158,8 @@
 									aria-labelledby="v-pills-chinese-tab"
 								>
                 <div class="container btn-container">
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                  Edit Book
+                <button class="btn btn-primary col-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                  Edit
                 </button> 
                 </div>
                 <div class="collapse show" id="collapseExample">
