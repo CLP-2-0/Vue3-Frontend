@@ -7,6 +7,10 @@
       <div id="content"></div>
     </div>
   </div>
+  <div><h1>gap testing</h1></div>
+  <div>
+    <div v-html="processedContent()"></div>
+  </div>
 </template>
 
 <script>
@@ -20,12 +24,13 @@ export default {
     return {
       title: "",
       content: "",
-      vocabs: []
+      vocabs: [],
+      meaning: [],
+      processed: "",
     };
   },
   methods: {
     async getLessonById() {
-      
       const res = await LessonApis.getLessonById(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
@@ -47,7 +52,7 @@ export default {
             html: true,
             placement: "bottom",
             // trigger: 'manual',
-            content: function() {
+            content: function () {
               let id = $(this)[0].getAttribute("id");
               id = id.substring(5);
               return (
@@ -62,7 +67,7 @@ export default {
                 res.data.vocabs[id].type +
                 "</div>"
               );
-            }
+            },
           });
 
           j++;
@@ -76,11 +81,34 @@ export default {
           // });
         }
       }
-    }
+    },
+    async processedContent() {
+      const res1 = await LessonApis.getLessonById(this.lessonIdx);
+      this.content = res1.data.content;
+      this.meaning = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
+      const regex = /<u>(.*?)<\/u>/g;
+      this.processed = this.content;
+
+      let match;
+      while ((match = regex.exec(this.content)) !== null) {
+        const underlined = match[0];
+        const superscriptRegex = /<sup>(\d+)<\/sup>/;
+        const superscriptMatch = superscriptRegex.exec(underlined);
+        const index = parseInt(superscriptMatch[1], 10) - 1;
+
+        const meaning = this.meaning[index];
+        const replacement = `<span title="${meaning}" class="hoverable">${underlined}</span>`;
+        this.processed = this.processed.replace(underlined, replacement);
+      }
+      console.log(processed);
+      return this.processed;
+    },
   },
+
   created() {
     this.getLessonById();
-  }
+    this.processedContent();
+  },
 };
 </script>
 
@@ -88,5 +116,21 @@ export default {
 .center-div {
   display: flex;
   justify-content: center;
+}
+.hoverable {
+  position: relative;
+  display: inline-block;
+}
+
+.hoverable:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+  font-size: 12px;
 }
 </style>

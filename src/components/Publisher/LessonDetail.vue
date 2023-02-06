@@ -198,7 +198,7 @@
                   role="tabpanel"
                   aria-labelledby="v-pills-grammar-tab"
                 >
-                  <Grammar :lessonIdx="this.$route.params.id" />
+                  <GrammarEditor :lessonIdx="this.$route.params.id" />
                 </div>
                 <div
                   class="tab-pane fade"
@@ -258,7 +258,7 @@ import Translate from "../Translate.vue";
 import Vocabs from "../Vocabs.vue";
 import Book from "../Book.vue";
 import QuestionBank from "./QuestionBank.vue";
-import Grammar from "../Grammar.vue";
+import GrammarEditor from "./GrammarEditor.vue";
 export default {
   name: "Lesson Detail",
   components: {
@@ -269,7 +269,8 @@ export default {
     Vocabs,
     Book,
     QuestionBank,
-    Grammar,
+    GrammarEditor,
+    GrammarEditor,
   },
   props: ["id"],
   // data() {
