@@ -120,11 +120,13 @@
 				sections: [],
 				id: '',
 				sectionName: '',
+				// username: localStorage.getItem('user_name'),
+				username: 'gamer_std1',
 			};
 		},
 		methods: {
 			async getSections() {
-				const res = await SectionApis.getSections();
+				const res = await SectionApis.getSections(this.username);
 				this.sections = res.data;
 				console.log(this.sections);
 			},

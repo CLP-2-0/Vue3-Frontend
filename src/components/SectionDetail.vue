@@ -7,7 +7,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item">
-							<router-link to="/teacher/dashboard" class="text-dark">Dashboard</router-link>
+							<router-link to="/dashboard" class="text-dark">Dashboard</router-link>
 						</li>
 						<li class="breadcrumb-item active" aria-current="page">All Lessons</li>
 					</ol>

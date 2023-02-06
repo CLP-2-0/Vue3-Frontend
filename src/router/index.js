@@ -102,7 +102,7 @@ router.beforeEach((to, from, next) => {
 	if (to.matched.some((record) => record.path == '/auth0callback')) {
 		console.log('router.beforeEach found /auth0callback url');
 		store.dispatch('auth0HandleAuthentication');
-		next(false);
+		return;
 	}
 
 	// check if user is logged in (start assuming the user is not logged in = false)
@@ -127,8 +127,6 @@ router.beforeEach((to, from, next) => {
 		//check if user is Authenticated
 		if (routerAuthCheck) {
 			//user is Authenticated
-			//TODO: commit to Store that the user is authenticated
-
 			next();
 		} else {
 			//user is not authenticated

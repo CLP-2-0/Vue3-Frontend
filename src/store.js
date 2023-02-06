@@ -112,6 +112,7 @@ export const store = createStore({
 									//check user role
 									const userRole = checkUserInfo.data.data.role;
 									localStorage.setItem('user_role', userRole);
+									localStorage.setItem('user_name', checkUserInfo.data.data.username);
 
 									// console.log('role :', userRole);
 									if (userRole === 'admin') {

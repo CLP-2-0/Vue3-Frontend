@@ -29,15 +29,18 @@
 			</form>
 
 			<div class="alert alert-success" v-if="joinSuccess">
-				Join course successfully! Will direct to course ...
+				Join course successfully! Will direct to section {{ sectionIdCheck }} ...
 			</div>
+
+			<div class="alert alert-danger" v-if="joinNotSuccess">Invalid section code! Try again !</div>
 		</div>
 	</div>
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	import NavbarActive from './NavbarActive.vue';
-
+	import SectionApis from '@/apis/SectionApis.js';
 	export default {
 		name: 'Publisher Dashboard',
 		components: {
@@ -47,17 +50,55 @@
 			return {
 				courseCode: '',
 				joinSuccess: false,
+				joinNotSuccess: false,
+				sectionId: '',
 			};
 		},
 		methods: {
-			joinClass() {
-				this.joinSuccess = true;
-
-				setTimeout(() => {
-					this.joinSuccess = false;
-					this.$router.push(`/${this.courseCode}`);
-				}, 3000);
+			async getSectionById() {
+				const res = await SectionApis.getSectionById(this.courseCode);
+				// console.log(res.data);
+				this.sectionId = res.data.id;
 			},
+			async studentJoinSection() {
+				const res = await SectionApis.studentJoinSection(this.sectionId, this.userInfo.id);
+				console.log('Added student to section sucessfully');
+			},
+			async joinClass() {
+				// console.log(this.courseCode);
+
+				try {
+					await this.getSectionById();
+				} catch (error) {
+					console.error(error);
+				}
+
+				if (this.sectionId) {
+					// console.log('yes');
+					this.joinSuccess = true;
+
+					try {
+						await this.studentJoinSection();
+					} catch (error) {
+						console.log(error);
+					}
+					setTimeout(() => {
+						this.joinSuccess = false;
+						this.$router.push(`/${this.courseCode}`);
+					}, 3000);
+				} else {
+					// console.log('no');
+					this.joinNotSuccess = true;
+
+					setTimeout(() => {
+						this.joinNotSuccess = false;
+						// this.$router.push(`/${this.courseCode}`);
+					}, 3000);
+				}
+			},
+		},
+		computed: {
+			...mapState(['userInfo']),
 		},
 	};
 </script>
