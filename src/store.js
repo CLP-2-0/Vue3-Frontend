@@ -112,6 +112,7 @@ export const store = createStore({
 									//check user role
 									const userRole = checkUserInfo.data.data.role;
 									localStorage.setItem('user_role', userRole);
+									localStorage.setItem('user_name', checkUserInfo.data.data.username);
 
 									// console.log('role :', userRole);
 									if (userRole === 'admin') {
@@ -119,7 +120,7 @@ export const store = createStore({
 										router.push('/publisher/dashboard');
 									} else if (userRole === 'teacher') {
 										console.log('go to teacher dashboard now');
-										router.push('/teacher/dashboard');
+										router.push('/dashboard');
 									} else {
 										console.log('go to dashboard now');
 										router.push('/student');

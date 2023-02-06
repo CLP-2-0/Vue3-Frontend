@@ -11,9 +11,9 @@
 
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
-					<router-link to="/teacher/dashboard"
-						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ userole }}</router-link
-					>
+					<router-link to=""
+						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ userole }}
+					</router-link>
 
 					<button
 						type="button"
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+	import { mapState } from 'vuex';
 	export default {
 		data() {
 			return {
@@ -45,6 +46,9 @@
 				this.$store.dispatch('auth0Logout');
 				console.log('logout');
 			},
+		},
+		computed: {
+			...mapState(['userInfo']),
 		},
 	};
 </script>
