@@ -7,10 +7,10 @@
       <div id="content"></div>
     </div>
   </div>
-  <div><h1>gap testing</h1></div>
-  <div>
+
+  <!-- <div>
     <div v-html="processedContent()"></div>
-  </div>
+  </div> -->
 </template>
 
 <script>
