@@ -1,5 +1,5 @@
 <template>
-	<div class="container addBtn">
+	<div class="container addBtn" v-if="isTeacherorAdmin">
 		<button
 			type="button"
 			class="btn btn-primary"
@@ -96,13 +96,36 @@
 			</div>
 		</div>
 	</div>
-	<div class="container grid-container">
+	<div class="container grid-container" v-if="isTeacherorAdmin">
 		<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
 
 		<div class="col-6 col-md-4 mb-4" v-for="section in sections" :key="section.id">
 			<!-- <router-link :to="{ name: 'SectionDetail', params: { sid: section.id } }"> -->
 			<div class="image" type="button">
 				<div @click="redirect(section.id)">{{ section.section }}</div>
+			</div>
+			<!-- </router-link
+      > -->
+		</div>
+	</div>
+	<div class="container addBtn" v-if="isStudent">
+		<button
+			type="button"
+			class="btn btn-primary"
+			data-bs-toggle="modal"
+			data-bs-target="#addModal"
+			@click="addClick()"
+		>
+			<router-link to="/student">+ Join section</router-link>
+		</button>
+	</div>
+	<div class="container grid-container" v-if="isStudent">
+		<!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+
+		<div class="col-6 col-md-4 mb-4" v-for="course in courses" :key="course.id">
+			<!-- <router-link :to="{ name: 'SectionDetail', params: { sid: section.id } }"> -->
+			<div class="image" type="button">
+				<div @click="redirect(course.id)">{{ course.section }}</div>
 			</div>
 			<!-- </router-link
       > -->
@@ -118,10 +141,13 @@
 		data() {
 			return {
 				sections: [],
+				courses: [],
 				id: '',
 				sectionName: '',
 				// username: localStorage.getItem('user_name'),
 				username: 'gamer_std1',
+				userRole: localStorage.getItem('user_role'),
+				userEmail: localStorage.getItem('@email'),
 			};
 		},
 		methods: {
@@ -129,7 +155,19 @@
 				const res = await SectionApis.getSections(this.username);
 				this.sections = res.data;
 				console.log(this.sections);
+
+				if (this.userRole == 'student') {
+					//findind course of user
+					for (const section of this.sections) {
+						const student = section.students.find((student) => student.email === this.userEmail);
+						if (student) {
+							this.courses.push(section);
+						}
+					}
+					// console.log('course ', this.courses);
+				}
 			},
+
 			addClick() {},
 			async addSection() {
 				this.id = uuidv4();
@@ -158,6 +196,14 @@
 		},
 		mounted() {
 			this.getSections();
+		},
+		computed: {
+			isTeacherorAdmin() {
+				return this.userRole === 'teacher' || this.userRole === 'admin';
+			},
+			isStudent() {
+				return this.userRole === 'student';
+			},
 		},
 	};
 </script>

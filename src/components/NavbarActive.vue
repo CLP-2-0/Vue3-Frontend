@@ -11,8 +11,8 @@
 
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
-					<router-link to=""
-						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ userole }}
+					<router-link to="/profile"
+						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ username }}
 					</router-link>
 
 					<button
@@ -38,7 +38,7 @@
 	export default {
 		data() {
 			return {
-				userole: localStorage.getItem('user_role'),
+				username: localStorage.getItem('user_name'),
 			};
 		},
 		methods: {

@@ -113,17 +113,15 @@ export const store = createStore({
 									const userRole = checkUserInfo.data.data.role;
 									localStorage.setItem('user_role', userRole);
 									localStorage.setItem('user_name', checkUserInfo.data.data.username);
+									localStorage.setItem('@email', checkUserInfo.data.data.email);
 
 									// console.log('role :', userRole);
 									if (userRole === 'admin') {
 										console.log('go to admin dashboard now');
 										router.push('/publisher/dashboard');
-									} else if (userRole === 'teacher') {
-										console.log('go to teacher dashboard now');
-										router.push('/dashboard');
 									} else {
 										console.log('go to dashboard now');
-										router.push('/student');
+										router.push('/dashboard');
 									}
 								} catch (error) {
 									console.error(error);
@@ -148,6 +146,9 @@ export const store = createStore({
 			localStorage.removeItem('access_token');
 			localStorage.removeItem('id_token');
 			localStorage.removeItem('expires_at');
+			localStorage.removeItem('@email');
+			localStorage.removeItem('user_role');
+			localStorage.removeItem('user_name');
 			// redirect to auth0 logout to completely log the user out
 			window.location.href = `${import.meta.env.VITE_AUTH0_DOMAINURL}/v2/logout?returnTo=${
 				import.meta.env.VITE_APP_DOMAINURL
