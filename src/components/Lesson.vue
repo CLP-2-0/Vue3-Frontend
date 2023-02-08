@@ -240,6 +240,9 @@
 			isTeacherorAdmin() {
 				return this.userRole === 'teacher' || this.userRole === 'admin';
 			},
+			isStudent() {
+				return this.userRole === 'student';
+			},
 		},
 	};
 </script>

@@ -7,7 +7,10 @@
 			<div class="container">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+						<li class="breadcrumb-item">
+							<router-link to="/dashboard" class="text-dark">Dashboard</router-link>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Enrollment</li>
 					</ol>
 				</nav>
 			</div>
