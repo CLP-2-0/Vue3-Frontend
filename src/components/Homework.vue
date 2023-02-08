@@ -81,7 +81,7 @@
       aria-expanded="false"
       aria-controls="collapseCreation"
             >
-              Create Homework
+              Create Assignment
             </button>
         </div>
       </div>

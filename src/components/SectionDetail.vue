@@ -15,8 +15,11 @@
 			</div>
 		</div>
 		<!-- end justfornow -->
+		<div class="container ">
+			<div class="">
+				<h5>Section Code: {{ this.$route.params.sid }}</h5>
+			</div>
 
-		<div class="container">
 			<LessonList />
 		</div>
 	</div>
