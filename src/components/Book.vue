@@ -7,10 +7,6 @@
       <div id="content"></div>
     </div>
   </div>
-
-  <!-- <div>
-    <div v-html="processedContent()"></div>
-  </div> -->
 </template>
 
 <script>
@@ -25,7 +21,8 @@ export default {
       title: "",
       content: "",
       vocabs: [],
-      meaning: [],
+      meaningG: [],
+      gralist: [],
       processed: "",
     };
   },
@@ -97,18 +94,56 @@ export default {
         const superscriptMatch = superscriptRegex.exec(underlined);
         const index = parseInt(superscriptMatch[1], 10) - 1;
 
-        const meaning = this.meaning[index];
+        const meaning = this.meaningG[index];
         const replacement = `<span title="${meaning}" class="hoverable">${underlined}</span>`;
         this.processed = this.processed.replace(underlined, replacement);
       }
-      console.log(processed);
+      console.log("this is processed content" + this.processed);
       return this.processed;
+    },
+    async testing() {
+      const res = await LessonApis.getLessonById(this.lessonIdx);
+      this.content = res.data.content;
+      let parser = new DOMParser();
+      let doc = parser.parseFromString(this.content, "text/html");
+      let underlined = doc.body.querySelectorAll("u");
+      let superscriptMap = new Map();
+      for (let i = 0; i < underlined.length; i++) {
+        let element = underlined[i];
+        let underlinedChar = element.textContent;
+        let next = element.nextElementSibling;
+        if (next && next.tagName === "SUP") {
+          let superscript = next.textContent;
+          if (superscriptMap.has(superscript)) {
+            superscriptMap
+              .get(superscript)
+              .underlinedChars.push(underlinedChar);
+            if (this.meaningG.length == 0) {
+              this.meaningG.push("");
+            }
+          } else {
+            superscriptMap.set(superscript, {
+              superscript,
+              underlinedChars: [underlinedChar],
+            });
+          }
+        }
+      }
+      this.gralist = Array.from(superscriptMap.values());
+      console.log("this is gralist" + this.gralist);
+    },
+    async getGrammarMeanings() {
+      console.log(this.meaningG);
+      const res = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
+      this.meaning = res.data;
+      console.log("this is meaning" + this.meaningG);
     },
   },
 
   created() {
     this.getLessonById();
-    this.processedContent();
+    this.testing();
+    this.getGrammarMeanings();
   },
 };
 </script>
