@@ -11,7 +11,8 @@
 
 <script>
 import LessonApis from "@/apis/LessonApis.js";
-
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap";
 export default {
   name: "Book",
   components: {},
@@ -28,6 +29,7 @@ export default {
   },
   methods: {
     async getLessonById() {
+      this.getGrammarMeanings();
       const res = await LessonApis.getLessonById(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
@@ -79,71 +81,42 @@ export default {
           // });
         }
       }
+      //add the hoverable class to the superscript elements
+      let superscripts = document.getElementsByTagName("sup");
+      for (let i = 0; i < superscripts.length; i++) {
+        superscripts[i].classList.add("hoverable");
+      }
+      //bind the mouseenter event to the hoverable elements
+      let hoverables = document.getElementsByClassName("hoverable");
+      for (let i = 0; i < hoverables.length; i++) {
+        hoverables[i].addEventListener("mouseenter", (event) => {
+          //get the index of the superscript
+          let index = parseInt(event.target.innerText) - 1;
+          //get the meaning from the meaningG array
+          let meaning = this.meaningG[index];
+          //show the pop over
+          $(event.target)
+            .popover({
+              container: "body",
+              html: true,
+              placement: "bottom",
+              content: `<div class="popover-message">${meaning}</div>`,
+            })
+            .popover("show");
+        });
+      }
     },
-    // async processedContent() {
-    //   const res1 = await LessonApis.getLessonById(this.lessonIdx);
-    //   this.content = res1.data.content;
-    //   this.meaning = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
-    //   const regex = /<u>(.*?)<\/u>/g;
-    //   this.processed = this.content;
-
-    //   let match;
-    //   while ((match = regex.exec(this.content)) !== null) {
-    //     const underlined = match[0];
-    //     const superscriptRegex = /<sup>(\d+)<\/sup>/;
-    //     const superscriptMatch = superscriptRegex.exec(underlined);
-    //     const index = parseInt(superscriptMatch[1], 10) - 1;
-
-    //     const meaning = this.meaningG[index];
-    //     const replacement = `<span title="${meaning}" class="hoverable">${underlined}</span>`;
-    //     this.processed = this.processed.replace(underlined, replacement);
-    //   }
-    //   console.log("this is processed content" + this.processed);
-    //   return this.processed;
-    // },
-    // async testing() {
-    //   const res = await LessonApis.getLessonById(this.lessonIdx);
-    //   this.content = res.data.content;
-    //   let parser = new DOMParser();
-    //   let doc = parser.parseFromString(this.content, "text/html");
-    //   let underlined = doc.body.querySelectorAll("u");
-    //   let superscriptMap = new Map();
-    //   for (let i = 0; i < underlined.length; i++) {
-    //     let element = underlined[i];
-    //     let underlinedChar = element.textContent;
-    //     let next = element.nextElementSibling;
-    //     if (next && next.tagName === "SUP") {
-    //       let superscript = next.textContent;
-    //       if (superscriptMap.has(superscript)) {
-    //         superscriptMap
-    //           .get(superscript)
-    //           .underlinedChars.push(underlinedChar);
-    //         if (this.meaningG.length == 0) {
-    //           this.meaningG.push("");
-    //         }
-    //       } else {
-    //         superscriptMap.set(superscript, {
-    //           superscript,
-    //           underlinedChars: [underlinedChar],
-    //         });
-    //       }
-    //     }
-    //   }
-    //   this.gralist = Array.from(superscriptMap.values());
-    //   console.log("this is gralist" + this.gralist);
-    // },
     async getGrammarMeanings() {
       console.log(this.meaningG);
       const res = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
-      this.meaning = res.data;
+      this.meaningG = res.data;
       console.log("this is meaning" + this.meaningG);
     },
   },
 
   created() {
-    this.getLessonById();
-    // this.testing();
     this.getGrammarMeanings();
+    this.getLessonById();
   },
 };
 </script>
