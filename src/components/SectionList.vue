@@ -176,6 +176,7 @@
 					section: this.sectionName,
 				};
 				await SectionApis.createSection(sectionBody).then(async () => {
+					console.log("created")
 					this.getSections();
 				});
 			},
@@ -191,7 +192,7 @@
 				alert('Copied the text: ' + copyText.value);
 			},
 			redirect(sid) {
-				router.push(sid);
+				router.push(`/section${sid}`);
 			},
 		},
 		mounted() {
