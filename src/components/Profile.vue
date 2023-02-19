@@ -47,6 +47,15 @@
 							</h5>
 						</div>
 						<div class="card-body">
+							<div class="form-group mb-2">
+								<label for="email">Email:</label>
+								<span class="mx-3 fw-light">{{ email }}</span>
+
+								<span class="mx-2 fw-light">
+									<span :class="[emailVerified === 'Active' ? 'green-dot' : 'red-dot']"></span>
+									{{ emailVerified }}
+								</span>
+							</div>
 							<div class="form-group">
 								<label for="nickname">Nickname: </label>
 								<input
@@ -66,20 +75,7 @@
 								<label>Lastname:</label>
 								<input type="text" class="form-control" id="firstname" v-model="lastname" />
 							</div>
-							<div class="form-group">
-								<label for="email">Email:</label>
-								<input
-									type="text"
-									class="form-control"
-									id="email"
-									v-model="email"
-									:class="{ 'is-invalid': errors.email }"
-									disabled
-								/>
-								<div class="invalid-feedback" v-if="errors.email">
-									{{ errors.email }}
-								</div>
-							</div>
+
 							<!-- <div class="form-group">
 								<label for="hometown">Hometown:</label>
 								<input
@@ -131,7 +127,7 @@
 				lastname: '',
 				nickname: '',
 				email: '',
-				hometown: '',
+				emailVerified: '',
 				picture: '',
 				updatedData: [
 					{
@@ -184,8 +180,15 @@
 				this.nickname = res.data.nickname;
 				this.email = res.data.email;
 				this.picture = res.data.picture;
+				if (res.data.email_verified === 'true') {
+					this.emailVerified = 'Active';
+				} else {
+					this.emailVerified = 'Pending';
+				}
+				console.log(res.data.email_verified);
+
 				//this.hometown = res.data.hometown;
-				console.log(res.data.picture);
+				console.log(res.data);
 
 				console.log('here', this.picture);
 				console.log('here', this.email);
@@ -219,5 +222,18 @@
 	}
 	.card-header h5 {
 		font-size: 14px;
+	}
+	.green-dot,
+	.red-dot {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+	}
+	.green-dot {
+		background-color: green;
+	}
+	.red-dot {
+		background-color: rgb(206, 0, 0);
 	}
 </style>

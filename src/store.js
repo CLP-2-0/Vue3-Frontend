@@ -12,6 +12,7 @@ export const store = createStore({
 			username: '',
 			nickname: '',
 			picture: '',
+			email_verified: '',
 			role: '',
 		},
 		auth0: new auth0.WebAuth({
@@ -33,6 +34,7 @@ export const store = createStore({
 			state.userInfo.username = checkUserInfo.data.data.username;
 			state.userInfo.nickname = checkUserInfo.data.data.nickname;
 			state.userInfo.picture = checkUserInfo.data.data.picture;
+			state.userInfo.email_verified = checkUserInfo.data.data.email_verified;
 			state.userInfo.role = checkUserInfo.data.data.role;
 
 			// console.log(state.userInfo);
@@ -81,6 +83,7 @@ export const store = createStore({
                                     */
 
 									// console.log(userInfo.data);
+									console.log(user);
 									const username = user.email.split('@')[0];
 
 									//Check if the user is existed in MongoDB
@@ -94,6 +97,7 @@ export const store = createStore({
 											username: user.email.split('@')[0],
 											nickname: user.nickname,
 											picture: user.picture,
+											email_verified: user.email_verified,
 											role: 'student',
 										});
 										console.log('save');

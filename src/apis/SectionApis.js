@@ -6,9 +6,9 @@ const instance = axios.create({
 	baseURL: baseURI,
 });
 //******************************* */
-const createSection = async (sectionBody) => {
+const createSection = async (sectionBody, username) => {
 	return await instance
-		.post('/sections', sectionBody)
+		.post(`/sections/${username}`, sectionBody)
 
 		.then((res) => {
 			console.log('sent');
