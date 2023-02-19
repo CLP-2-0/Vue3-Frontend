@@ -41,12 +41,13 @@ export default {
         if (vocabs[i].getAttribute("style") == "color: red;") {
           vocabs[i].setAttribute("id", `vocab${j}`);
           vocabs[i].setAttribute("type", "button");
+          vocabs[i].setAttribute("tabindex", 0)
 
           $(`#vocab${j}`).popover({
             container: "body",
             html: true,
             placement: "bottom",
-            // trigger: 'manual',
+            trigger: 'focus',
             content: function() {
               let id = $(this)[0].getAttribute("id");
               id = id.substring(5);
