@@ -30,7 +30,11 @@
 
     <div class="preview">
       <div class="title-container"><div id="title-preview"></div></div>
-      <div id="content-preview" v-html="content" class="content ql-editor"></div>
+      <div
+        id="content-preview"
+        v-html="content"
+        class="content ql-editor"
+      ></div>
     </div>
   </div>
 
@@ -65,6 +69,7 @@ export default {
             "underline",
             "link",
             "clean",
+            { script: "super" },
             { color: ["red", "rgb(237, 125, 49)", "black"] },
             { background: [] },
           ],
@@ -86,7 +91,7 @@ export default {
       this.content = res.data.content;
       this.red = res.data.vocabs;
       this.oldVocabs = res.data.vocabs;
-      console.log(this.oldVocabs)
+      console.log(this.oldVocabs);
 
       //Binding content to QuillEditor
       this.$refs.quillEditor.setHTML(this.content);
@@ -97,7 +102,7 @@ export default {
       // contentElement.innerHTML = this.content;
       let children = contentElement.children;
       let n = 0; //index of old vocabs list
-      let vocabs = []
+      let vocabs = [];
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
 
@@ -106,20 +111,23 @@ export default {
           let spanChild = spanChildren[j];
 
           if (spanChild.getAttribute("style") == "color: red;") {
-            if(this.oldVocabs.length > 0 && n < this.oldVocabs.length && spanChild.innerHTML.trim() == this.oldVocabs[n].word){
-              console.log("old word", this.oldVocabs[n].word)
-              vocabs.push(this.oldVocabs[n])
-              n++
+            if (
+              this.oldVocabs.length > 0 &&
+              n < this.oldVocabs.length &&
+              spanChild.innerHTML.trim() == this.oldVocabs[n].word
+            ) {
+              console.log("old word", this.oldVocabs[n].word);
+              vocabs.push(this.oldVocabs[n]);
+              n++;
             } else {
-              console.log("print", spanChild.innerHTML)
+              console.log("print", spanChild.innerHTML);
               vocabs.push({
-              word: spanChild.innerHTML,
-              meaning: "",
-              pinyin: "",
-              type: "",
-            });
+                word: spanChild.innerHTML,
+                meaning: "",
+                pinyin: "",
+                type: "",
+              });
             }
-            
           } else if (
             spanChild.getAttribute("style") == "color: rgb(237, 125, 49);"
           ) {
@@ -127,8 +135,8 @@ export default {
           }
         }
       }
-      console.log("v",vocabs)
-      this.red = vocabs
+      console.log("v", vocabs);
+      this.red = vocabs;
     },
   },
   mounted() {
