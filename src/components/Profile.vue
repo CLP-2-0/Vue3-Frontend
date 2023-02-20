@@ -14,7 +14,7 @@
 	</div>
 
 	<div class="container mt-5">
-		<h1 class="text-left">Edit My User Profile</h1>
+		<h2 class="text-left">User Profile</h2>
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-md-3">
@@ -22,7 +22,7 @@
 						<div class="card-header">Profile Picture</div>
 						<div class="card-body d-">
 							<img
-								:src="picture"
+								:src="userInfo.picture"
 								class="rounded-circle mb-3 col-md-7 d-block m-auto"
 								alt="Profile Picture"
 							/>
@@ -49,11 +49,13 @@
 						<div class="card-body">
 							<div class="form-group mb-2">
 								<label for="email">Email:</label>
-								<span class="mx-3 fw-light">{{ email }}</span>
+								<span class="mx-3 fw-light">{{ userInfo.email }}</span>
 
 								<span class="mx-2 fw-light">
-									<span :class="[emailVerified === 'Active' ? 'green-dot' : 'red-dot']"></span>
-									{{ emailVerified }}
+									<span
+										:class="[userInfo.emailVerified === 'Active' ? 'green-dot' : 'red-dot']"
+									></span>
+									{{ userInfo.emailVerified }}
 								</span>
 							</div>
 							<div class="form-group">
@@ -62,7 +64,7 @@
 									type="text"
 									class="form-control"
 									id="nickname"
-									v-model="nickname"
+									v-model="userInfo.nickname"
 									:class="{ 'is-invalid': errors.nickname }"
 								/>
 								<div class="invalid-feedback" v-if="errors.nickname">
@@ -71,9 +73,27 @@
 							</div>
 							<div class="form-group">
 								<label>Firstname:</label>
-								<input type="text" class="form-control" id="firstname" v-model="firstname" />
+								<input
+									type="text"
+									class="form-control"
+									id="firstname"
+									v-model="userInfo.firstname"
+									:class="{ 'is-invalid': errors.firstname }"
+								/>
+								<div class="invalid-feedback" v-if="errors.firstname">
+									{{ errors.firstname }}
+								</div>
 								<label>Lastname:</label>
-								<input type="text" class="form-control" id="firstname" v-model="lastname" />
+								<input
+									type="text"
+									class="form-control"
+									id="firstname"
+									v-model="userInfo.lastname"
+									:class="{ 'is-invalid': errors.lastname }"
+								/>
+								<div class="invalid-feedback" v-if="errors.lastname">
+									{{ errors.lastname }}
+								</div>
 							</div>
 
 							<!-- <div class="form-group">
@@ -99,9 +119,12 @@
 								</button>
 							</div>
 							<hr />
-							<button class="btn btn-primary btn-block d-block m-auto" @click="updatedUser">
+							<button class="btn btn-primary btn-block d-block m-auto" @click="updateUser">
 								Save Changes
 							</button>
+							<div class="alert alert-success mt-3 text-center" v-if="updateSuccess">
+								Update success!
+							</div>
 						</div>
 					</div>
 				</div>
@@ -123,44 +146,20 @@
 		data() {
 			return {
 				requestSuccess: false,
-				firstname: '',
-				lastname: '',
-				nickname: '',
-				email: '',
-				emailVerified: '',
-				picture: '',
-				updatedData: [
-					{
-						updatedNickname: '',
-						updatedEmail: '',
-						updatedHometown: '',
-					},
-				],
+				updateSuccess: false,
+				userInfo: {
+					firstname: '',
+					lastname: '',
+					nickname: '',
+					email: '',
+					emailVerified: '',
+					picture: '',
+				},
+
 				errors: {},
 			};
 		},
 		methods: {
-			updateProfile() {
-				this.errors = {};
-				if (!this.nickname) {
-					this.errors.nickname = 'Nickname is required.';
-				}
-				if (!this.email) {
-					this.errors.email = 'Email is required.';
-				}
-				if (!this.hometown) {
-					this.errors.hometown = 'Hometown is required.';
-				}
-				if (Object.keys(this.errors).length === 0) {
-					// logic to update the profile information
-					console.log(
-						'Updating profile with nickname: ',
-						this.nickname,
-						' and email: ',
-						this.email
-					);
-				}
-			},
 			uploadProfilePicture(event) {
 				let input = event.target;
 				if (input.files && input.files[0]) {
@@ -177,28 +176,47 @@
 			},
 			async getUserByUsername() {
 				const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
-				this.nickname = res.data.nickname;
-				this.email = res.data.email;
-				this.picture = res.data.picture;
+				this.userInfo.nickname = res.data.nickname;
+				this.userInfo.email = res.data.email;
+				this.userInfo.lastname = res.data.lastname;
+				this.userInfo.firstname = res.data.firstname;
+				this.userInfo.picture = res.data.picture;
 				if (res.data.email_verified === 'true') {
-					this.emailVerified = 'Active';
+					this.userInfo.emailVerified = 'Active';
 				} else {
-					this.emailVerified = 'Pending';
+					this.userInfo.emailVerified = 'Pending';
 				}
 				console.log(res.data.email_verified);
 
 				//this.hometown = res.data.hometown;
 				console.log(res.data);
 
-				console.log('here', this.picture);
-				console.log('here', this.email);
+				console.log('here', this.userInfo.picture);
+				console.log('here', this.userInfo.email);
 				console.log(res.userInfo);
 			},
-			// async updatedUser() {
-			// 	const res = await UserApis.updatedUser(this.updatedData, this.userInfo.nickname);
-			// 	this.updatedickname = res.data.updatedData.updatedNickname;
-			// 	console.log(res.userInfo);
-			// },
+			async updateUser() {
+				this.errors = {};
+				if (!this.userInfo.nickname) {
+					this.errors.nickname = 'This field is required.';
+				}
+				if (!this.userInfo.firstname) {
+					this.errors.firstname = 'This field is required.';
+				}
+				if (!this.userInfo.lastname) {
+					this.errors.lastname = 'This field is required.';
+				}
+				if (Object.keys(this.errors).length === 0) {
+					// logic to update the profile information
+
+					await UserApis.updateUser(this.userInfo.nickname, this.userInfo);
+					console.log('Updating profile with nickname: ', this.userInfo.nickname);
+					this.updateSuccess = true;
+					setTimeout(() => {
+						this.updateSuccess = false;
+					}, 1200);
+				}
+			},
 
 			async requestTeacher() {
 				this.requestSuccess = true;

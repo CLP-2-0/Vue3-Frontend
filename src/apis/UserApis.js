@@ -43,10 +43,10 @@ const createUser = async (userBody) => {
 		});
 };
 
-const updateUser = async (userBody, username) => {
-	console.log(userBody);
+const updateUser = async (username, updatedUser) => {
+	console.log(updatedUser);
 	return await instance
-		.put(`/users/${username}`, userBody)
+		.put(`/users/${username}`, updatedUser)
 
 		.then((res) => {
 			console.log('updated');
