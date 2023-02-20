@@ -53,9 +53,9 @@
 
 								<span class="mx-2 fw-light">
 									<span
-										:class="[userInfo.emailVerified === 'Active' ? 'green-dot' : 'red-dot']"
+										:class="[userInfo.emailStatus === 'Active' ? 'green-dot' : 'red-dot']"
 									></span>
-									{{ userInfo.emailVerified }}
+									{{ userInfo.emailStatus }}
 								</span>
 							</div>
 							<div class="form-group">
@@ -148,14 +148,20 @@
 				requestSuccess: false,
 				updateSuccess: false,
 				userInfo: {
+					username: '',
 					firstname: '',
 					lastname: '',
 					nickname: '',
 					email: '',
-					emailVerified: '',
+					email_verified: '',
+					emailStatus: '',
 					picture: '',
 				},
-
+				updatedInfo: {
+					nickname: '',
+					firstname: '',
+					lastname: '',
+				},
 				errors: {},
 			};
 		},
@@ -181,19 +187,12 @@
 				this.userInfo.lastname = res.data.lastname;
 				this.userInfo.firstname = res.data.firstname;
 				this.userInfo.picture = res.data.picture;
+				this.userInfo.email_verified = res.data.email_verified;
 				if (res.data.email_verified === 'true') {
-					this.userInfo.emailVerified = 'Active';
+					this.userInfo.emailStatus = 'Active';
 				} else {
-					this.userInfo.emailVerified = 'Pending';
+					this.userInfo.emailStatus = 'Pending';
 				}
-				console.log(res.data.email_verified);
-
-				//this.hometown = res.data.hometown;
-				console.log(res.data);
-
-				console.log('here', this.userInfo.picture);
-				console.log('here', this.userInfo.email);
-				console.log(res.userInfo);
 			},
 			async updateUser() {
 				this.errors = {};
@@ -207,10 +206,8 @@
 					this.errors.lastname = 'This field is required.';
 				}
 				if (Object.keys(this.errors).length === 0) {
-					// logic to update the profile information
+					await UserApis.updateUser(localStorage.getItem('user_name'), this.userInfo);
 
-					await UserApis.updateUser(this.userInfo.nickname, this.userInfo);
-					console.log('Updating profile with nickname: ', this.userInfo.nickname);
 					this.updateSuccess = true;
 					setTimeout(() => {
 						this.updateSuccess = false;

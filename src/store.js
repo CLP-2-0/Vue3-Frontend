@@ -90,6 +90,7 @@ export const store = createStore({
 									const checkUserMongoDB = await axios.get(
 										`${import.meta.env.VITE_URI}/users/${username}`
 									);
+									console.log(checkUserMongoDB.data.data);
 									if (!checkUserMongoDB.data.data) {
 										await axios.post(`${import.meta.env.VITE_URI}/users`, {
 											id: user.sub.split('|')[1],
@@ -101,8 +102,15 @@ export const store = createStore({
 											role: 'student',
 										});
 										console.log('save');
-									} else {
-										console.log('skip');
+									} else if (
+										!checkUserMongoDB.data.data.email_verified ||
+										checkUserMongoDB.data.data.email_verified === 'false'
+									) {
+										//update for email verified
+										await axios.put(`${import.meta.env.VITE_URI}/users/${username}`, {
+											email_verified: user.email_verified,
+										});
+										console.log('STOREEEEEEEE');
 									}
 
 									//Check user's role
