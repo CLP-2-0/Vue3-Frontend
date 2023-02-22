@@ -89,7 +89,7 @@ export default {
       //bind the mouseenter event to the hoverable elements
       let hoverables = document.getElementsByClassName("hoverable");
       for (let i = 0; i < hoverables.length; i++) {
-        hoverables[i].addEventListener("mouseenter", (event) => {
+        hoverables[i].addEventListener("click", (event) => {
           //get the index of the superscript
           let index = parseInt(event.target.innerText) - 1;
           //get the meaning from the meaningG array
@@ -99,7 +99,7 @@ export default {
             .popover({
               container: "body",
               html: true,
-              placement: "bottom",
+              placement: "top",
               content: `<div class="popover-message">${meaning}</div>`,
             })
             .popover("show");
@@ -136,10 +136,10 @@ export default {
   position: absolute;
   top: -25px;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-0%);
   padding: 5px 10px;
   background-color: lightgray;
-  border-radius: 5px;
+  border-radius: 15px;
   font-size: 12px;
 }
 </style>
