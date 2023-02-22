@@ -7,13 +7,22 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item">
+<<<<<<< HEAD
               <router-link to="/dashboard" class="text-dark"
+=======
+              <router-link to="/teacher/dashboard" class="text-dark"
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
                 >Dashboard</router-link
               >
             </li>
             <li class="breadcrumb-item">
+<<<<<<< HEAD
               <router-link to="" class="text-dark" @click="$router.go(-1)"
                 >All Lessons</router-link
+=======
+              <router-link to="/teacher/dashboard/section" class="text-dark"
+                >CHINESE10123</router-link
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
               >
             </li>
             <li class="breadcrumb-item active" aria-current="page">
@@ -86,7 +95,10 @@
               role="tab"
               aria-controls="nav-class"
               aria-selected="false"
+<<<<<<< HEAD
               v-if="isTeacherorAdmin"
+=======
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
             >
               Class
             </button>
@@ -200,10 +212,14 @@
             role="tabpanel"
             aria-labelledby="nav-assignment-tab"
           >
+<<<<<<< HEAD
             <Homework
               :lessonIdx="this.$route.params.id"
               :sid="this.$route.params.sid"
             />
+=======
+            assignment tab here
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
           </div>
           <div
             class="tab-pane fade"
@@ -227,10 +243,14 @@
             role="tabpanel"
             aria-labelledby="nav-class-tab"
           >
+<<<<<<< HEAD
             <UserList
               :lessonIdx="this.$route.params.id"
               :sid="this.$route.params.sid"
             />
+=======
+            this is class tab
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
           </div>
         </div>
       </div>
@@ -242,24 +262,35 @@
 import NavbarActive from "./NavbarActive.vue";
 import Translate from "./Translate.vue";
 import Vocabs from "./Vocabs.vue";
+<<<<<<< HEAD
 import Book from "./Book.vue";
 import Homework from "./Homework.vue";
 import UserList from "./UserList.vue";
 export default {
   name: "Lesson",
+=======
+import Grammar from "./Grammar.vue";
+import Book from "./Book.vue";
+export default {
+  name: "Course",
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
   components: {
     NavbarActive,
     Translate,
     Vocabs,
     Book,
+<<<<<<< HEAD
     Homework,
     UserList,
+=======
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
     Grammar,
   },
   props: ["id"],
   data() {
     return {
       msg: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.",
+<<<<<<< HEAD
       userRole: localStorage.getItem("user_role"),
     };
   },
@@ -271,6 +302,10 @@ export default {
       return this.userRole === "student";
     },
   },
+=======
+    };
+  },
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
 };
 </script>
 

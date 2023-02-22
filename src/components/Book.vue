@@ -110,7 +110,6 @@ export default {
       console.log(this.meaningG);
       const res = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
       this.meaningG = res.data;
-      console.log("this is meaning" + this.meaningG);
     },
   },
 
@@ -136,10 +135,17 @@ export default {
   position: absolute;
   top: -25px;
   left: 50%;
+<<<<<<< HEAD
   transform: translateX(-0%);
   padding: 5px 10px;
   background-color: lightgray;
   border-radius: 15px;
+=======
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
   font-size: 12px;
 }
 </style>
