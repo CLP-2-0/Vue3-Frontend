@@ -1,12 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <div >
-    <h1>
-      <ruby>
-        {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
-        ><rp>)</rp>
-      </ruby>
-=======
   <div>
     <div class="container">
       <div class="center-div">
@@ -15,7 +7,6 @@
             {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
             ><rp>)</rp>
           </ruby>
->>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
         </div>
       </div>
       <div id="content" style="line-height: 300%">
