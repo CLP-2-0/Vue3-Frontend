@@ -2,36 +2,21 @@
   <div>
     <NavbarActive />
     <!-- justfornow - need change later -->
-    <div class="container-fluid header-container">
-      <div class="container">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item">
-<<<<<<< HEAD
-              <router-link to="/dashboard" class="text-dark"
-=======
-              <router-link to="/teacher/dashboard" class="text-dark"
->>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
-                >Dashboard</router-link
-              >
-            </li>
-            <li class="breadcrumb-item">
-<<<<<<< HEAD
-              <router-link to="" class="text-dark" @click="$router.go(-1)"
-                >All Lessons</router-link
-=======
-              <router-link to="/teacher/dashboard/section" class="text-dark"
-                >CHINESE10123</router-link
->>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
-              >
-            </li>
-            <li class="breadcrumb-item active" aria-current="page">
-              Lesson {{ id }}
-            </li>
-          </ol>
-        </nav>
-      </div>
-    </div>
+		<div class="container-fluid header-container">
+			<div class="container">
+				<nav aria-label="breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item">
+							<router-link to="/dashboard" class="text-dark">Dashboard</router-link>
+						</li>
+						<li class="breadcrumb-item">
+							<router-link to="" class="text-dark" @click="$router.go(-1)">All Lessons</router-link>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">Lesson {{ id }}</li>
+					</ol>
+				</nav>
+			</div>
+		</div>
     <!-- end justfornow -->
 
     <div class="container">
