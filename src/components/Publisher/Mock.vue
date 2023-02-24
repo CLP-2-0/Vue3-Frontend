@@ -17,71 +17,98 @@
             type="text"
             cols="10"
             rows="1"
-            id="pinyinId"
+            :id="'pinyinId' + index"
             @blur="addToRed(index)"
-          ></textarea>
+            >{{ r.pinyin }}</textarea
+          >
         </td>
         <td>
           <textarea
-            name="grammar"
+            name="type"
             cols="10"
             rows="1"
-            id="grammarId"
+            :id="'typeId' + index"
             @blur="addToRed(index)"
-          ></textarea>
+            >{{ r.type }}</textarea
+          >
         </td>
         <td>
           <textarea
             name="meaning"
             cols="40"
             rows="1"
-            id="meaningId"
+            :id="'meaningId' + index"
             @input="addToRed(index)"
-          ></textarea>
+            >{{ r.meaning }}</textarea
+          >
         </td>
       </tr>
     </tbody>
   </table>
   <div class="btn-container">
-    <button type="button" class="btn btn-outline-success" @click="saveTable">
+    <button
+      type="button"
+      class="btn btn-outline-success"
+      data-bs-toggle="collapse"
+      data-bs-target="#collapseExample"
+      aria-expanded="false"
+      aria-controls="collapseExample"
+      @click="saveTable"
+    >
       Save vocab
     </button>
   </div>
 </template>
 
 <script>
-// import axios from "axios";
+import axios from "axios";
+import VocabApis from "@/apis/VocabApis";
+
 export default {
-  props: ["red"],
+  props: ["red", "lessonIdx", "title", "content"],
 
   name: "Mock",
   components: {},
+  data() {
+    return {
+      vocabs: [],
+    };
+  },
 
   methods: {
     addToRed(index) {
-      this.red[index].id = index;
-      this.red[index].pinyin = document.getElementById("pinyinId").value;
-      this.red[index].grammar = document.getElementById("grammarId").value;
-      this.red[index].meaning = document.getElementById("meaningId").value;
-      console.log(this.red);
-      console.log(document.getElementById("pinyinId").value);
-      //
-      //   this.red.pinyin = document.getElementsByName("pinyin");
+      this.red[index].meaning = document.getElementById(
+        "meaningId" + index
+      ).value;
+
+      this.red[index].pinyin = document.getElementById(
+        "pinyinId" + index
+      ).value;
+      this.red[index].type = document.getElementById("typeId" + index).value;
     },
-    // async saveTable(lessonid) {
-    //  axios({
-    //   url: await instance.get(),
-    //   method: 'post',
-    //   data: red
-    //  })
-    //  .then(function(response)
-    //  {
-    //   console.log(response);
-    //  })
-    //  .catch(function(error){
-    //   console.log(error);
-    //  });
-    // },
+    async updateLesson() {
+      await axios
+        .put("http://localhost:8000/lessons/" + this.lessonIdx, {
+          id: this.lessonIdx,
+          title: this.title,
+          content: this.content,
+        })
+        .then((res) => {
+          console.log("new content", this.content);
+        });
+    },
+    async saveTable() {
+      console.log("mock", this.red);
+
+      await this.updateLesson()
+        .then(async () => {
+          const res = await VocabApis.saveVocabs(this.lessonIdx, this.red);
+        })
+        .then(() => {
+          this.$router.go(this.$router.currentRoute);
+        });
+    },
   },
+  mounted() {},
 };
 </script>

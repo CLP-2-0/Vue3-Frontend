@@ -1,69 +1,312 @@
 <template>
   <div>
-    <NavbarActive/>
-    
-        <div class='container tab-adjuster'>   
-        <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Book</button>
-                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Assignment</button>
-                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Exam</button>
-                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Forum</button>
-                <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Class</button>
+    <NavbarActive />
+    <!-- justfornow - need change later -->
+    <div class="container-fluid header-container">
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+<<<<<<< HEAD
+              <router-link to="/dashboard" class="text-dark"
+=======
+              <router-link to="/teacher/dashboard" class="text-dark"
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+                >Dashboard</router-link
+              >
+            </li>
+            <li class="breadcrumb-item">
+<<<<<<< HEAD
+              <router-link to="" class="text-dark" @click="$router.go(-1)"
+                >All Lessons</router-link
+=======
+              <router-link to="/teacher/dashboard/section" class="text-dark"
+                >CHINESE10123</router-link
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+              >
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">
+              Lesson {{ id }}
+            </li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+    <!-- end justfornow -->
 
-            </div>
+    <div class="container">
+      <div class="container tab-adjuster mb-5">
+        <nav>
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button
+              class="nav-link active"
+              id="nav-book-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-book"
+              type="button"
+              role="tab"
+              aria-controls="nav-book"
+              aria-selected="true"
+            >
+              Book
+            </button>
+            <button
+              class="nav-link"
+              id="nav-assignment-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-assignment"
+              type="button"
+              role="tab"
+              aria-controls="nav-assignment"
+              aria-selected="false"
+            >
+              Assignment
+            </button>
+            <button
+              class="nav-link"
+              id="nav-exam-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-exam"
+              type="button"
+              role="tab"
+              aria-controls="nav-exam"
+              aria-selected="false"
+            >
+              Exam
+            </button>
+            <button
+              class="nav-link"
+              id="nav-forum-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-forum"
+              type="button"
+              role="tab"
+              aria-controls="nav-forum"
+              aria-selected="false"
+            >
+              Forum
+            </button>
+            <button
+              class="nav-link"
+              id="nav-class-tab"
+              data-bs-toggle="tab"
+              data-bs-target="#nav-class"
+              type="button"
+              role="tab"
+              aria-controls="nav-class"
+              aria-selected="false"
+<<<<<<< HEAD
+              v-if="isTeacherorAdmin"
+=======
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+            >
+              Class
+            </button>
+          </div>
         </nav>
         <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                <!-- horizon tab here -->
-                <div class="d-flex align-items-start adjuster">
-                    <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <button class="nav-link active"  data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Pinyin</button>
-                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Chinese</button>
-                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Grammar</button>
-                        <button class="nav-link"  data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Vocabulary</button>
-                    </div>
-                    <div class="tab-content" id="v-pills-tabContent">
-                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel">{{msg}}</div>
-                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel">{{msg}}</div>
-                        <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">{{msg}}</div>
-                        <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab">{{msg}}</div>
-                    </div>
+          <div
+            class="tab-pane fade show active"
+            id="nav-book"
+            role="tabpanel"
+            aria-labelledby="nav-book-tab"
+          >
+            <!-- Vertical start here -->
+            <div class="d-flex align-items-start">
+              <div
+                class="nav flex-column nav-pills"
+                id="v-pills-tab"
+                role="tablist"
+                aria-orientation="vertical"
+              >
+                <button
+                  class="nav-link active"
+                  id="v-pills-chinese-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#v-pills-chinese"
+                  type="button"
+                  role="tab"
+                  aria-controls="v-pills-chinese"
+                  aria-selected="true"
+                >
+                  Chinese
+                </button>
+                <button
+                  class="nav-link"
+                  id="v-pills-pinyin-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#v-pills-pinyin"
+                  type="button"
+                  role="tab"
+                  aria-controls="v-pills-pinyin"
+                  aria-selected="false"
+                >
+                  Pinyin
+                </button>
+                <button
+                  class="nav-link"
+                  id="v-pills-grammar-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#v-pills-grammar"
+                  type="button"
+                  role="tab"
+                  aria-controls="v-pills-grammar"
+                  aria-selected="false"
+                >
+                  Grammar
+                </button>
+                <button
+                  class="nav-link"
+                  id="v-pills-vocab-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#v-pills-vocab"
+                  type="button"
+                  role="tab"
+                  aria-controls="v-pills-vocab"
+                  aria-selected="false"
+                >
+                  Vocabs
+                </button>
+              </div>
+              <div class="tab-content flex-grow-1 ms-3" id="v-pills-tabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="v-pills-chinese"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-chinese-tab"
+                >
+                  <Book :lessonIdx="this.$route.params.id" />
                 </div>
-                <!-- horizon tab end -->
+                <div
+                  class="tab-pane fade"
+                  id="v-pills-pinyin"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-pinyin-tab"
+                >
+                  <Translate :lessonIdx="this.$route.params.id" />
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="v-pills-grammar"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-grammar-tab"
+                >
+                  <Grammar :lessonIdx="this.$route.params.id" />
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="v-pills-vocab"
+                  role="tabpanel"
+                  aria-labelledby="v-pills-vocab-tab"
+                >
+                  <Vocabs :lessonIdx="this.$route.params.id"></Vocabs>
+                </div>
+              </div>
             </div>
-            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">{{msg}}</div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">{{msg}}</div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">{{msg}}</div>
-            <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">{{msg}}</div>
+            <!-- Vertical end here -->
+          </div>
+          <!-- horizon tab end -->
+          <div
+            class="tab-pane fade"
+            id="nav-assignment"
+            role="tabpanel"
+            aria-labelledby="nav-assignment-tab"
+          >
+<<<<<<< HEAD
+            <Homework
+              :lessonIdx="this.$route.params.id"
+              :sid="this.$route.params.sid"
+            />
+=======
+            assignment tab here
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-exam"
+            role="tabpanel"
+            aria-labelledby="nav-exam-tab"
+          >
+            this is exam tab
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-forum"
+            role="tabpanel"
+            aria-labelledby="nav-forum-tab"
+          >
+            this is forum tab
+          </div>
+          <div
+            class="tab-pane fade"
+            id="nav-class"
+            role="tabpanel"
+            aria-labelledby="nav-class-tab"
+          >
+<<<<<<< HEAD
+            <UserList
+              :lessonIdx="this.$route.params.id"
+              :sid="this.$route.params.sid"
+            />
+=======
+            this is class tab
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+          </div>
         </div>
+      </div>
     </div>
-    </div>
-
+  </div>
 </template>
 
 <script>
-import NavbarActive from './NavbarActive.vue'
+import NavbarActive from "./NavbarActive.vue";
+import Translate from "./Translate.vue";
+import Vocabs from "./Vocabs.vue";
+<<<<<<< HEAD
+import Book from "./Book.vue";
+import Homework from "./Homework.vue";
+import UserList from "./UserList.vue";
 export default {
-    name:'Course',
-    components:{
-        NavbarActive,
-    },
-    data() {
-    return {
-      msg: 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.'
-    }
+  name: "Lesson",
+=======
+import Grammar from "./Grammar.vue";
+import Book from "./Book.vue";
+export default {
+  name: "Course",
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+  components: {
+    NavbarActive,
+    Translate,
+    Vocabs,
+    Book,
+<<<<<<< HEAD
+    Homework,
+    UserList,
+=======
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+    Grammar,
   },
-}
+  props: ["id"],
+  data() {
+    return {
+      msg: "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nemo iste aspernatur esse voluptate quisquam nam corrupti quaerat facere quis veniam, sapiente fuga voluptatem alias omnis repellendus nobis eveniet. Error, cupiditate.",
+<<<<<<< HEAD
+      userRole: localStorage.getItem("user_role"),
+    };
+  },
+  computed: {
+    isTeacherorAdmin() {
+      return this.userRole === "teacher" || this.userRole === "admin";
+    },
+    isStudent() {
+      return this.userRole === "student";
+    },
+  },
+=======
+    };
+  },
+>>>>>>> f76a26de8ffbfd6fe6682344589380399981a54e
+};
 </script>
 
-<style>
-    .adjuster{
-        /* margin-left: -9vw; */
-        /* need to find the way to fix it  */
-    }
-    .tab-adjuster{
-        max-width: 80vw !important;
-    }
-
-</style>
+<style></style>

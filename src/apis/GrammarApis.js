@@ -1,6 +1,6 @@
 import axios from "axios";
 
-// Create instance for Vocab API
+// Create instance for Grammar API
 //******************************* */
 const baseURI = import.meta.env.VITE_URI;
 const instance = axios.create({
@@ -8,10 +8,10 @@ const instance = axios.create({
 });
 //******************************* */
 
-const saveVocabs = async (lessonId, vocabs) => {
-  console.log(vocabs);
+const saveGrammars = async (lessonId, grammars, meanings) => {
+  console.log(grammars, meanings);
   return await instance
-    .post(`/vocabs/${lessonId}`, vocabs)
+    .post(`/grammars/${lessonId}`, grammars, meanings)
 
     .then((res) => {
       console.log("sent");
@@ -21,18 +21,16 @@ const saveVocabs = async (lessonId, vocabs) => {
     });
 };
 
-const getVocabsBylessonId = async (lessonId) => {
+const getGrammarsBylessonId = async (lessonId) => {
   return await instance
     .get(`/lessons/${lessonId}`)
     .then((res) => {
-      // console.log("this from apis")
-      // console.log(res.data)
       return res.data;
     })
     .catch((error) => {
-      console.error("Error calling getOneLesson", error.response.data);
+      console.error("error calling getoneLesson", error.response.data);
       return null;
     });
 };
 
-export default { saveVocabs, getVocabsBylessonId };
+export default { saveGrammars, getGrammarsBylessonId };

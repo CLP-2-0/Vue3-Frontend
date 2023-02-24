@@ -32,3 +32,8 @@ nav{
   height:auto;
   min-height: 93vh;
 }
+.tab-adjuster{
+
+  max-width: 80vw !important;
+
+}

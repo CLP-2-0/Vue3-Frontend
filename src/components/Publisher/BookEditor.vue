@@ -8,6 +8,7 @@
           class="form-control"
           id="titleInput"
           placeholder="Enter title here..."
+          v-model="title"
         />
       </div>
     </div>
@@ -28,12 +29,16 @@
     </div>
 
     <div class="preview">
-      <div class="title-container"><div id="title"></div></div>
-      <div id="content" class="content ql-editor"></div>
+      <div class="title-container"><div id="title-preview"></div></div>
+      <div
+        id="content-preview"
+        v-html="content"
+        class="content ql-editor"
+      ></div>
     </div>
   </div>
 
-  <Mock :red="red" />
+  <Mock :red="red" :lessonIdx="lessonIdx" :title="title" :content="content" />
 </template>
 
 <script>
@@ -41,6 +46,7 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 
 import Mock from "./Mock.vue";
+import LessonApis from "@/apis/LessonApis";
 
 export default {
   name: "quil-editor",
@@ -50,6 +56,7 @@ export default {
 
     Mock,
   },
+  props: ["lessonIdx"],
   data() {
     return {
       editorOption: {
@@ -62,29 +69,41 @@ export default {
             "underline",
             "link",
             "clean",
-            { color: [] },
+            { script: "super" },
+            { color: ["red", "rgb(237, 125, 49)", "black"] },
             { background: [] },
+            "image",
           ],
         },
       },
       content: "",
       title: "",
       red: [],
+      oldVocabs: [],
 
       yellow: [],
-      // pinyin: [],
-      // type: [],
+      modelName: "",
     };
   },
   methods: {
-    save() {
-      red.length = 0;
-      this.title = document.getElementById("titleInput").value;
-      document.getElementById("title").innerHTML = this.title;
+    async getLesson() {
+      const res = await LessonApis.getLessonById(this.lessonIdx);
+      this.title = res.data.title;
+      this.content = res.data.content;
+      this.red = res.data.vocabs;
+      this.oldVocabs = res.data.vocabs;
+      console.log(this.oldVocabs);
 
-      let contentElement = document.getElementById("content");
-      contentElement.innerHTML = this.content;
+      //Binding content to QuillEditor
+      this.$refs.quillEditor.setHTML(this.content);
+    },
+    save() {
+      // this.red.length = 0;
+      let contentElement = document.getElementById("content-preview");
+      // contentElement.innerHTML = this.content;
       let children = contentElement.children;
+      let n = 0; //index of old vocabs list
+      let vocabs = [];
       for (let i = 0; i < children.length; i++) {
         let child = children[i];
 
@@ -93,14 +112,23 @@ export default {
           let spanChild = spanChildren[j];
 
           if (spanChild.getAttribute("style") == "color: red;") {
-            // this.red.word = spanChild.innerHTML;
-            this.red.push({
-              word: spanChild.innerHTML,
-              pinyin: "",
-              grammar: "",
-              meaning: "",
-            });
-            console.log(this.red);
+            if (
+              this.oldVocabs.length > 0 &&
+              n < this.oldVocabs.length &&
+              spanChild.innerHTML.trim() == this.oldVocabs[n].word
+            ) {
+              console.log("old word", this.oldVocabs[n].word);
+              vocabs.push(this.oldVocabs[n]);
+              n++;
+            } else {
+              console.log("print", spanChild.innerHTML);
+              vocabs.push({
+                word: spanChild.innerHTML,
+                meaning: "",
+                pinyin: "",
+                type: "",
+              });
+            }
           } else if (
             spanChild.getAttribute("style") == "color: rgb(237, 125, 49);"
           ) {
@@ -108,10 +136,12 @@ export default {
           }
         }
       }
-
-      console.log(this.red);
-      console.log(this.yellow);
+      console.log("v", vocabs);
+      this.red = vocabs;
     },
+  },
+  mounted() {
+    this.getLesson();
   },
 };
 </script>
