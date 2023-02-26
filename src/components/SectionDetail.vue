@@ -23,7 +23,7 @@
       <div class="input-group mb-3">
         <h5>Section Code: {{ this.$route.params.sid }}</h5>
 
-        <div class="input-group-append" style="display: 5%">
+        <div class="input-group-append" style="margin-left: 2%">
           <span
             type="button"
             class="input-group-text"

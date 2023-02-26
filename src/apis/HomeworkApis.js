@@ -10,7 +10,7 @@ const saveHomework = async (lessonId, homework, section) => {
 
     console.log(lessonId, homework, section)
     return await instance
-    .post(`homework/${section}/${lessonId}`, 
+    .post(`homework/s/${section}/${lessonId}`, 
       homework,
     )
 
