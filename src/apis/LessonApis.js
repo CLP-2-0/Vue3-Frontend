@@ -90,12 +90,16 @@ const deleteLesson = async (lessonId) => {
     });
 };
 
+
+  
+
 export default {
   getLessons,
   createLesson,
   getLessonById,
   updateLesson,
   deleteLesson,
+    saveHomework,
   saveLessonGrammarMeanings,
   getLessonGrammarMeanings,
 };

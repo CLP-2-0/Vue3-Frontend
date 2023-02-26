@@ -40,7 +40,8 @@ export default {
     return {
       answerList: [],
       userList: [],
-      searchTerm: ''
+      searchTerm: '',
+      userRole: localStorage.getItem('user_role'),
     };
   },
   methods: {
@@ -68,7 +69,7 @@ export default {
     }
   },
   async mounted() {
-    this.getAnswers(this.idx)
+    if(this.userRole != 'admin') this.getAnswers(this.idx)
     console.log(this.idx)
   },
   computed: {
