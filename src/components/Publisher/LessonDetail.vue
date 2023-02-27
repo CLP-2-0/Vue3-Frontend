@@ -226,7 +226,7 @@
             role="tabpanel"
             aria-labelledby="nav-exam-tab"
           >
-            this is exam tab
+            <Exam />
           </div>
           <div
             class="tab-pane fade"
@@ -259,6 +259,7 @@ import Vocabs from "../Vocabs.vue";
 import Book from "../Book.vue";
 import QuestionBank from "./QuestionBank.vue";
 import GrammarEditor from "./GrammarEditor.vue";
+import Exam from "./Exam.vue";
 export default {
   name: "Lesson Detail",
   components: {
@@ -271,6 +272,7 @@ export default {
     QuestionBank,
     GrammarEditor,
     GrammarEditor,
+    Exam
   },
   props: ["id"],
   // data() {

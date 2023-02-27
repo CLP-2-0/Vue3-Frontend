@@ -20,13 +20,13 @@
       type="button"
       class="btn btn-primary"
       data-bs-toggle="collapse"
-      data-bs-target="#collapseCreation"
+      data-bs-target="#collapseQCreation"
       aria-expanded="false"
-      aria-controls="collapseCreation"
+      aria-controls="collapseQCreation"
     >
       + New Question
     </button>
-    <div class="collapse" id="collapseCreation" >
+    <div class="collapse" id="collapseQCreation" >
       <div class="q-creation">
         <label class="col-sm-1 col-form-label">Question:</label>
         <quill-editor

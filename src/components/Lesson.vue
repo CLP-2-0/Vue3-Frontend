@@ -173,7 +173,7 @@
                   role="tabpanel"
                   aria-labelledby="v-pills-grammar-tab"
                 >
-                  <Grammar :lessonIdx="this.$route.params.id" />
+                  <!-- <Grammar :lessonIdx="this.$route.params.id" /> -->
                 </div>
                 <div
                   class="tab-pane fade"

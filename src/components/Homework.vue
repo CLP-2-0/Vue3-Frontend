@@ -5,14 +5,14 @@
 			type="button"
 			class="btn btn-primary"
 			data-bs-toggle="collapse"
-			data-bs-target="#collapseCreation"
+			data-bs-target="#multiCollapseExample2"
 			aria-expanded="false"
-			aria-controls="collapseCreation"
+			aria-controls="multiCollapseExample2"
 			v-if="isTeacherorAdmin"
 		>
 			Create Assignment
 		</button>
-		<div class="collapse" id="collapseCreation">
+		<div class="collapse" id="multiCollapseExample2">
 			<h2>Assignment Creation</h2>
 			<div v-if="isTeacher" class="form-check">
 			<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @change="$event => usePredefined()">
@@ -79,10 +79,6 @@
 						type="button"
 						class="btn btn-success col-sm-3"
 						@click="createHomework"
-						data-bs-toggle="collapse"
-						data-bs-target="#collapseCreation"
-						aria-expanded="false"
-						aria-controls="collapseCreation"
 					>
 						Create Assignment
 					</button>
@@ -117,7 +113,7 @@
 				userRole: localStorage.getItem('user_role'),
 				predefined: [],
 				chosenQuestions: [],
-				numOfQuestion: 0
+				numOfQuestion: 0,
 
 			};
 		},
@@ -134,28 +130,28 @@
 					}
 					this.chosenQuestions.push(question)
 				}
-				console.log(this.chosenQuestion)
+				// console.log(this.chosenQuestion)
 			},
 			async createHomework() {
 				console.log('save');
 				console.log(this.gradedQuestions)
-				if(this.userRole == 'teacher'){
-					console.log("w")
-					await HomeworkApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
-					for (let idx in this.$refs.forGrade) {
-						this.$refs.forGrade[idx].reset();
-						document.getElementById('Row_' + idx).hidden = true;
-					}
+				// if(this.userRole == 'teacher'){
+				// 	console.log("w")
+				// 	await HomeworkApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
+				// 	for (let idx in this.$refs.forGrade) {
+				// 		this.$refs.forGrade[idx].reset();
+				// 		document.getElementById('Row_' + idx).hidden = true;
+				// 	}
 					
-				});
-				} else if(this.userRole == 'admin') {
-					await LessonApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
-					for (let idx in this.$refs.forGrade) {
-						this.$refs.forGrade[idx].reset();
-						document.getElementById('Row_' + idx).hidden = true;
-					}
-				});
-				}
+				// });
+				// } else if(this.userRole == 'admin') {
+				// 	await LessonApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
+				// 	for (let idx in this.$refs.forGrade) {
+				// 		this.$refs.forGrade[idx].reset();
+				// 		document.getElementById('Row_' + idx).hidden = true;
+				// 	}
+				// });
+				// }
 				this.total = 0;
 				this.checkedQuestions = [];
 				this.update++;
@@ -218,6 +214,9 @@
 		},
 		mounted() {
 			this.getLessonById();
+			// console.log(this.type)
+			// console.log(this.lessonIdx)
+
 		},
 		computed: {
 			isTeacherorAdmin() {
@@ -230,8 +229,8 @@
 				return this.userRole === 'teacher';
 			},
 			isAdmin() {
-				return this.userRole === 'admin'
-			}
+				return this.userRole === 'admin';
+			},
 		},
 	};
 </script>
