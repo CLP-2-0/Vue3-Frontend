@@ -1,12 +1,12 @@
 <template>
 	<div class="container tab-adjuster">
 		<!-- Button trigger modal -->
+
 		<button
 			type="button"
 			class="btn btn-primary"
 			data-bs-toggle="collapse"
 			data-bs-target="#multiCollapseExample2"
-			aria-expanded="false"
 			aria-controls="multiCollapseExample2"
 			v-if="isTeacherorAdmin"
 		>
@@ -80,7 +80,7 @@
 						class="btn btn-success col-sm-3"
 						@click="createHomework"
 					>
-						Create Assignment
+						Create
 					</button>
 				</div>
 			</div>
