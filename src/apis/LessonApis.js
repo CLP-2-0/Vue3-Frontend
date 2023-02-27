@@ -90,6 +90,22 @@ const deleteLesson = async (lessonId) => {
     });
 };
 
+const saveHomework = async (lessonId, homework) => {
+
+  console.log(lessonId, homework)
+  return await instance
+  .post(`/lessons/homework/${lessonId}`, 
+    homework,
+  )
+
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+};
+
 
   
 
