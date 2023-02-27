@@ -1,11 +1,24 @@
 <template>
 	<NavbarActive />
-	<div class="container-fluid header-container">
+	<div class="container-fluid header-container" v-if="isTeacherorStudent">
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item">
 						<router-link to="/dashboard" class="text-dark">Dashboard</router-link>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Profile</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container-fluid header-container" v-if="isAdmin">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<router-link to="publisher/dashboard" class="text-dark">Dashboard</router-link>
 					</li>
 					<li class="breadcrumb-item active" aria-current="page">Profile</li>
 				</ol>
@@ -163,6 +176,7 @@
 					lastname: '',
 				},
 				errors: {},
+				userRole: localStorage.getItem('user_role'),
 			};
 		},
 		methods: {
@@ -224,6 +238,12 @@
 		},
 		computed: {
 			...mapState(['userInfo']),
+			isTeacherorStudent() {
+				return this.userRole === 'teacher' || this.userRole === 'student';
+			},
+			isAdmin() {
+				return this.userRole === 'admin';
+			},
 		},
 		mounted() {
 			this.getUserByUsername();
