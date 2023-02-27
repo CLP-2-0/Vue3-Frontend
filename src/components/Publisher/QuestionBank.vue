@@ -1,6 +1,20 @@
 <template>
   <div class="container tab-adjuster">
     <!-- Button trigger modal -->
+    <button
+      type="button"
+      class="btn btn-success"
+      data-bs-toggle="collapse"
+      data-bs-target="#collapseHWCreation"
+      aria-expanded="false"
+      aria-controls="collapseHWCreation"
+    >
+      Pre-defined Assignment
+    </button>
+    <div class="collapse" id="collapseHWCreation">
+      <Homework :lessonIdx="this.$route.params.id"/>
+    </div>
+    <hr />
     <h2>Question Bank</h2>
     <button
       type="button"
@@ -10,9 +24,9 @@
       aria-expanded="false"
       aria-controls="collapseCreation"
     >
-      New Question
+      + New Question
     </button>
-    <div class="collapse" id="collapseCreation">
+    <div class="collapse" id="collapseCreation" >
       <div class="q-creation">
         <label class="col-sm-1 col-form-label">Question:</label>
         <quill-editor
@@ -37,7 +51,7 @@
       </div>
     </div>
 </div>
-<div class="card" style=" margin-top: 30px" v-for="question in questionsBank" :key="question.id">
+<div class="card " style=" margin-top: 30px" v-for="question in questionsBank" :key="question.id">
   <div class="card-body">
     <h5 class="card-title">Question</h5>
     <h6 class="card-subtitle mb-2 text-muted" v-html="question.question"></h6>
@@ -46,6 +60,7 @@
     
   </div>
 </div>
+
 </template>
 
 <script>
@@ -53,11 +68,13 @@ import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 import QuestionApis from '@/apis/QuestionApis';
 import LessonApis from '@/apis/LessonApis';
+import Homework from '../Homework.vue';
 
 export default {
   name: "Question Bank",
   components: {
     QuillEditor,
+    Homework
   },
   props: ["lessonIdx"],
   data() {
@@ -101,6 +118,7 @@ export default {
       this.questionsBank = res.data.questionsBank
     }
   },
+  
   mounted() {
     this.getLessonById()
   },

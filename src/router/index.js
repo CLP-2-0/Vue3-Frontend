@@ -42,7 +42,7 @@ const router = createRouter({
 					},
 				},
 				{
-					path: ':sid',
+					path: 'section:sid',
 					name: 'SectionDetail',
 					component: SectionDetail,
 					props: true,

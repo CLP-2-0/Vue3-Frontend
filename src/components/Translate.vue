@@ -3,22 +3,20 @@
     <div class="container">
       <div class="center-div">
         <div id="title">
-          <ruby style="font-size:20px">
-        {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
-        ><rp>)</rp>
-      </ruby>
+          <ruby style="font-size: 20px">
+            {{ chineseTitle }} <rp>(</rp><rt>{{ title }}</rt
+            ><rp>)</rp>
+          </ruby>
         </div>
       </div>
-      <div id="content" style="line-height:300%">
-        <ruby v-for="(ch, index) in characters" style="font-size:20px">
-    {{ ch }} <rp>(</rp><rt style="">{{ pinyins[index] }}</rt
-    ><rp>)</rp>
-  </ruby>
+      <div id="content" style="line-height: 300%">
+        <ruby v-for="(ch, index) in characters" style="font-size: 20px">
+          {{ ch }} <rp>(</rp><rt style="">{{ pinyins[index] }}</rt
+          ><rp>)</rp>
+        </ruby>
       </div>
     </div>
   </div>
-
-
 </template>
 <script>
 // import { translate } from "@vitalets/google-translate-api";

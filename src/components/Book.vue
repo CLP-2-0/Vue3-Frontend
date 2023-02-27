@@ -11,7 +11,8 @@
 
 <script>
 import LessonApis from "@/apis/LessonApis.js";
-
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap";
 export default {
   name: "Book",
   components: {},
@@ -20,12 +21,15 @@ export default {
     return {
       title: "",
       content: "",
-      vocabs: []
+      vocabs: [],
+      meaningG: [],
+      gralist: [],
+      processed: "",
     };
   },
   methods: {
     async getLessonById() {
-      
+      this.getGrammarMeanings();
       const res = await LessonApis.getLessonById(this.lessonIdx);
       this.title = res.data.title;
       this.content = res.data.content;
@@ -41,13 +45,14 @@ export default {
         if (vocabs[i].getAttribute("style") == "color: red;") {
           vocabs[i].setAttribute("id", `vocab${j}`);
           vocabs[i].setAttribute("type", "button");
+          vocabs[i].setAttribute("tabindex", 0);
 
           $(`#vocab${j}`).popover({
             container: "body",
             html: true,
             placement: "bottom",
             // trigger: 'manual',
-            content: function() {
+            content: function () {
               let id = $(this)[0].getAttribute("id");
               id = id.substring(5);
               return (
@@ -62,7 +67,7 @@ export default {
                 res.data.vocabs[id].type +
                 "</div>"
               );
-            }
+            },
           });
 
           j++;
@@ -76,11 +81,42 @@ export default {
           // });
         }
       }
-    }
+      //add the hoverable class to the superscript elements
+      let superscripts = document.getElementsByTagName("sup");
+      for (let i = 0; i < superscripts.length; i++) {
+        superscripts[i].classList.add("hoverable");
+      }
+      //bind the mouseenter event to the hoverable elements
+      let hoverables = document.getElementsByClassName("hoverable");
+      for (let i = 0; i < hoverables.length; i++) {
+        hoverables[i].addEventListener("click", (event) => {
+          //get the index of the superscript
+          let index = parseInt(event.target.innerText) - 1;
+          //get the meaning from the meaningG array
+          let meaning = this.meaningG[index];
+          //show the pop over
+          $(event.target)
+            .popover({
+              container: "body",
+              html: true,
+              placement: "top",
+              content: `<div class="popover-message">${meaning}</div>`,
+            })
+            .popover("show");
+        });
+      }
+    },
+    async getGrammarMeanings() {
+      console.log(this.meaningG);
+      const res = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
+      this.meaningG = res.data;
+    },
   },
+
   created() {
+    this.getGrammarMeanings();
     this.getLessonById();
-  }
+  },
 };
 </script>
 
@@ -88,5 +124,21 @@ export default {
 .center-div {
   display: flex;
   justify-content: center;
+}
+.hoverable {
+  position: relative;
+  display: inline-block;
+}
+
+.hoverable:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 5px 10px;
+  background-color: lightgray;
+  border-radius: 5px;
+  font-size: 12px;
 }
 </style>

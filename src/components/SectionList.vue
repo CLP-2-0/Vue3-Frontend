@@ -191,7 +191,7 @@
 				alert('Copied the text: ' + copyText.value);
 			},
 			redirect(sid) {
-				router.push(sid);
+				router.push(`/section${sid}`);
 			},
 		},
 		mounted() {

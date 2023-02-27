@@ -10,34 +10,39 @@
 			aria-controls="collapseCreation"
 			v-if="isTeacherorAdmin"
 		>
-			Edit Assignment
+			Create Assignment
 		</button>
 		<div class="collapse" id="collapseCreation">
 			<h2>Assignment Creation</h2>
-
+			<div v-if="isTeacher" class="form-check">
+			<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @change="$event => usePredefined()">
+			<label class="form-check-label" for="flexCheckDefault">
+				Use predefined assignment
+			</label>
+			</div>
 			<div class="container tab-adjuster">
 				<div class="row">
 					<div class="question-bank col">
 						<div
 							class="card row"
 							style="margin-bottom: 5px; display: flex; padding: 5px; flex-direction: row"
-							v-for="(question, idx) in questionsBank"
+							v-for="(question, idx) in chosenQuestions"
 							:key="question.id"
 						>
 							<input
 								ref="forCheck"
 								type="checkbox"
 								style="width: 2%"
-								id="checkbox"
-								v-model="checkedQuestions"
-								:value="question"
+								:id="['Check_' + idx]"
+								v-model="question.checked"
+								:value="question.question"
 								@change="check($event, idx)"
 							/>
 							<div class="card-body" style="width: 85%">
 								<h5 class="card-title">Question:</h5>
-								<h6 class="card-subtitle mb-2 text-muted" v-html="question.question"></h6>
+								<h6 class="card-subtitle mb-2 text-muted" v-html="question.question.question"></h6>
 								<h5>Answer:</h5>
-								<p class="card-text" v-html="question.answer"></p>
+								<p class="card-text" v-html="question.question.answer"></p>
 							</div>
 							<form class="form-inline" ref="forGrade" :id="['Row_' + idx]" hidden>
 								<div class="form-group mx-sm-3 mb-2" style="width: 7%">
@@ -45,8 +50,8 @@
 									<input
 										type="text"
 										class="form-control"
-										id="inputGrade"
-										@change="addToTotal($event, question)"
+										:id="['inputGrade_' + idx]"
+										@change="addToTotal($event, question.question)"
 									/>
 								</div>
 							</form>
@@ -61,7 +66,7 @@
 								type="text"
 								class="form-control"
 								id="num"
-								:value="checkedQuestions.length"
+								:value="numOfQuestion"
 								disabled
 							/>
 						</div>
@@ -84,6 +89,7 @@
 				</div>
 			</div>
 		</div>
+		
 		<div v-if="isTeacherorAdmin">Preview Current Assignment</div>
 		<Assignment :lessonIdx="lessonIdx" :sid="sid" :key="update" />
 	</div>
@@ -109,32 +115,66 @@
 				update: 0,
 				formEvent: null,
 				userRole: localStorage.getItem('user_role'),
+				predefined: [],
+				chosenQuestions: [],
+				numOfQuestion: 0
+
 			};
 		},
 		methods: {
 			async getLessonById() {
 				const res = await LessonApis.getLessonById(this.lessonIdx);
 				this.questionsBank = res.data.questionsBank;
+				this.predefined = res.data.predefined.questionList;
+				console.log(this.questionsBank)
+				for(let q of this.questionsBank){
+					let question = {
+						question: q,
+						checked: false
+					}
+					this.chosenQuestions.push(question)
+				}
+				console.log(this.chosenQuestion)
 			},
 			async createHomework() {
 				console.log('save');
-				await HomeworkApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
+				console.log(this.gradedQuestions)
+				if(this.userRole == 'teacher'){
+					console.log("w")
+					await HomeworkApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
 					for (let idx in this.$refs.forGrade) {
 						this.$refs.forGrade[idx].reset();
 						document.getElementById('Row_' + idx).hidden = true;
 					}
-					this.total = 0;
-					this.checkedQuestions = [];
-					this.update++;
-					this.gradedQuestions = [];
+					
 				});
+				} else if(this.userRole == 'admin') {
+					await LessonApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
+					for (let idx in this.$refs.forGrade) {
+						this.$refs.forGrade[idx].reset();
+						document.getElementById('Row_' + idx).hidden = true;
+					}
+				});
+				}
+				this.total = 0;
+				this.checkedQuestions = [];
+				this.update++;
+				this.gradedQuestions = [];
+				
 			},
 			check(e, idx) {
+				console.log(this.chosenQuestions)
 				this.$nextTick(() => {
 					if (e.target.checked) {
 						document.getElementById('Row_' + idx).hidden = false;
+						this.numOfQuestion++
 					} else {
 						document.getElementById('Row_' + idx).hidden = true;
+						this.numOfQuestion--
+						let p = parseInt(document.getElementById('inputGrade_' + idx).value)
+						this.total -= p
+						this.$refs.forGrade[idx].reset();
+
 					}
 				});
 			},
@@ -150,6 +190,31 @@
 				};
 				this.gradedQuestions.push(gradedQuestion);
 			},
+			usePredefined() {
+				let pIdx = 0
+				let len = this.predefined.length
+				for(let q of this.questionsBank){
+					let idx = this.questionsBank.indexOf(q)
+					
+					if(pIdx < len && q.question == this.predefined[pIdx].question.question) {	
+						this.chosenQuestions[idx].checked = true					
+						document.getElementById('Row_' + idx).hidden = false;
+						console.log(this.predefined[pIdx])
+						document.getElementById('inputGrade_' + idx).value = this.predefined[pIdx].point
+						let gradedQuestion = {
+							question: this.predefined[pIdx].question,
+							point: this.predefined[pIdx].point,
+						};
+						this.gradedQuestions.push(gradedQuestion);
+						let p = this.predefined[pIdx].point;
+						this.total += p;
+
+						pIdx++
+
+					}
+				}
+				this.numOfQuestion = this.gradedQuestions.length
+			}
 		},
 		mounted() {
 			this.getLessonById();
@@ -161,6 +226,12 @@
 			isStudent() {
 				return this.userRole === 'student';
 			},
+			isTeacher() {
+				return this.userRole === 'teacher';
+			},
+			isAdmin() {
+				return this.userRole === 'admin'
+			}
 		},
 	};
 </script>

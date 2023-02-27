@@ -10,7 +10,7 @@ const saveHomework = async (lessonId, homework, section) => {
 
     console.log(lessonId, homework, section)
     return await instance
-    .post(`homework/${section}/${lessonId}`, 
+    .post(`homework/s/${section}/${lessonId}`, 
       homework,
     )
 
@@ -35,7 +35,7 @@ const getHomeworkBySection = async (lessonId, section) => {
 }
 
 const saveAnswerToAQuestion = async (username, id, answer) => {
-  console.log("answer", answer, "id", id)
+  console.log("answer", answer, "id", id, username)
   return await instance
   .post(`/graded-question/answer/${username}/${id}`, answer)
 
@@ -63,5 +63,5 @@ export default {
     saveHomework,
     getHomeworkBySection,
     saveAnswerToAQuestion,
-    getAnswersByQuestion
+    getAnswersByQuestion,
 }
