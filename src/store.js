@@ -35,7 +35,7 @@ export const store = createStore({
 			state.userInfo.picture = checkUserInfo.data.data.picture;
 			state.userInfo.role = checkUserInfo.data.data.role;
 
-			// console.log(state.userInfo);
+			console.log(state.auth0);
 		},
 	},
 	actions: {
