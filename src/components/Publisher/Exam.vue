@@ -1,7 +1,6 @@
 <template>
 	<div>
-		Exam Creation
-        <QuestionCreation :lessonIdx="this.$route.params.id" />
+        <QuestionCreation :lessonIdx="this.$route.params.id" type="exam"/>
 	</div>
 </template>
 

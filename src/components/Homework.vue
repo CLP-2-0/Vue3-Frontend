@@ -78,6 +78,9 @@
 					<button
 						type="button"
 						class="btn btn-success col-sm-3"
+						data-bs-toggle="collapse"
+						data-bs-target="#multiCollapseExample2"
+						aria-controls="multiCollapseExample2"
 						@click="createHomework"
 					>
 						Create
@@ -135,23 +138,23 @@
 			async createHomework() {
 				console.log('save');
 				console.log(this.gradedQuestions)
-				// if(this.userRole == 'teacher'){
-				// 	console.log("w")
-				// 	await HomeworkApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
-				// 	for (let idx in this.$refs.forGrade) {
-				// 		this.$refs.forGrade[idx].reset();
-				// 		document.getElementById('Row_' + idx).hidden = true;
-				// 	}
+				if(this.userRole == 'teacher'){
+					console.log("w")
+					await HomeworkApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
+					for (let idx in this.$refs.forGrade) {
+						this.$refs.forGrade[idx].reset();
+						document.getElementById('Row_' + idx).hidden = true;
+					}
 					
-				// });
-				// } else if(this.userRole == 'admin') {
-				// 	await LessonApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
-				// 	for (let idx in this.$refs.forGrade) {
-				// 		this.$refs.forGrade[idx].reset();
-				// 		document.getElementById('Row_' + idx).hidden = true;
-				// 	}
-				// });
-				// }
+				});
+				} else if(this.userRole == 'admin') {
+					await LessonApis.saveHomework(this.lessonIdx, this.gradedQuestions, this.sid).then(() => {
+					for (let idx in this.$refs.forGrade) {
+						this.$refs.forGrade[idx].reset();
+						document.getElementById('Row_' + idx).hidden = true;
+					}
+				});
+				}
 				this.total = 0;
 				this.checkedQuestions = [];
 				this.update++;
@@ -214,8 +217,6 @@
 		},
 		mounted() {
 			this.getLessonById();
-			// console.log(this.type)
-			// console.log(this.lessonIdx)
 
 		},
 		computed: {
