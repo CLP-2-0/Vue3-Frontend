@@ -36,6 +36,7 @@ export const store = createStore({
 			state.userInfo.role = checkUserInfo.data.data.role;
 
 			console.log(state.auth0);
+			console.log(state.auth0.domain);
 		},
 	},
 	actions: {
