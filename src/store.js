@@ -2,16 +2,7 @@ import { createStore } from 'vuex';
 import axios from 'axios';
 import auth0 from 'auth0-js';
 import router from './router';
-
-const isProduction = process.env.NODE_ENV === 'production';
-
-const auth0Config = {
-  domain: isProduction ? process.env.VITE_AUTH0_DOMAIN : import.meta.env.VITE_AUTH0_DOMAIN,
-  clientID: isProduction ? process.env.VITE_AUTH0_CLIENT_ID : import.meta.env.VITE_AUTH0_CLIENT_ID,
-  redirectUri: isProduction ? process.env.VITE_APP_DOMAINURL + '/auth0callback' : import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
-  responseType: isProduction ? process.env.VITE_AUTH0_CONFIG_RESPONSETYPE : import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
-  scope: isProduction ? process.env.VITE_AUTH0_CONFIG_SCOPE : import.meta.env.VITE_AUTH0_CONFIG_SCOPE
-};
+import * as dotenv from 'dotenv';
 
 export const store = createStore({
 	state: {
@@ -31,7 +22,13 @@ export const store = createStore({
 // 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
 // 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
 // 		}),
-		auth0: new auth0.WebAuth(auth0Config),
+		auth0: new auth0.WebAuth({
+			domain: process.env.VITE_AUTH0_DOMAIN,
+			clientID: process.env.VITE_AUTH0_CLIENT_ID,
+ 			redirectUri: process.env.VITE_APP_DOMAINURL + '/auth0callback',
+ 			responseType: process.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
+ 			scope: process.env.VITE_AUTH0_CONFIG_SCOPE,
+ 		}),
 	},
 	mutations: {
 		setUserIsAuthenticated(state, replacement) {
