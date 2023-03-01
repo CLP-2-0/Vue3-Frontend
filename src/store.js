@@ -15,20 +15,14 @@ export const store = createStore({
 			picture: '',
 			role: '',
 		},
-// 		auth0: new auth0.WebAuth({
-// 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
-// 			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
-// 			redirectUri: import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
-// 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
-// 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
-// 		}),
 		auth0: new auth0.WebAuth({
-			domain: process.env.VITE_AUTH0_DOMAIN,
-			clientID: process.env.VITE_AUTH0_CLIENT_ID,
- 			redirectUri: process.env.VITE_APP_DOMAINURL + '/auth0callback',
- 			responseType: process.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
- 			scope: process.env.VITE_AUTH0_CONFIG_SCOPE,
- 		}),
+			domain: import.meta.env.VITE_AUTH0_DOMAIN,
+			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
+			redirectUri: import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
+			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
+			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
+		}),
+
 	},
 	mutations: {
 		setUserIsAuthenticated(state, replacement) {
