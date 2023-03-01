@@ -3,6 +3,16 @@ import axios from 'axios';
 import auth0 from 'auth0-js';
 import router from './router';
 
+const isProduction = process.env.NODE_ENV === 'production';
+
+const auth0Config = {
+  domain: process.env.VITE_AUTH0_DOMAIN || (isProduction ? 'your-production-domain' : 'your-staging-domain'),
+  clientID: process.env.VITE_AUTH0_CLIENT_ID || (isProduction ? 'your-production-client-id' : 'your-staging-client-id'),
+  redirectUri: process.env.VITE_APP_DOMAINURL + '/auth0callback',
+  responseType: process.env.VITE_AUTH0_CONFIG_RESPONSETYPE || 'code',
+  scope: process.env.VITE_AUTH0_CONFIG_SCOPE || 'openid profile email'
+};
+
 export const store = createStore({
 	state: {
 		userIsAuthorized: false, //unit test login/logout function: userIsAuthorized true => login/ otherwise false => not login
@@ -14,13 +24,14 @@ export const store = createStore({
 			picture: '',
 			role: '',
 		},
-		auth0: new auth0.WebAuth({
-			domain: import.meta.env.VITE_AUTH0_DOMAIN,
-			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
-			redirectUri: import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
-			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
-			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
-		}),
+// 		auth0: new auth0.WebAuth({
+// 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
+// 			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
+// 			redirectUri: import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
+// 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
+// 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
+// 		}),
+		auth0: new auth0.WebAuth(auth0Config),
 	},
 	mutations: {
 		setUserIsAuthenticated(state, replacement) {
