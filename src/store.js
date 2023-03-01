@@ -6,11 +6,11 @@ import router from './router';
 const isProduction = process.env.NODE_ENV === 'production';
 
 const auth0Config = {
-  domain: process.env.VITE_AUTH0_DOMAIN || (isProduction ? 'your-production-domain' : 'your-staging-domain'),
-  clientID: process.env.VITE_AUTH0_CLIENT_ID || (isProduction ? 'your-production-client-id' : 'your-staging-client-id'),
-  redirectUri: process.env.VITE_APP_DOMAINURL + '/auth0callback',
-  responseType: process.env.VITE_AUTH0_CONFIG_RESPONSETYPE || 'code',
-  scope: process.env.VITE_AUTH0_CONFIG_SCOPE || 'openid profile email'
+  domain: isProduction ? process.env.VITE_AUTH0_DOMAIN : import.meta.env.VITE_AUTH0_DOMAIN,
+  clientID: isProduction ? process.env.VITE_AUTH0_CLIENT_ID : import.meta.env.VITE_AUTH0_CLIENT_ID,
+  redirectUri: isProduction ? process.env.VITE_APP_DOMAINURL + '/auth0callback' : import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
+  responseType: isProduction ? process.env.VITE_AUTH0_CONFIG_RESPONSETYPE : import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
+  scope: isProduction ? process.env.VITE_AUTH0_CONFIG_SCOPE : import.meta.env.VITE_AUTH0_CONFIG_SCOPE
 };
 
 export const store = createStore({
