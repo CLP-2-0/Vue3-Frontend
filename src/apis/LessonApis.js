@@ -65,6 +65,17 @@ const createLesson = async (lessonBody) => {
 		});
 };
 
+const saveAllLessons = async (lessons) => {
+	return await instance
+		.post('/lessons/saveAllLessons', lessons)
+
+		.then((res) => {
+			console.log('sent');
+		})
+		.catch(function (error) {
+			console.log('error:', error);
+		});
+};
 const updateLesson = async (lessonBody, lessonId) => {
 	console.log(lessonBody);
 	return await instance
@@ -96,6 +107,7 @@ export default {
 	getLessonById,
 	updateLesson,
 	deleteLesson,
+	saveAllLessons,
 	saveLessonGrammarMeanings,
 	getLessonGrammarMeanings,
 };
