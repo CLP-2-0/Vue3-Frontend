@@ -51,7 +51,7 @@ export default {
             container: "body",
             html: true,
             placement: "bottom",
-            // trigger: 'manual',
+            trigger: 'focus',
             content: function () {
               let id = $(this)[0].getAttribute("id");
               id = id.substring(5);
