@@ -1,5 +1,5 @@
 <template>
-    <div class="container tab-adjuster">
+    <div class="">
       <div class="btn-group" role="group" aria-label="Basic example">
         <button
         type="button"
@@ -15,17 +15,7 @@
       </div>
       <div class="form-group row mt-2" :hidden="!show">
 						<label for="num" class="col-sm-2 col-form-label">Set Time:</label>
-						<div class="col-sm-1">
-							<div class="time-input">
-                <input type="number" class="time-input__hours" v-model="hour" min="0" max="23" placeholder="HH" required pattern="\d{1,2}">
-                <span>h:</span>
-                <input type="number" class="time-input__minutes" v-model="minute" min="0" max="59" placeholder="MM" required pattern="\d{1,2}">m
-              </div>
-
-						</div>
-            <!-- <div v-if="$v.$invalid" class="error-message">
-              Please enter a valid time in the format HH:MM
-            </div> -->
+            <input type="time" id="appt" name="appt" v-model="examLength">
 					</div>
       <div class="collapse" id="collapseQCreation" >
         <div class="q-creation">
@@ -58,14 +48,14 @@
       <h6 class="card-subtitle mb-2 text-muted" v-html="question.question"></h6>
       <h5>Answer:</h5>
       <p class="card-text" v-html="question.answer"></p>
-      <form class="form-inline" ref="forGrade" :id="['Row_' + idx]" :hidden="!show">
+      <form class="form-inline" ref="forGrade" :id="['RowE_' + idx]" :hidden="!show">
 								<div class="form-group mb-2" style="width: 7%">
 									<label for="inputGrade">Grade</label>
 									<input
 										type="text"
 										class="form-control"
 										:id="['inputGrade_' + idx]"
-										@change="addToTotal($event, question.question)"
+										@change="addToTotal($event, question)"
 									/>
 								</div>
 							</form>
@@ -136,8 +126,7 @@
         gradedQuestions: [],
         numOfQuestion: 0,
         total: 0,
-        hour: 0,
-        minute: 0
+        examLength: 0
       };
     },
     methods: {
@@ -184,8 +173,14 @@
         console.log(this.gradedQuestions)
         console.log(this.total)
 			},
-      saveExam() {
-        console.log(this.hour, this.minute)
+      async saveExam() {
+        let time = this.examLength
+        await LessonApis.saveExam(this.lessonIdx, this.gradedQuestions, time).then(() => {
+					for (let idx in this.$refs.forGrade) {
+						this.$refs.forGrade[idx].reset();
+						document.getElementById('RowE_' + idx).hidden = true;
+					}
+				});
       }
     },
     

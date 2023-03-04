@@ -28,6 +28,12 @@
       <div class="card-body ml-5" style="width: 90%" v-if="curr == num">
         <h5 class="card-title">Question: ({{ point }} points)</h5>
         <div v-html="question"></div>
+        <div v-if="isAdminOrTeacher">
+          <h5>Answer:</h5>
+          <div v-html="answer_s"></div>
+
+        </div>
+
         <div v-if="!isAdmin" class="form-group" style="margin-bottom: 5%">
           <button 
             class="btn btn-primary"
@@ -80,7 +86,7 @@ import AnswerList from "./AnswerList.vue";
 import LessonApis from "@/apis/LessonApis";
 
 export default {
-  props: ["lessonIdx", "sid"],
+  props: ["lessonIdx", "sid", "exam"],
   components: {
     Audio,
     AnswerList,
@@ -93,10 +99,11 @@ export default {
       num: 0,
       question: "",
       point: 0,
-      answer: "",
+      answer_s: "",
       idx: 0,
       updateAnswer: 0,
       userRole: localStorage.getItem('user_role'),
+      answer: ''
     };
   },
   methods: {
@@ -104,21 +111,37 @@ export default {
       console.log("get assignment...");
       let res = 0;
       if(this.userRole != 'admin'){
-        res = await HomeworkApis.getHomeworkBySection(
-        this.lessonIdx,
-        this.sid
-      );
-      this.questions = res.data.questionList;
+        if(this.exam) {
+          res = await LessonApis.getLessonById(this.lessonIdx)
+          console.log(res)
+          this.questions = res.data.exam.questionList
+        } else {
+          res = await HomeworkApis.getHomeworkBySection(
+          this.lessonIdx,
+          this.sid
+          )
+          this.questions = res.data.questionList;
+
+        }
+        
+      
       
       } else if(this.userRole == 'admin'){
-        res = await LessonApis.getLessonById(this.lessonIdx)
-        console.log(res)
-        this.questions = res.data.predefined.questionList
+          res = await LessonApis.getLessonById(this.lessonIdx)
+          console.log(res)
+        if(this.exam){
+          this.questions = res.data.exam.questionList
+        } else {
+          this.questions = res.data.predefined.questionList
+        }
+        
 
       }
       
       this.question = this.questions[0].question.question;
       this.point = this.questions[0].point;
+      this.answer_s = this.questions[0].question.answer
+      console.log(this.questions[0].question.answer)
       this.idx = this.questions[0].id;
       this.updateAnswer++;
       
@@ -182,7 +205,16 @@ export default {
   computed: {
 			isAdmin() {
 				return this.userRole === 'admin'
-			}
+			},
+      isExam() {
+        return this.exam === true
+      },
+      isAdminOrTeacher() {
+				return this.userRole === 'admin' || this.userRole === 'teacher'
+			},
+      isTeacher() {
+        return this.userRole === 'teacher'
+      }
 		},
   async mounted() {
     console.log(this.userRole)
