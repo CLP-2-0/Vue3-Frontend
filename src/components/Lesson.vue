@@ -173,7 +173,7 @@
                   role="tabpanel"
                   aria-labelledby="v-pills-grammar-tab"
                 >
-                  <Grammar :lessonIdx="this.$route.params.id" />
+                  <!-- <Grammar :lessonIdx="this.$route.params.id" /> -->
                 </div>
                 <div
                   class="tab-pane fade"
@@ -205,7 +205,7 @@
             role="tabpanel"
             aria-labelledby="nav-exam-tab"
           >
-            this is exam tab
+            <Exam />
           </div>
           <div
             class="tab-pane fade"
@@ -240,6 +240,7 @@ import Book from "./Book.vue";
 import Homework from "./Homework.vue";
 import UserList from "./UserList.vue";
 import Grammar from "./Grammar.vue";
+import Exam from './Publisher/Exam.vue';
 export default {
   name: "Lesson",
   components: {
@@ -250,6 +251,7 @@ export default {
     Homework,
     UserList,
     Grammar,
+    Exam
   },
   props: ["id"],
   data() {

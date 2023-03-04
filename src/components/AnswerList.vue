@@ -1,4 +1,6 @@
 <template>
+    <button class="btn btn-outline-primary" v-if="isTeacher" @click="grade">Grade</button>
+
     <div id="answerSection" :key="updateAnswer">
       
       <!-- <input
@@ -22,9 +24,14 @@
                 Your browser does not support the audio element.
               </audio>
               </div>
-              
               <button class="btn btn-outline-success">Comment</button>
+
+              <div :id="['grade_'+i]" :hidden="!this.show">
+                <input />
+
+              </div>
             </div>
+
           </div>
         </div>
       </div>    
@@ -42,6 +49,7 @@ export default {
       userList: [],
       searchTerm: '',
       userRole: localStorage.getItem('user_role'),
+      show: false
     };
   },
   methods: {
@@ -66,6 +74,9 @@ export default {
       }
       
 
+    },
+    grade() {
+      this.show = !this.show
     }
   },
   async mounted() {
@@ -79,6 +90,9 @@ export default {
 				});
 				return filtered.sort((a, b) => (a > b ? 1 : -1));
 			},
+      isTeacher() {
+        return this.userRole === 'teacher'
+      }
 		},
 };
 </script>

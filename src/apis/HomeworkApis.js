@@ -59,9 +59,60 @@ const getAnswersByQuestion = async (id) => {
 });
 }
 
+const saveExamToSection = async(sectionId, lessonId, exam) => {
+  return await instance
+  .post(`/sections/exam/${sectionId}/${lessonId}`, exam)
+
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const getExamBySection = async (sectionId, lessonId) => {
+  return await instance
+  .get(`/sections/exam/${sectionId}/${lessonId}`)
+
+.then((res) => {
+  return res.data;
+})
+.catch(function (error) {
+  console.log("error:", error);
+});
+}
+
+const saveExamSubmission = async (sectionId, lessonId, submission) => {
+  return await instance
+  .post(`/sections/submission/${sectionId}/${lessonId}`, submission)
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const gradeExamSubmission = async (sectionId, lessonId, submission, idx) => {
+  console.log(submission)
+  return await instance
+  .put(`/sections/submission/${sectionId}/${lessonId}/${idx}`, submission)
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
 export default {
     saveHomework,
     getHomeworkBySection,
     saveAnswerToAQuestion,
     getAnswersByQuestion,
+    saveExamToSection,
+    getExamBySection,
+    saveExamSubmission,
+    gradeExamSubmission
 }

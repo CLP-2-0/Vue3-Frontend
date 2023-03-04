@@ -106,7 +106,21 @@ const saveHomework = async (lessonId, homework) => {
   });
 };
 
+const saveExam = async (lessonId, homework, time) => {
 
+  console.log(lessonId, homework, time)
+  return await instance
+  .post(`/lessons/exam/${lessonId}/${time}`, 
+    homework,
+  )
+
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+};
   
 
 export default {
@@ -115,7 +129,8 @@ export default {
   getLessonById,
   updateLesson,
   deleteLesson,
-    saveHomework,
+  saveHomework,
   saveLessonGrammarMeanings,
   getLessonGrammarMeanings,
+  saveExam
 };

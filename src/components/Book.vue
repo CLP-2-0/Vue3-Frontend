@@ -11,8 +11,8 @@
 
 <script>
 import LessonApis from "@/apis/LessonApis.js";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap";
+// import "bootstrap/dist/css/bootstrap.css";
+// import "bootstrap";
 export default {
   name: "Book",
   components: {},
@@ -114,7 +114,7 @@ export default {
   },
 
   created() {
-    this.getGrammarMeanings();
+    // this.getGrammarMeanings();
     this.getLessonById();
   },
 };
