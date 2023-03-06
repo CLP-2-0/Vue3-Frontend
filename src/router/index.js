@@ -9,6 +9,7 @@ import LessonDetail from '@/components/Publisher/LessonDetail.vue';
 import NewStudent from '@/components/NewStudent.vue';
 import Auth0Callback from '@/components/Auth0Callback.vue';
 import Profile from '@/components/Profile.vue';
+import TopicDetail from '@/components/TopicDetail.vue';
 import store from '@/store';
 const router = createRouter({
 	history: createWebHistory(),
@@ -99,6 +100,15 @@ const router = createRouter({
 			path: '/student',
 			name: 'New Student',
 			component: NewStudent,
+			props: true,
+			meta: {
+				requiresAuth: true,
+			},
+		},
+		{
+			path: '/topic/:id',
+			name: 'TopicDetail',
+			component: TopicDetail,
 			props: true,
 			meta: {
 				requiresAuth: true,
