@@ -87,7 +87,7 @@
 					}
 					setTimeout(() => {
 						this.joinSuccess = false;
-						this.$router.push(`/${this.courseCode}`);
+						this.$router.push(`/section${this.courseCode}`);
 					}, 3000);
 				} else {
 					// console.log('no');

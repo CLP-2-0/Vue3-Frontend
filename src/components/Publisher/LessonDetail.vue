@@ -217,7 +217,7 @@
 						<QuestionBank :lessonIdx="this.$route.params.id" />
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
-						this is exam tab
+						<Exam />
 					</div>
 					<div class="tab-pane fade" id="nav-forum" role="tabpanel" aria-labelledby="nav-forum-tab">
 						<Forum />
@@ -240,6 +240,7 @@
 	import Book from '../Book.vue';
 	import QuestionBank from './QuestionBank.vue';
 	import GrammarEditor from './GrammarEditor.vue';
+	import Exam from './Exam.vue';
 	import Forum from '@/components/Forum.vue';
 	export default {
 		name: 'Lesson Detail',
@@ -253,6 +254,7 @@
 			QuestionBank,
 			GrammarEditor,
 			GrammarEditor,
+			Exam,
 			Forum,
 		},
 		props: ['id'],

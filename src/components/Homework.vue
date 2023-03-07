@@ -1,18 +1,18 @@
 <template>
 	<div class="container tab-adjuster">
 		<!-- Button trigger modal -->
+
 		<button
 			type="button"
 			class="btn btn-primary"
 			data-bs-toggle="collapse"
-			data-bs-target="#collapseCreation"
-			aria-expanded="false"
-			aria-controls="collapseCreation"
+			data-bs-target="#multiCollapseExample2"
+			aria-controls="multiCollapseExample2"
 			v-if="isTeacherorAdmin"
 		>
 			Create Assignment
 		</button>
-		<div class="collapse" id="collapseCreation">
+		<div class="collapse" id="multiCollapseExample2">
 			<h2>Assignment Creation</h2>
 			<div v-if="isTeacher" class="form-check">
 			<input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" @change="$event => usePredefined()">
@@ -78,13 +78,12 @@
 					<button
 						type="button"
 						class="btn btn-success col-sm-3"
-						@click="createHomework"
 						data-bs-toggle="collapse"
-						data-bs-target="#collapseCreation"
-						aria-expanded="false"
-						aria-controls="collapseCreation"
+						data-bs-target="#multiCollapseExample2"
+						aria-controls="multiCollapseExample2"
+						@click="createHomework"
 					>
-						Create Assignment
+						Create
 					</button>
 				</div>
 			</div>
@@ -117,7 +116,7 @@
 				userRole: localStorage.getItem('user_role'),
 				predefined: [],
 				chosenQuestions: [],
-				numOfQuestion: 0
+				numOfQuestion: 0,
 
 			};
 		},
@@ -134,7 +133,7 @@
 					}
 					this.chosenQuestions.push(question)
 				}
-				console.log(this.chosenQuestion)
+				// console.log(this.chosenQuestion)
 			},
 			async createHomework() {
 				console.log('save');
@@ -218,6 +217,7 @@
 		},
 		mounted() {
 			this.getLessonById();
+
 		},
 		computed: {
 			isTeacherorAdmin() {
@@ -230,8 +230,8 @@
 				return this.userRole === 'teacher';
 			},
 			isAdmin() {
-				return this.userRole === 'admin'
-			}
+				return this.userRole === 'admin';
+			},
 		},
 	};
 </script>

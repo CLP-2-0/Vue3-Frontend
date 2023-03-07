@@ -101,13 +101,40 @@ const deleteLesson = async (lessonId) => {
 		});
 };
 
+const saveHomework = async (lessonId, homework) => {
+	console.log(lessonId, homework);
+	return await instance
+		.post(`/lessons/homework/${lessonId}`, homework)
+
+		.then((res) => {
+			console.log('sent');
+		})
+		.catch(function (error) {
+			console.log('error:', error);
+		});
+};
+
+const saveExam = async (lessonId, homework, time) => {
+	console.log(lessonId, homework, time);
+	return await instance
+		.post(`/lessons/exam/${lessonId}/${time}`, homework)
+
+		.then((res) => {
+			console.log('sent');
+		})
+		.catch(function (error) {
+			console.log('error:', error);
+		});
+};
+
 export default {
 	getLessons,
 	createLesson,
 	getLessonById,
 	updateLesson,
 	deleteLesson,
-	saveAllLessons,
+	saveHomework,
 	saveLessonGrammarMeanings,
 	getLessonGrammarMeanings,
+	saveExam,
 };

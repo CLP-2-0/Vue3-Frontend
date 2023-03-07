@@ -2,6 +2,7 @@ import { createStore } from 'vuex';
 import axios from 'axios';
 import auth0 from 'auth0-js';
 import router from './router';
+import * as dotenv from 'dotenv';
 
 export const store = createStore({
 	state: {
@@ -22,6 +23,7 @@ export const store = createStore({
 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
 		}),
+
 	},
 	mutations: {
 		setUserIsAuthenticated(state, replacement) {
@@ -37,7 +39,8 @@ export const store = createStore({
 			state.userInfo.email_verified = checkUserInfo.data.data.email_verified;
 			state.userInfo.role = checkUserInfo.data.data.role;
 
-			// console.log(state.userInfo);
+			console.log(state.auth0);
+			console.log(state.auth0.domain);
 		},
 	},
 	actions: {

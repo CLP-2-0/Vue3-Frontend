@@ -22,6 +22,23 @@ const saveQuestion = async (lessonId, question) => {
     });
 };
 
+const saveEQuestion = async (lessonId, question) => {
+
+  console.log(question, lessonId)
+  return await instance
+  .post(`/questions/e/${lessonId}`, 
+    question,
+  )
+
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+};
+
 export default {
-    saveQuestion
+    saveQuestion,
+    saveEQuestion
 }

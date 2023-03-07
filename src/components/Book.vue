@@ -11,8 +11,8 @@
 
 <script>
 import LessonApis from "@/apis/LessonApis.js";
-import "bootstrap/dist/css/bootstrap.css";
-import "bootstrap";
+// import "bootstrap/dist/css/bootstrap.css";
+// import "bootstrap";
 export default {
   name: "Book",
   components: {},
@@ -51,7 +51,7 @@ export default {
             container: "body",
             html: true,
             placement: "bottom",
-            // trigger: 'manual',
+            trigger: 'focus',
             content: function () {
               let id = $(this)[0].getAttribute("id");
               id = id.substring(5);
@@ -114,7 +114,7 @@ export default {
   },
 
   created() {
-    this.getGrammarMeanings();
+    // this.getGrammarMeanings();
     this.getLessonById();
   },
 };
