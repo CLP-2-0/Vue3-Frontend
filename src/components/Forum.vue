@@ -55,9 +55,9 @@
 						<td>{{ formatDate(topic.lastPostDate) }}</td>
 						<td class="text-right">
 							<div>
-								<i class="fa-solid fa-pen-to-square mx-3" @click="editUser(student.id)"></i>
+								<i class="fa-solid fa-pen-to-square mx-3" @click="editTopic(topic.id)"></i>
 
-								<i class="fa-solid fa-sm fa-x" @click="editUser(student.id)"></i>
+								<i class="fa-solid fa-sm fa-x" @click="deleteTopic(topic.id)"></i>
 							</div>
 						</td>
 					</tr>
@@ -146,6 +146,15 @@
 			formatDate(dateString) {
 				const date = new Date(dateString);
 				return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+			},
+			async deleteTopic(id) {
+				if (!confirm('Are you sure you want to delete')) {
+					return;
+				}
+				await TopicApis.deleteTopic(id).then((res) => {
+					this.getAllTopics();
+					alert('Deleted Successfully');
+				});
 			},
 		},
 		mounted() {

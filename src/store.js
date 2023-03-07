@@ -18,7 +18,7 @@ export const store = createStore({
 		auth0: new auth0.WebAuth({
 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
 			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
-			redirectUri: import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
+			redirectUri: import.meta.env.VITE_AUTH0_CALLBACK_URL,
 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
 		}),
@@ -102,15 +102,8 @@ export const store = createStore({
 											role: 'student',
 										});
 										console.log('save');
-									} else if (
-										!checkUserMongoDB.data.data.email_verified ||
-										checkUserMongoDB.data.data.email_verified === 'false'
-									) {
-										//update for email verified
-										await axios.put(`${import.meta.env.VITE_URI}/users/${username}`, {
-											email_verified: user.email_verified,
-										});
-										console.log('STOREEEEEEEE');
+									} else {
+										console.log('skip');
 									}
 
 									//Check user's role
