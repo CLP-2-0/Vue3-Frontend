@@ -1,6 +1,6 @@
 <template>
-    <h4 v-if="this.questions == []">There is no assignment. Please create one!</h4>
-    <div class="row">
+    <p v-if="isStudent && !stop" id="time">Time remaining: {{ timer }}</p>
+    <div v-if="!stop" class="row">
       <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
         <div
           class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white"
@@ -31,7 +31,8 @@
           <div v-html="question.question"></div>
           <div v-if="isAdminOrTeacher">
             <h5>Answer:</h5>
-            <div v-html="answer_s"></div>
+            <!-- <div v-html="question"></div> -->
+            <!-- <div>{{ question }}</div> -->
   
           </div>
   
@@ -79,11 +80,33 @@
         </div>
       </div>
     </div>
-    <div style="display:flex; justify-content: center;">
-        <button class="btn btn-success" @click="submitExam()">
+    <div v-if="isStudent && !stop" style="display:flex; justify-content: center;">
+        <button class="btn btn-success" id="submitBtn"
+                data-bs-toggle="modal"
+                data-bs-target="#submitModal" >
             Submit
         </button>
+        <div class="modal fade" id="submitModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to submit this exam?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="submitExam">Submit</button>
+      </div>
     </div>
+  </div>
+</div>
+    </div>
+    <div v-if="isStudent && stop"> 
+    You submitted the exam!
+    </div>
+    <p>{{ message }}</p>
+
     
   </template>
   
@@ -93,7 +116,7 @@
   import LessonApis from "@/apis/LessonApis";
   
   export default {
-    props: ["lessonIdx", "sid", "exam"],
+    props: ["lessonIdx", "sid", "exam", "time"],
     components: {
       Audio,
     },
@@ -109,7 +132,10 @@
         updateAnswer: 0,
         userRole: localStorage.getItem('user_role'),
         answer: '',
-        eAnswers: []
+        eAnswers: [],
+        timer: '',
+        message: '',
+        stop: false
       };
     },
     methods: {
@@ -134,7 +160,7 @@
         
         } else if(this.userRole == 'admin'){
             res = await LessonApis.getLessonById(this.lessonIdx)
-            console.log(res)
+            console.log(res.data)
           if(this.exam){
             this.questions = res.data.exam.questionList
           } else {
@@ -217,9 +243,38 @@
           }
           examAnswers.push(examAnswer)
         });
-        // console.log(this.sid, this.lessonIdx)
+        this.stop = true
         await HomeworkApis.saveExamSubmission(this.sid, this.lessonIdx, examAnswers)
+      },
+      updateTimer(time) {
+      // Set the date we're counting down to
+      const countDownDate = new Date(time).getTime();
+      // Get today's date and time
+      const now = new Date().getTime();
+
+      // Find the distance between now and the count down date
+      const distance = countDownDate - now;
+
+      // Time calculations for days, hours, minutes and seconds
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      // Format the time display
+      const formattedTime = `${hours}:${minutes < 10 ? "0" + minutes : minutes}:${seconds < 10 ? "0" + seconds : seconds}`;
+
+      // Update the timer value
+      if (distance < 0) {
+        this.timer = "TIME's UP!";
+        this.message = "TIME's UP! Your exam will be auto-submitted in 5 seconds."
+        document.getElementById("submitBtn").disabled = true
+        setInterval(() => {
+          
+        }, 5000);
+      } else {
+        this.timer = formattedTime;
       }
+    },
     },
     computed: {
         isAdmin() {
@@ -233,11 +288,17 @@
               },
         isTeacher() {
           return this.userRole === 'teacher'
+        },
+        isStudent() {
+          return this.userRole === 'student'
         }
           },
     async mounted() {
       console.log(this.userRole)
       this.getAssignment();
+      setInterval(() => {
+          this.updateTimer(this.time);
+        }, 1000);
     },
   };
   </script>

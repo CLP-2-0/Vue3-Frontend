@@ -15,7 +15,7 @@
       </div>
       <div class="form-group row mt-2" :hidden="!show">
 						<label for="num" class="col-sm-2 col-form-label">Set Time:</label>
-            <input type="time" id="appt" name="appt" v-model="examLength">
+            <input type="time" id="appt" v-model="examLength" step="3600">
 					</div>
       <div class="collapse" id="collapseQCreation" >
         <div class="q-creation">
@@ -95,6 +95,7 @@
   
   export default {
     name: "Question Creation",
+    emits: ['exam-update'],
     components: {
       QuillEditor,
     },
@@ -175,11 +176,13 @@
 			},
       async saveExam() {
         let time = this.examLength
+        console.log(time)
         await LessonApis.saveExam(this.lessonIdx, this.gradedQuestions, time).then(() => {
 					for (let idx in this.$refs.forGrade) {
 						this.$refs.forGrade[idx].reset();
 						document.getElementById('RowE_' + idx).hidden = true;
 					}
+          this.$emit('exam-update', 1)
 				});
       }
     },
