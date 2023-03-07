@@ -13,12 +13,23 @@
 	</div>
 
   <div>
+    <div v-if="isStudent && !started">
+    <p>The exam will begin at  {{ startTime }} on {{ day }}. The length of this exam is 2:00 hours.</p>
+    <p>Once you are ready, click "Start Exam" button to start taking the exam. </p> 
+    <p>  You can go back to previous question to re-do it. When you complete all questions, click "Submit" button to submit your work!
+    </p>
+    <button class="btn btn-outline-primary" id="startBtn" @click="startExam">Start Exam</button>
+    <p>{{ closed }}</p>
+    </div>
 	<div>
+
 		<ExamSubmission
+        v-if="isTeacher || isAdmin || started"
         :lessonIdx="this.$route.params.id"
         :sid="this.$route.params.sid"
         :key="update"
         :exam="true"
+        :time="time"
       />
 	</div>
   
@@ -92,6 +103,7 @@
       v-if="isAdmin"
       :lessonIdx="this.$route.params.id"
       type="exam"
+      @exam-update="examUpdate($event)"
     />
   </div>
 </template>
@@ -106,7 +118,7 @@ export default {
   props: ["lessonIdx"],
   data() {
     return {
-      userRole: localStorage.getItem("user_role"),
+    userRole: localStorage.getItem("user_role"),
 	  picked: new Date(),
 	  clearable: true,
 	  startTime: '',
@@ -114,7 +126,12 @@ export default {
     submissions: [],
     total: 0,
     gradeMap: {},
-    loading: ''
+    loading: '',
+    started: false,
+    time: '',
+    closed: '',
+    length: '2:00',
+    update: 0
     };
   },
   name: "Exam",
@@ -148,23 +165,50 @@ export default {
 		this.day = res.data.startDate
     this.submissions = res.data.submissions
     this.loading = ''
+    
+    const now = new Date().getTime()
+    const time1 = this.startTime;
+    const time2 = this.length;
+
+    // Convert time1 to minutes
+    const [hours1, minutes1] = time1.split(":").map(Number);
+    const totalMinutes1 = hours1 * 60 + minutes1;
+
+    // Convert time2 to minutes
+    const [hours2, minutes2] = time2.split(":").map(Number);
+    const totalMinutes2 = hours2 * 60 + minutes2;
+
+    // Add the minutes together
+    const totalMinutes = totalMinutes1 + totalMinutes2;
+
+    // Convert the result back to "hh:mm" format
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    const result = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+    this.time = this.day + " " + result
+    let timer = new Date(this.time).getTime()
+
+    if(timer - now < 0) {
+      this.closed = "This exam is closed."
+      document.getElementById("startBtn").disabled = true
+    }
 
 	},
-  addToTotal(e) {
-    // this.total += parseInt(e.target.value)
-    // console.log(this.submissions[0])
-    
-  },
   async grade(submission, i) {
     this.loading = 'loading...'
     await HomeworkApis.gradeExamSubmission(this.$route.params.sid,this.$route.params.id, submission, i).then(async () => {
       this.getExam()
     })
+  },
+  startExam() {
+    this.started = true
+  },
+  examUpdate(update) {
+    this.update += update
   }
   },
   mounted() {
 	this.getExam()
-	console.log(this.userRole)
   },
   computed: {
     isAdmin() {
