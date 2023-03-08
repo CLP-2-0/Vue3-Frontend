@@ -50,6 +50,7 @@
 								class="text-dark"
 								>{{ topic.title }}</router-link
 							>
+							{{ topic.title }}
 						</td>
 						<td><i class="fa fa-user"></i> {{ topic.replyCount }}</td>
 						<td>{{ formatDate(topic.lastPostDate) }}</td>
@@ -64,17 +65,22 @@
 				</tbody>
 			</table>
 		</div>
+		<div class="topic-details" v-if="selectedTopic">
+			<TestingTopicDetail :topic="selectedTopic" />
+		</div>
 	</div>
 </template>
 
 <script>
 	import { QuillEditor } from '@vueup/vue-quill';
 	import TopicApis from '@/apis/TopicApis';
+	import TestingTopicDetail from './TestingTopicDetail.vue';
 	// import CreateTopic from './CreateTopic.vue';
 	// import TopicList from './TopicList.vue';
 	export default {
 		components: {
 			QuillEditor,
+			TestingTopicDetail,
 		},
 		data() {
 			return {
@@ -112,6 +118,7 @@
 					},
 				},
 				topics: [],
+				selectedTopic: null,
 			};
 		},
 		methods: {
@@ -145,7 +152,7 @@
 			},
 			formatDate(dateString) {
 				const date = new Date(dateString);
-				return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+				return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear().toString().slice(2)}`;
 			},
 			async deleteTopic(id) {
 				if (!confirm('Are you sure you want to delete')) {
@@ -155,6 +162,9 @@
 					this.getAllTopics();
 					alert('Deleted Successfully');
 				});
+			},
+			selectTopic(topic) {
+				this.selectedTopic = topic;
 			},
 		},
 		mounted() {

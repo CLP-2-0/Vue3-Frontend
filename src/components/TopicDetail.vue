@@ -7,21 +7,28 @@
 			</h4>
 		</h2>
 		<div class="discussion-answers">
-			<div v-for="(answer, index) in answers" :key="index" class="answer">
+			<div v-for="(answer, index) in answersdb" :key="index" class="answer">
 				<div class="header-custom">
 					<div class="answer-header">
-						<img :src="answer.user.picture" alt="User Profile Picture" class="profile-picture" />
+						<img
+							:src="answer.answerCreator.picture"
+							alt="User Profile Picture"
+							class="profile-picture"
+						/>
 						<div class="user-info">
-							<div class="username">{{ answer.user.name }}</div>
-							<div class="answer-date">{{ answer.date }}</div>
+							<div class="username">
+								{{ answer.answerCreator.firstname }} {{ answer.answerCreator.lastname }}
+							</div>
+							<div class="answer-date">{{ formatDate(answer.createdDate) }}</div>
 						</div>
 					</div>
-					<div class="answer-body bg-light p-4 rounded-4">{{ answer.text }}</div>
+					<div class="answer-body bg-light p-4 rounded-4">{{ answer.content }}</div>
 				</div>
 
 				<div class="answer-actions d-flex align-items-start justify-content-end">
 					<button @click="replyToAnswer(index)" class="btn btn-sm reply-btn m-2 p-2">Reply</button>
 				</div>
+
 				<div
 					v-if="showReplyTextarea && index === replyIndex"
 					class="reply-textarea answer-replies mt-0 mb-3"
@@ -35,20 +42,28 @@
 						<button @click="cancelReply" class="btn btn-sm btn-secondary">Cancel</button>
 					</div>
 				</div>
+
+				<!-- Reply form  -->
 				<div v-if="answer.replies.length > 0" class="answer-replies mt-0 mb-2">
 					<div v-for="(reply, index) in answer.replies" :key="index" class="mb-4">
 						<div class="reply-header">
-							<img :src="reply.user.picture" alt="User Profile Picture" class="profile-picture" />
+							<img
+								:src="reply.replyCreator.picture"
+								alt="User Profile Picture"
+								class="profile-picture"
+							/>
 							<div class="user-info">
-								<div class="username">{{ reply.user.name }}</div>
-								<div class="reply-date">{{ reply.date }}</div>
+								<div class="username">
+									{{ reply.replyCreator.firstname }} {{ reply.replyCreator.lastname }}
+								</div>
+								<div class="reply-date">{{ formatDate(reply.createdDate) }}</div>
 							</div>
 						</div>
-						<div class="reply-body bg-light p-4 rounded-4">{{ reply.text }}</div>
+						<div class="reply-body bg-light p-4 rounded-4">{{ reply.content }}</div>
 					</div>
 				</div>
 			</div>
-			<div v-if="answers.length === 0" class="no-answers">
+			<div v-if="answersdb.length === 0" class="no-answers">
 				No answers yet. Be the first to answer!
 			</div>
 		</div>
@@ -58,7 +73,7 @@
 				Create Post
 			</button>
 		</div>
-		<form @submit.prevent="addAnswer" class="answer-form" v-if="showAnswerForm">
+		<form @submit.prevent="addAnswer" class="answer-form mb-5" v-if="showAnswerForm">
 			<div class="form-group">
 				<label for="answer-text">Your answer:</label>
 				<textarea v-model="newAnswerText" id="answer-text" class="form-control mt-1"></textarea>
@@ -70,7 +85,9 @@
 
 <script>
 	import TopicApis from '@/apis/TopicApis';
+	import UserApis from '@/apis/UserApis.js';
 	import { QuillEditor } from '@vueup/vue-quill';
+	import cuid from 'cuid';
 	export default {
 		name: 'TopicDetail',
 		components: {
@@ -85,7 +102,7 @@
 		data() {
 			return {
 				answers: [],
-				showAnswerForm: false,
+				answersdb: [],
 				newAnswerText: '',
 				topic: {},
 				editorOption: {
@@ -96,27 +113,50 @@
 						],
 					},
 				},
+				showAnswerForm: false,
 				showReplyTextarea: false,
 				replyIndex: null,
 				replyText: '',
 			};
 		},
-		async created() {
-			const res = await TopicApis.getTopicById(this.id);
-			this.topic = res.data;
-		},
+
 		methods: {
-			addAnswer() {
+			async created() {
+				const res = await TopicApis.getTopicById(this.id);
+				this.topic = res.data;
+				console.log('answer', res.data.topicAnswer);
+				this.answersdb = res.data.topicAnswer;
+			},
+			// async getUserByUsername() {
+			// 	const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
+			// 	this.userInfo.nickname = res.data.nickname;
+			// 	this.userInfo.lastname = res.data.lastname;
+			// 	this.userInfo.firstname = res.data.firstname;
+			// 	this.userInfo.picture = res.data.picture;
+			// },
+			async addAnswer() {
+				const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
 				const newAnswer = {
-					user: {
-						name: 'John Doe',
-						picture: 'https://via.placeholder.com/150',
+					id: cuid(),
+					answerCreator: {
+						lastname: res.data.lastname,
+						firstname: res.data.firstname,
+						picture: res.data.picture,
 					},
-					date: new Date().toLocaleDateString(),
-					text: this.newAnswerText,
+					createdDate: new Date().toISOString(),
+					content: this.newAnswerText,
 					replies: [],
 				};
-				this.answers.push(newAnswer);
+
+				// console.log(newAnswer);
+				await TopicApis.createAnswer(
+					this.topic.id,
+					newAnswer,
+					localStorage.getItem('user_name')
+				).then(async (res) => {
+					this.answersdb.push(newAnswer);
+				});
+
 				this.newAnswerText = '';
 				this.showAnswerForm = false;
 			},
@@ -125,17 +165,34 @@
 				console.log(this.replyIndex);
 				this.showReplyTextarea = true;
 			},
-			addReply() {
+			async addReply() {
 				if (this.replyText !== null && this.replyText.trim() !== '') {
+					const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
 					const reply = {
-						user: {
-							name: 'John Doe',
-							picture: 'https://via.placeholder.com/150',
+						// user: {
+						// 	name: 'John Doe',
+						// 	picture: 'https://via.placeholder.com/150',
+						// },
+						// date: new Date().toLocaleDateString(),
+						// text: this.replyText,
+						id: cuid(),
+						replyCreator: {
+							lastname: res.data.lastname,
+							firstname: res.data.firstname,
+							picture: res.data.picture,
 						},
-						date: new Date().toLocaleDateString(),
-						text: this.replyText,
+						createdDate: new Date().toISOString(),
+						content: this.replyText,
 					};
-					this.answers[this.replyIndex].replies.push(reply);
+
+					await TopicApis.createReply(
+						this.answersdb[this.replyIndex].id,
+						reply,
+						localStorage.getItem('user_name')
+					).then(async (res) => {
+						this.answersdb[this.replyIndex].replies.push(reply);
+					});
+
 					this.cancelReply();
 				}
 			},
@@ -147,6 +204,18 @@
 			toggleAnswerForm() {
 				this.showAnswerForm = !this.showAnswerForm;
 			},
+			formatDate(dateString) {
+				const date = new Date(dateString);
+				const day = date.getDate().toString().padStart(2, '0');
+				const month = (date.getMonth() + 1).toString().padStart(2, '0');
+				const year = date.getFullYear().toString().slice(2);
+				const hours = date.getHours().toString().padStart(2, '0');
+				const minutes = date.getMinutes().toString().padStart(2, '0');
+				return `${day}/${month}/${year} ${hours}:${minutes}`;
+			},
+		},
+		mounted() {
+			this.created();
 		},
 	};
 </script>
@@ -195,11 +264,6 @@
 		font-weight: bold;
 	}
 
-	.answer-date {
-		color: #808080;
-		font-size: 14px;
-	}
-
 	.answer-body {
 		margin-top: 20px;
 		font-size: 18px;
@@ -232,9 +296,10 @@
 		align-items: center;
 	}
 
-	.reply-date {
+	.reply-date,
+	.answer-date {
 		color: #808080;
-		font-size: 14px;
+		font-size: 12px;
 	}
 
 	.reply-body {

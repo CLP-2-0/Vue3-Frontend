@@ -67,10 +67,35 @@ const deleteTopic = async (topicId) => {
 		});
 };
 
+const createAnswer = async (topicId, answer, username) => {
+	return await instance
+		.post(`/topicanswer/${topicId}/answer/${username}`, answer)
+
+		.then((res) => {
+			console.log('created');
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+};
+
+const createReply = async (answerId, reply, username) => {
+	return await instance
+		.post(`/replies/${answerId}/reply/${username}`, reply)
+
+		.then((res) => {
+			console.log('created');
+		})
+		.catch(function (error) {
+			console.log(error);
+		});
+};
 export default {
 	getAllTopics,
 	getTopicById,
 	deleteTopic,
 	updateTopic,
 	createTopic,
+	createAnswer,
+	createReply,
 };
