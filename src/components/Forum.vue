@@ -50,7 +50,6 @@
 								class="text-dark"
 								>{{ topic.title }}</router-link
 							>
-							{{ topic.title }}
 						</td>
 						<td><i class="fa fa-user"></i> {{ topic.replyCount }}</td>
 						<td>{{ formatDate(topic.lastPostDate) }}</td>
@@ -118,7 +117,6 @@
 					},
 				},
 				topics: [],
-				selectedTopic: null,
 			};
 		},
 		methods: {
@@ -162,9 +160,6 @@
 					this.getAllTopics();
 					alert('Deleted Successfully');
 				});
-			},
-			selectTopic(topic) {
-				this.selectedTopic = topic;
 			},
 		},
 		mounted() {
