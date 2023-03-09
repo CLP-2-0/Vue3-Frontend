@@ -175,8 +175,7 @@
 					id: this.id,
 					section: this.sectionName,
 				};
-				await SectionApis.createSection(sectionBody).then(async () => {
-					console.log("created")
+				await SectionApis.createSection(sectionBody, this.username).then(async () => {
 					this.getSections();
 				});
 			},

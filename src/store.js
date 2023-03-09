@@ -13,12 +13,13 @@ export const store = createStore({
 			username: '',
 			nickname: '',
 			picture: '',
+			email_verified: '',
 			role: '',
 		},
 		auth0: new auth0.WebAuth({
 			domain: import.meta.env.VITE_AUTH0_DOMAIN,
 			clientID: import.meta.env.VITE_AUTH0_CLIENT_ID,
-			redirectUri: import.meta.env.VITE_APP_DOMAINURL + '/auth0callback',
+			redirectUri: import.meta.env.VITE_AUTH0_CALLBACK_URL,
 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
 		}),
@@ -35,6 +36,7 @@ export const store = createStore({
 			state.userInfo.username = checkUserInfo.data.data.username;
 			state.userInfo.nickname = checkUserInfo.data.data.nickname;
 			state.userInfo.picture = checkUserInfo.data.data.picture;
+			state.userInfo.email_verified = checkUserInfo.data.data.email_verified;
 			state.userInfo.role = checkUserInfo.data.data.role;
 
 			console.log(state.auth0);
@@ -84,12 +86,14 @@ export const store = createStore({
                                     */
 
 									// console.log(userInfo.data);
+									console.log(user);
 									const username = user.email.split('@')[0];
 
 									//Check if the user is existed in MongoDB
 									const checkUserMongoDB = await axios.get(
 										`${import.meta.env.VITE_URI}/users/${username}`
 									);
+									console.log(checkUserMongoDB.data.data);
 									if (!checkUserMongoDB.data.data) {
 										await axios.post(`${import.meta.env.VITE_URI}/users`, {
 											id: user.sub.split('|')[1],
@@ -97,6 +101,7 @@ export const store = createStore({
 											username: user.email.split('@')[0],
 											nickname: user.nickname,
 											picture: user.picture,
+											email_verified: user.email_verified,
 											role: 'student',
 										});
 										console.log('save');

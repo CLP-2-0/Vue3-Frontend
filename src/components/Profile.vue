@@ -1,6 +1,6 @@
 <template>
 	<NavbarActive />
-	<div class="container-fluid header-container">
+	<div class="container-fluid header-container" v-if="isTeacherorStudent">
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
@@ -13,8 +13,21 @@
 		</div>
 	</div>
 
+	<div class="container-fluid header-container" v-if="isAdmin">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<router-link to="publisher/dashboard" class="text-dark">Dashboard</router-link>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Profile</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
 	<div class="container mt-5">
-		<h1 class="text-left">Edit My User Profile</h1>
+		<h2 class="text-left">User Profile</h2>
 		<div class="container mt-5">
 			<div class="row">
 				<div class="col-md-3">
@@ -22,7 +35,7 @@
 						<div class="card-header">Profile Picture</div>
 						<div class="card-body d-">
 							<img
-								:src="picture"
+								:src="userInfo.picture"
 								class="rounded-circle mb-3 col-md-7 d-block m-auto"
 								alt="Profile Picture"
 							/>
@@ -47,13 +60,24 @@
 							</h5>
 						</div>
 						<div class="card-body">
+							<div class="form-group mb-2">
+								<label for="email">Email:</label>
+								<span class="mx-3 fw-light">{{ userInfo.email }}</span>
+
+								<span class="mx-2 fw-light">
+									<span
+										:class="[userInfo.emailStatus === 'Active' ? 'green-dot' : 'red-dot']"
+									></span>
+									{{ userInfo.emailStatus }}
+								</span>
+							</div>
 							<div class="form-group">
 								<label for="nickname">Nickname: </label>
 								<input
 									type="text"
 									class="form-control"
 									id="nickname"
-									v-model="nickname"
+									v-model="userInfo.nickname"
 									:class="{ 'is-invalid': errors.nickname }"
 								/>
 								<div class="invalid-feedback" v-if="errors.nickname">
@@ -62,24 +86,29 @@
 							</div>
 							<div class="form-group">
 								<label>Firstname:</label>
-								<input type="text" class="form-control" id="firstname" v-model="firstname" />
-								<label>Lastname:</label>
-								<input type="text" class="form-control" id="firstname" v-model="lastname" />
-							</div>
-							<div class="form-group">
-								<label for="email">Email:</label>
 								<input
 									type="text"
 									class="form-control"
-									id="email"
-									v-model="email"
-									:class="{ 'is-invalid': errors.email }"
-									disabled
+									id="firstname"
+									v-model="userInfo.firstname"
+									:class="{ 'is-invalid': errors.firstname }"
 								/>
-								<div class="invalid-feedback" v-if="errors.email">
-									{{ errors.email }}
+								<div class="invalid-feedback" v-if="errors.firstname">
+									{{ errors.firstname }}
+								</div>
+								<label>Lastname:</label>
+								<input
+									type="text"
+									class="form-control"
+									id="firstname"
+									v-model="userInfo.lastname"
+									:class="{ 'is-invalid': errors.lastname }"
+								/>
+								<div class="invalid-feedback" v-if="errors.lastname">
+									{{ errors.lastname }}
 								</div>
 							</div>
+
 							<!-- <div class="form-group">
 								<label for="hometown">Hometown:</label>
 								<input
@@ -103,9 +132,12 @@
 								</button>
 							</div>
 							<hr />
-							<button class="btn btn-primary btn-block d-block m-auto" @click="updatedUser">
+							<button class="btn btn-primary btn-block d-block m-auto" @click="updateUser">
 								Save Changes
 							</button>
+							<div class="alert alert-success mt-3 text-center" v-if="updateSuccess">
+								Update success!
+							</div>
 						</div>
 					</div>
 				</div>
@@ -127,44 +159,27 @@
 		data() {
 			return {
 				requestSuccess: false,
-				firstname: '',
-				lastname: '',
-				nickname: '',
-				email: '',
-				hometown: '',
-				picture: '',
-				updatedData: [
-					{
-						updatedNickname: '',
-						updatedEmail: '',
-						updatedHometown: '',
-					},
-				],
+				updateSuccess: false,
+				userInfo: {
+					username: '',
+					firstname: '',
+					lastname: '',
+					nickname: '',
+					email: '',
+					email_verified: '',
+					emailStatus: '',
+					picture: '',
+				},
+				updatedInfo: {
+					nickname: '',
+					firstname: '',
+					lastname: '',
+				},
 				errors: {},
+				userRole: localStorage.getItem('user_role'),
 			};
 		},
 		methods: {
-			updateProfile() {
-				this.errors = {};
-				if (!this.nickname) {
-					this.errors.nickname = 'Nickname is required.';
-				}
-				if (!this.email) {
-					this.errors.email = 'Email is required.';
-				}
-				if (!this.hometown) {
-					this.errors.hometown = 'Hometown is required.';
-				}
-				if (Object.keys(this.errors).length === 0) {
-					// logic to update the profile information
-					console.log(
-						'Updating profile with nickname: ',
-						this.nickname,
-						' and email: ',
-						this.email
-					);
-				}
-			},
 			uploadProfilePicture(event) {
 				let input = event.target;
 				if (input.files && input.files[0]) {
@@ -181,21 +196,38 @@
 			},
 			async getUserByUsername() {
 				const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
-				this.nickname = res.data.nickname;
-				this.email = res.data.email;
-				this.picture = res.data.picture;
-				//this.hometown = res.data.hometown;
-				console.log(res.data.picture);
-
-				console.log('here', this.picture);
-				console.log('here', this.email);
-				console.log(res.userInfo);
+				this.userInfo.nickname = res.data.nickname;
+				this.userInfo.email = res.data.email;
+				this.userInfo.lastname = res.data.lastname;
+				this.userInfo.firstname = res.data.firstname;
+				this.userInfo.picture = res.data.picture;
+				this.userInfo.email_verified = res.data.email_verified;
+				if (res.data.email_verified === 'true') {
+					this.userInfo.emailStatus = 'Active';
+				} else {
+					this.userInfo.emailStatus = 'Pending';
+				}
 			},
-			// async updatedUser() {
-			// 	const res = await UserApis.updatedUser(this.updatedData, this.userInfo.nickname);
-			// 	this.updatedickname = res.data.updatedData.updatedNickname;
-			// 	console.log(res.userInfo);
-			// },
+			async updateUser() {
+				this.errors = {};
+				if (!this.userInfo.nickname) {
+					this.errors.nickname = 'This field is required.';
+				}
+				if (!this.userInfo.firstname) {
+					this.errors.firstname = 'This field is required.';
+				}
+				if (!this.userInfo.lastname) {
+					this.errors.lastname = 'This field is required.';
+				}
+				if (Object.keys(this.errors).length === 0) {
+					await UserApis.updateUser(localStorage.getItem('user_name'), this.userInfo);
+
+					this.updateSuccess = true;
+					setTimeout(() => {
+						this.updateSuccess = false;
+					}, 1200);
+				}
+			},
 
 			async requestTeacher() {
 				this.requestSuccess = true;
@@ -206,6 +238,12 @@
 		},
 		computed: {
 			...mapState(['userInfo']),
+			isTeacherorStudent() {
+				return this.userRole === 'teacher' || this.userRole === 'student';
+			},
+			isAdmin() {
+				return this.userRole === 'admin';
+			},
 		},
 		mounted() {
 			this.getUserByUsername();
@@ -219,5 +257,18 @@
 	}
 	.card-header h5 {
 		font-size: 14px;
+	}
+	.green-dot,
+	.red-dot {
+		display: inline-block;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+	}
+	.green-dot {
+		background-color: green;
+	}
+	.red-dot {
+		background-color: rgb(206, 0, 0);
 	}
 </style>
