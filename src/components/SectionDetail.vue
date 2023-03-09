@@ -19,9 +19,9 @@
       </div>
     </div>
     <!-- end justfornow -->
-    <div class="container">
-      <div class="input-group mb-3">
-        <h5>Section Code: {{ this.$route.params.sid }}</h5>
+    <div class="container" >
+      <div class="input-group mb-3 " v-if="isTeacherorAdmin">
+        <h5 >Section Code: {{ this.$route.params.sid }}</h5>
 
         <div class="input-group-append" style="margin-left: 2%">
           <span
@@ -62,6 +62,19 @@ export default {
       alert("Copied the text: " + this.$route.params.sid);
     },
   },
+  data() {
+			return {
+				userRole: localStorage.getItem('user_role'),
+			};
+		},
+  computed: {
+			isTeacherorAdmin() {
+				return this.userRole === 'teacher' || this.userRole === 'admin';
+			},
+			isStudent() {
+				return this.userRole === 'student';
+			},
+		},
 };
 </script>
 

@@ -137,4 +137,6 @@ export default {
 	saveLessonGrammarMeanings,
 	getLessonGrammarMeanings,
 	saveExam,
+	saveAllLessons,
+	
 };

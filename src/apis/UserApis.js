@@ -73,4 +73,5 @@ export default {
 	getUserByUsername,
 	createUser,
 	updateUser,
+	deleteUser
 };

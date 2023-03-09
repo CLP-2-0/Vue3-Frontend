@@ -69,6 +69,7 @@
 							role="tab"
 							aria-controls="nav-forum"
 							aria-selected="false"
+							v-if="showAdminFeature"
 						>
 							Forum
 						</button>
@@ -81,6 +82,7 @@
 							role="tab"
 							aria-controls="nav-class"
 							aria-selected="false"
+							v-if="showAdminFeature"
 						>
 							Class
 						</button>
@@ -258,11 +260,11 @@
 			Forum,
 		},
 		props: ['id'],
-		// data() {
-		//   return {
-		//     id: this.$route.params.id,
-		//   };
-		// },
+		data() {
+		  return {
+		    showAdminFeature: false,
+		  };
+		},
 	};
 </script>
 
