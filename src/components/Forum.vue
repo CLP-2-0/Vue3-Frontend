@@ -33,39 +33,45 @@
 		</div>
 
 		<!-- TopicList section  -->
-		<div class="topic-list">
-			<table class="table table-striped">
-				<thead>
-					<tr>
-						<th>Topic</th>
-						<th>Active</th>
-						<th>Last Post</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(topic, index) in topics" :key="index">
-						<td>
-							<router-link
-								:to="{ name: 'TopicDetail', params: { id: topic.id } }"
-								class="text-dark"
-								>{{ topic.title }}</router-link
-							>
-						</td>
-						<td><i class="fa fa-user"></i> {{ topic.replyCount }}</td>
-						<td>{{ formatDate(topic.lastPostDate) }}</td>
-						<td class="text-right">
-							<div>
+
+		<div class="topic-container">
+			<div class="table-container">
+				<table class="table table-hover table-responsive">
+					<thead>
+						<tr>
+							<th class="w-70">Topic</th>
+							<th>Active</th>
+							<th>Created Date</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr
+							v-for="(topic, index) in topics"
+							:key="index"
+							@click="showTopicDetails(topic.id)"
+							class="tr-custom"
+						>
+							<td>
+								{{ topic.title }}
+							</td>
+							<td>
+								<i class="fa fa-user"></i> {{ topic.userActive }}
+								<i class="fa fa-comments mx-2"></i> {{ topic.replyCount }}
+							</td>
+							<td>{{ formatDate(topic.lastPostDate) }}</td>
+							<td class="text-right">
 								<i class="fa-solid fa-pen-to-square mx-3" @click="editTopic(topic.id)"></i>
 
 								<i class="fa-solid fa-sm fa-x" @click="deleteTopic(topic.id)"></i>
-							</div>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="topic-details" v-if="selectedTopic">
-			<TestingTopicDetail :topic="selectedTopic" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="detail-container">
+				<TopicDetail :id="selectedTopicId" v-if="selectedTopicId" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -73,13 +79,13 @@
 <script>
 	import { QuillEditor } from '@vueup/vue-quill';
 	import TopicApis from '@/apis/TopicApis';
-	import TestingTopicDetail from './TestingTopicDetail.vue';
+	import TopicDetail from './TopicDetail.vue';
 	// import CreateTopic from './CreateTopic.vue';
 	// import TopicList from './TopicList.vue';
 	export default {
 		components: {
 			QuillEditor,
-			TestingTopicDetail,
+			TopicDetail,
 		},
 		data() {
 			return {
@@ -117,6 +123,7 @@
 					},
 				},
 				topics: [],
+				selectedTopicId: null,
 			};
 		},
 		methods: {
@@ -147,6 +154,7 @@
 			async getAllTopics() {
 				const res = await TopicApis.getAllTopics();
 				this.topics = res.data;
+				console.log(this.topics);
 			},
 			formatDate(dateString) {
 				const date = new Date(dateString);
@@ -161,9 +169,36 @@
 					alert('Deleted Successfully');
 				});
 			},
+			showTopicDetails(id) {
+				this.selectedTopicId = id;
+			},
 		},
 		mounted() {
 			this.getAllTopics();
 		},
 	};
 </script>
+
+<style>
+	.w-70 {
+		width: 65%;
+	}
+	.topic-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		width: 100%;
+	}
+
+	.table-container {
+		width: 100%;
+		overflow: hidden;
+	}
+
+	.detail-container {
+		width: 100%;
+	}
+	tr {
+		overflow: hidden;
+	}
+</style>

@@ -22,7 +22,7 @@
 							<div class="answer-date">{{ formatDate(answer.createdDate) }}</div>
 						</div>
 					</div>
-					<div class="answer-body bg-light p-4 rounded-4">{{ answer.content }}</div>
+					<div class="answer-body p-4 fs-6 rounded-4 bg-light">{{ answer.content }}</div>
 				</div>
 
 				<div class="answer-actions d-flex align-items-start justify-content-end">
@@ -117,6 +117,9 @@
 				showReplyTextarea: false,
 				replyIndex: null,
 				replyText: '',
+				answerUsers: [],
+				replyUsers: [],
+				numPosts: 0,
 			};
 		},
 
@@ -126,14 +129,39 @@
 				this.topic = res.data;
 				console.log('answer', res.data.topicAnswer);
 				this.answersdb = res.data.topicAnswer;
+
+				for (const answer of this.answersdb) {
+					const username = answer.answerCreator.username;
+					if (!this.answerUsers.includes(username)) {
+						this.answerUsers.push(username);
+					}
+
+					for (const reply of answer.replies) {
+						const username = reply.replyCreator.username;
+						if (!this.replyUsers.includes(username)) {
+							this.replyUsers.push(username);
+						}
+					}
+					// count the number of replies for this answer
+					const numReplies = answer.replies.length;
+
+					// increment the total number of posts
+					this.numPosts += 1 + numReplies;
+				}
+				const updateCountedForTopic = {
+					title: this.topic.title,
+					content: this.topic.content,
+					replyCount: this.numPosts,
+					userActive: this.answerUsers.length,
+				};
+				await TopicApis.updateTopic(updateCountedForTopic, this.topic.id).then(async (res) => {
+					console.log('update count');
+				});
+
+				// console.log(this.answerUsers.length);
+				// console.log(this.replyUsers.length);
+				// console.log(this.numPosts);
 			},
-			// async getUserByUsername() {
-			// 	const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
-			// 	this.userInfo.nickname = res.data.nickname;
-			// 	this.userInfo.lastname = res.data.lastname;
-			// 	this.userInfo.firstname = res.data.firstname;
-			// 	this.userInfo.picture = res.data.picture;
-			// },
 			async addAnswer() {
 				const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
 				const newAnswer = {
@@ -145,10 +173,10 @@
 					},
 					createdDate: new Date().toISOString(),
 					content: this.newAnswerText,
+
 					replies: [],
 				};
 
-				// console.log(newAnswer);
 				await TopicApis.createAnswer(
 					this.topic.id,
 					newAnswer,
@@ -217,13 +245,30 @@
 		mounted() {
 			this.created();
 		},
+		computed: {
+			numAnswerUsers() {
+				return this.answerUsers.length;
+			},
+			numReplyUsers() {
+				return this.replyUsers.length;
+			},
+			totalNumPosts() {
+				return this.numPosts;
+			},
+		},
+		// Whenever the id prop changes, the watcher is called with the new value of the id prop as the first argument and the old value as the second argument
+		watch: {
+			id(newValue, oldValue) {
+				this.created();
+			},
+		},
 	};
 </script>
 
 <style>
 	.discussion {
 		margin-top: 50px;
-		width: 80%;
+		width: 100%;
 		margin-left: auto;
 		margin-right: auto;
 	}
@@ -250,8 +295,8 @@
 	}
 
 	.profile-picture {
-		width: 50px;
-		height: 50px;
+		width: 40px;
+		height: 40px;
 		border-radius: 50%;
 		margin-right: 20px;
 	}
