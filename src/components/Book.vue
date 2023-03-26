@@ -114,7 +114,7 @@ export default {
   },
 
   created() {
-    // this.getGrammarMeanings();
+    this.getGrammarMeanings();
     this.getLessonById();
   },
 };

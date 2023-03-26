@@ -38,7 +38,60 @@ const saveEQuestion = async (lessonId, question) => {
   });
 };
 
+const saveQuestionToSec = async (lessonId, question, sid) => {
+  console.log(lessonId, sid)
+  return await instance
+  .post(`/questions/${lessonId}/${sid}`, 
+    question,
+  )
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const getQuestionBankByLesson = async (lessonId, sid) => {
+  return await instance
+  .get(`/questions/${lessonId}/${sid}`)
+  .then((res) => {
+    return res.data;
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const saveEQuestionToSec = async (lessonId, question, sid) => {
+  return await instance
+  .post(`/questions/e/${lessonId}/${sid}`, 
+    question,
+  )
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const getEQuestionBankByLesson = async (lessonId, sid) => {
+  return await instance
+  .get(`/questions/e/${lessonId}/${sid}`)
+  .then((res) => {
+    return res.data;
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
 export default {
     saveQuestion,
-    saveEQuestion
+    saveEQuestion,
+    saveQuestionToSec,
+    saveEQuestionToSec,
+    getQuestionBankByLesson,
+    getEQuestionBankByLesson
 }

@@ -1,4 +1,9 @@
 <template>
+    <div v-if="questions.length == 0">
+    {{statusMessage}}
+    </div>
+    <div v-else>
+    <p v-if="isTeacher">The exam will start at {{ startTime }} on {{ day }}</p>
     <p v-if="isStudent && !stop" id="time">Time remaining: {{ timer }}</p>
     <div v-if="!stop" class="row">
       <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
@@ -80,7 +85,7 @@
         </div>
       </div>
     </div>
-    <div v-if="isStudent && !stop" style="display:flex; justify-content: center;">
+    <div v-if="isStudent && !stop " style="display:flex; justify-content: center;" :hidden="!submit">
         <button class="btn btn-success" id="submitBtn"
                 data-bs-toggle="modal"
                 data-bs-target="#submitModal" >
@@ -105,8 +110,8 @@
     <div v-if="isStudent && stop"> 
     You submitted the exam!
     </div>
-    <p>{{ message }}</p>
-
+    <p v-if="isStudent">{{ message }}</p>
+  </div>
     
   </template>
   
@@ -116,7 +121,7 @@
   import LessonApis from "@/apis/LessonApis";
   
   export default {
-    props: ["lessonIdx", "sid", "exam", "time"],
+    props: ["lessonIdx", "sid", "exam", "time", "examContent"],
     components: {
       Audio,
     },
@@ -135,7 +140,11 @@
         eAnswers: [],
         timer: '',
         message: '',
-        stop: false
+        stop: false,
+        startTime: '',
+        day: new Date(),
+        statusMessage: 'Loading...',
+        submit: false
       };
     },
     methods: {
@@ -144,9 +153,22 @@
         let res = 0;
         if(this.userRole != 'admin'){
           if(this.exam) {
-            res = await LessonApis.getLessonById(this.lessonIdx)
-            console.log(res)
+            const res = await HomeworkApis.getExamBySection(this.$route.params.sid, this.$route.params.id).then((res) => {
+            if(res == undefined) {
+              this.statusMessage = 'No exam created. Please create one!'
+            }
+            else {
             this.questions = res.data.exam.questionList
+              this.startTime = res.data.startTime
+              this.day = new Date(res.data.startDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
+        
+            }
+            
+            })
+            // this.questions = res.data.exam.questionList
+            // console.log(res.data)
+            // this.startTime = res.data.startTime
+            // this.day = new Date(res.data.startDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
           } else {
             res = await HomeworkApis.getHomeworkBySection(
             this.lessonIdx,
@@ -179,6 +201,9 @@
         
       },
       chooseQuestion(question, num) {
+        if((num + 1) == this.questions.length) this.submit = true
+        else this.submit = false
+        console.log(num, this.questions.length)
         this.curr = num;
         this.num = num;
         this.question = {
@@ -236,6 +261,7 @@
         console.log(username, this.eAnswers)
         let examAnswer = {}
         let examAnswers = []
+        console.log(this.eAnswers.length)
         this.eAnswers.forEach(a => {
           examAnswer = {
             answer: a,
@@ -244,7 +270,7 @@
           examAnswers.push(examAnswer)
         });
         this.stop = true
-        await HomeworkApis.saveExamSubmission(this.sid, this.lessonIdx, examAnswers)
+        // await HomeworkApis.saveExamSubmission(this.sid, this.lessonIdx, examAnswers)
       },
       updateTimer(time) {
       // Set the date we're counting down to
@@ -267,7 +293,7 @@
       if (distance < 0) {
         this.timer = "TIME's UP!";
         this.message = "TIME's UP! Your exam will be auto-submitted in 5 seconds."
-        document.getElementById("submitBtn").disabled = true
+        // document.getElementById("submitBtn").disabled = true
         setInterval(() => {
           
         }, 5000);
