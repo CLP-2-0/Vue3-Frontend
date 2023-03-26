@@ -1,6 +1,8 @@
 <template>
-  <h4 v-if="this.questions == []">There is no assignment. Please create one!</h4>
-  <div class="row">
+  <div v-if="questions.length==0">
+  {{ statusMessage }}
+  </div>
+  <div v-else class="row">
     <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-light">
       <div
         class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white"
@@ -84,7 +86,6 @@ import HomeworkApis from "@/apis/HomeworkApis";
 import Audio from "./Audio.vue";
 import AnswerList from "./AnswerList.vue";
 import LessonApis from "@/apis/LessonApis";
-
 export default {
   props: ["lessonIdx", "sid", "exam"],
   components: {
@@ -103,7 +104,8 @@ export default {
       idx: 0,
       updateAnswer: 0,
       userRole: localStorage.getItem('user_role'),
-      answer: ''
+      answer: '',
+      statusMessage: 'Loading...'
     };
   },
   methods: {
@@ -119,8 +121,14 @@ export default {
           res = await HomeworkApis.getHomeworkBySection(
           this.lessonIdx,
           this.sid
-          )
-          this.questions = res.data.questionList;
+          ).then((res) => {
+            if(res == undefined) {
+              this.statusMessage = "No assignment created. Please create one!"
+            } else {
+            this.questions = res.data.questionList;
+
+            }
+          })
 
         }
         
@@ -137,12 +145,14 @@ export default {
         
 
       }
-      
-      this.question = this.questions[0].question.question;
+      if(this.questions.length != 0){
+        this.question = this.questions[0].question.question;
       this.point = this.questions[0].point;
       this.answer_s = this.questions[0].question.answer
       console.log(this.questions[0].question.answer)
       this.idx = this.questions[0].id;
+      }
+      
       this.updateAnswer++;
       
     },
@@ -150,6 +160,8 @@ export default {
       this.curr = num;
       this.num = num;
       this.question = question.question.question;
+      this.answer_s = question.question.answer
+      console.log(this.answer_s)
       this.point = question.point;
       this.idx = question.id;
       this.updateAnswer++;
@@ -171,6 +183,7 @@ export default {
           this.idx,
           answer
         ).then(() => {
+          this.answer = ''
           this.updateAnswer++;
           console.log(this.updateAnswer);
           foot.scrollIntoView({ behavior: "smooth" });

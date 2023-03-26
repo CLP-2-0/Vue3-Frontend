@@ -1,25 +1,16 @@
 <template>
-	<div v-if="isTeacher" id="set-exam">
-		<h4 class="col-sm-2 col-form-label">Set Exam Time:</h4>
-  <Datepicker v-model="picked" :clearable="true"/>
-
-  <input type="time" id="appt" name="appt" v-model="startTime">
-  <input type="submit" @click="setExam">
-	<button class="btn btn-outline-danger btn-sm" style="margin-left: 2%; margin-top: 0;" @click="clearDate">Cancel</button>
-
-<div v-if="this.day != ''">
-	<p>The exam will start at {{ startTime }} on {{ day }}</p>
-</div>
-	</div>
-
+  <div v-if=" this.type=='exam'">
   <div>
     <div v-if="isStudent && !started">
-    <p>The exam will begin at  {{ startTime }} on {{ day }}. The length of this exam is 2:00 hours.</p>
+    <p v-if="startTime == ''">{{ examStatus }}</p>
+    <div v-else>
+    <p>The exam will begin at  {{ startTime }} on {{ day }}. The length of this exam is {{ length }} hours.</p>
     <p>Once you are ready, click "Start Exam" button to start taking the exam. </p> 
     <p>  You can go back to previous question to re-do it. When you complete all questions, click "Submit" button to submit your work!
     </p>
     <button class="btn btn-outline-primary" id="startBtn" @click="startExam">Start Exam</button>
     <p>{{ closed }}</p>
+  </div>
     </div>
 	<div>
 
@@ -32,30 +23,11 @@
         :time="time"
       />
 	</div>
-  
-	<!-- <div v-if="!isStudent">
-		<button
-      type="button"
-      class="btn btn-success"
-      data-bs-toggle="collapse"
-      data-bs-target="#collapseExam"
-      v-bind:aria-expanded=isStudent
-      aria-controls="collapseHWCreation"
-    >
-      Preview Exam
-    </button>
-    <div class="collapse" id="collapseExam">
-      <Assignment
-        :lessonIdx="this.$route.params.id"
-        :key="update"
-        :exam="true"
-      />
-    </div>
-	</div> -->
     
     <hr />
-    <div v-if="isTeacher">
+    <div v-if="isTeacher && this.type == 'exam'">
     <h4>Exam Submission List</h4>
+    <div>{{submissionStatus}}</div>
     <div v-for="(submission, i) in submissions" >
       
       <div class="card p-2"
@@ -99,23 +71,32 @@
     </div>
     </div>
   </div>
-    <QuestionCreation
-      v-if="isAdmin"
+</div>
+</div>
+<div v-if="this.type=='assignment'">
+  <Assignment 
       :lessonIdx="this.$route.params.id"
-      type="exam"
+      :sid="this.$route.params.sid" 
+      :key="update" />
+</div>
+<hr />
+    <QuestionCreation
+      v-if="isAdmin || isTeacher"
+      :lessonIdx="this.$route.params.id"
+      :sid="this.$route.params.sid"
+      :type=type
       @exam-update="examUpdate($event)"
     />
-  </div>
 </template>
 
 <script>
 import QuestionCreation from "./QuestionCreation.vue";
 import ExamSubmission from "../ExamSubmission.vue";
-import Datepicker from 'vue3-datepicker'
 import HomeworkApis from "../../apis/HomeworkApis";
+import Assignment from "../Assignment.vue";
 
 export default {
-  props: ["lessonIdx"],
+  props: ["type"],
   data() {
     return {
     userRole: localStorage.getItem("user_role"),
@@ -130,45 +111,56 @@ export default {
     started: false,
     time: '',
     closed: '',
-    length: '2:00',
-    update: 0
+    length: '',
+    update: 0,
+    examStatus: "Loading...",
+    ready: '',
+    submissionStatus: "Loading..."
     };
   },
   name: "Exam",
   components: {
     QuestionCreation,
     ExamSubmission,
-    Datepicker,
+    Assignment
   },
 
   methods: {
-	async setExam() {
-		this.day = this.picked.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
-		let exam = {
-			startTime: this.startTime,
-			startDate: this.day
-		}
-		await HomeworkApis.saveExamToSection(this.$route.params.sid, this.$route.params.id, exam)
 
-	},
 	clearDate() {
 		this.picked = ''
 		this.startTime = ''
 		this.day = ''
 	},
 	async getExam() {
-		const res = await HomeworkApis.getExamBySection(this.$route.params.sid, this.$route.params.id)
+		const res = await HomeworkApis.getExamBySection(this.$route.params.sid, this.$route.params.id).then((res) => {
+      console.log(res)
+      if(res == undefined) {
+        this.examStatus = "No exam available."
+      } else {
+        if(res.data.submissions == 0) {
+          this.submissionStatus = "Submission List is empty!"
+        } else {
+          this.submissionStatus = ''
+        }
+        this.examContent = res.data.exam.questionList
 		let gradeJson = res.data.gradeMap
     this.gradeMap = JSON.parse(gradeJson);
     // console.log(gradeMap["thimoe14"])
 		this.startTime = res.data.startTime
-		this.day = res.data.startDate
+		this.day = new Date(res.data.startDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
     this.submissions = res.data.submissions
     this.loading = ''
+    this.length = res.data.length
+      }
+    })
+    
     
     const now = new Date().getTime()
     const time1 = this.startTime;
     const time2 = this.length;
+
+    this.ready = this.day + " " + time1
 
     // Convert time1 to minutes
     const [hours1, minutes1] = time1.split(":").map(Number);
@@ -186,6 +178,7 @@ export default {
     const minutes = totalMinutes % 60;
     const result = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
     this.time = this.day + " " + result
+    console.log("time", this.time)
     let timer = new Date(this.time).getTime()
 
     if(timer - now < 0) {
@@ -201,7 +194,13 @@ export default {
     })
   },
   startExam() {
+    let diff = new Date().getTime() - new Date(this.ready).getTime()
+    if(diff > 0) {
     this.started = true
+    } else {
+      this.closed = "The exam is not opened yet."
+    }
+    console.log(new Date(this.ready));
   },
   examUpdate(update) {
     this.update += update
@@ -209,6 +208,7 @@ export default {
   },
   mounted() {
 	this.getExam()
+  console.log(this.type)
   },
   computed: {
     isAdmin() {

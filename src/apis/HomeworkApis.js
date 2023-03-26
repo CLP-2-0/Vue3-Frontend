@@ -10,7 +10,7 @@ const saveHomework = async (lessonId, homework, section) => {
 
     console.log(lessonId, homework, section)
     return await instance
-    .post(`homework/s/${section}/${lessonId}`, 
+    .post(`homework/${section}/${lessonId}`, 
       homework,
     )
 
@@ -59,9 +59,9 @@ const getAnswersByQuestion = async (id) => {
 });
 }
 
-const saveExamToSection = async(sectionId, lessonId, exam) => {
+const saveExamToSection = async(sectionId, lessonId, start, day, length, exam) => {
   return await instance
-  .post(`/sections/exam/${sectionId}/${lessonId}`, exam)
+  .post(`/sections/exam/${sectionId}/${lessonId}/${start}/${day}/${length}`, exam)
 
   .then((res) => {
     console.log("sent");

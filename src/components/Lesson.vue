@@ -194,10 +194,11 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						<Homework :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" />
+						<!-- <Homework :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" /> -->
+						<Exam type="assignment"/>
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
-						<Exam />
+						<Exam type="exam"/>
 					</div>
 					<div class="tab-pane fade" id="nav-forum" role="tabpanel" aria-labelledby="nav-forum-tab">
 						<Forum />

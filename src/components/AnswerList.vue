@@ -1,5 +1,4 @@
 <template>
-    <button class="btn btn-outline-primary" v-if="isTeacher" @click="grade">Grade</button>
 
     <div id="answerSection" :key="updateAnswer">
       
@@ -20,7 +19,7 @@
               <p v-if="answer.type == 'text'">{{ answer.key }}</p>
               <div v-else>
                 <audio controls :id="['result_' +i]">
-                <source :src="['https://drive.google.com/uc?export=download&id='+ answer.key]" type="audio/mp3">
+                <source :src="[answer.key]" type="audio/mp3">
                 Your browser does not support the audio element.
               </audio>
               </div>
