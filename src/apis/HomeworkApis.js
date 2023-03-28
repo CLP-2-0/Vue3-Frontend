@@ -106,6 +106,29 @@ const gradeExamSubmission = async (sectionId, lessonId, submission, idx) => {
   });
 }
 
+const saveCommentToAnAnswer = async (username, id, comment) => {
+  return await instance
+  .post(`/graded-question/comment/${username}/${id}/${comment}`)
+  .then((res) => {
+    console.log("sent");
+  })
+  .catch(function (error) {
+    console.log("error:", error);
+  });
+}
+
+const getCommentsByAnswer = async (id) => {
+  return await instance
+  .get(`/graded-question/comments/${id}`)
+
+.then((res) => {
+  return res.data;
+})
+.catch(function (error) {
+  console.log("error:", error);
+});
+}
+
 export default {
     saveHomework,
     getHomeworkBySection,
@@ -114,5 +137,7 @@ export default {
     saveExamToSection,
     getExamBySection,
     saveExamSubmission,
-    gradeExamSubmission
+    gradeExamSubmission,
+    saveCommentToAnAnswer,
+    getCommentsByAnswer
 }

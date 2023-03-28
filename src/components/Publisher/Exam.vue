@@ -8,25 +8,26 @@
     <p>Once you are ready, click "Start Exam" button to start taking the exam. </p> 
     <p>  You can go back to previous question to re-do it. When you complete all questions, click "Submit" button to submit your work!
     </p>
-    <button class="btn btn-outline-primary" id="startBtn" @click="startExam">Start Exam</button>
+    <button class="btn btn-outline-primary" id="startBtn" @click="startExam" :disabled="closed != '' ? true : false">Start Exam</button>
     <p>{{ closed }}</p>
   </div>
     </div>
 	<div>
 
 		<ExamSubmission
-        v-if="isTeacher || isAdmin || started"
+        v-show="isTeacher || started"
         :lessonIdx="this.$route.params.id"
         :sid="this.$route.params.sid"
         :key="update"
         :exam="true"
         :time="time"
+        @questions-update="questionsUpdate($event)"
       />
 	</div>
     
     <hr />
-    <div v-if="isTeacher && this.type == 'exam'">
-    <h4>Exam Submission List</h4>
+    <div v-if="this.type == 'exam' && closed != '' ">
+    <h4>Exam Submission</h4>
     <div>{{submissionStatus}}</div>
     <div v-for="(submission, i) in submissions" >
       
@@ -36,12 +37,22 @@
       :data-bs-target="'#collapseSubmission' + i"
       aria-expanded="false"
       aria-controls="collapseHWCreation"
+      v-if="submission[0].student == userName"
     >
      <h6>Exam {{this.$route.params.id}}: {{ submission[0].student }}</h6>
     </div>
     <div class="collapse bg-light p-3" :id="['collapseSubmission' + i]" >
       <div v-for="(a, idx) in submission">
-        <h6>Question {{ idx+1 }}:</h6>
+        <h6>Question {{ idx+1 }}: ({{ questions[idx].point }} points)</h6>
+        <div v-html="questions[idx].question.question"></div>
+        <h6>Answer:</h6>
+        <p v-if="a.answer.type == 'text'">{{ a.answer.key }}</p>
+        <div v-else>
+          <audio controls :id="['result_' +i]">
+          <source :src="['https://drive.google.com/uc?export=download&id='+ a.answer.key]" type="audio/mp3">
+                Your browser does not support the audio element.
+          </audio>
+        </div>
         <form class="form-inline" ref="forGrade" :id="['RowA_' + idx]" >
 								<div class="form-group mb-2" style="width: 7%">
 									<label for="inputGrade">Grade</label>
@@ -51,20 +62,13 @@
 										:id="['inputGrade_' + idx]"
                     v-model.number="a.grade"
 										@change="addToTotal($event)"
+                    :disabled="isStudent"
 									/>
 								</div>
 							</form>
-        <h6>Answer:</h6>
-        <p v-if="a.answer.type == 'text'">{{ a.answer.key }}</p>
-              <div v-else>
-                <audio controls :id="['result_' +i]">
-                <source :src="['https://drive.google.com/uc?export=download&id='+ a.answer.key]" type="audio/mp3">
-                Your browser does not support the audio element.
-              </audio>
-              </div>
               <hr>
       </div>
-      <button class="btn btn-success" @click="grade(submission, i)">Done</button>
+      <button v-if="isTeacher" class="btn btn-success" @click="grade(submission, i)">Done</button>
 
       <h5>Total: {{ gradeMap[submission[0].student] }}</h5>
       <p>{{ loading }}</p>
@@ -115,7 +119,9 @@ export default {
     update: 0,
     examStatus: "Loading...",
     ready: '',
-    submissionStatus: "Loading..."
+    submissionStatus: "Loading...",
+    userName: localStorage.getItem("user_name"),
+    questions: []
     };
   },
   name: "Exam",
@@ -138,6 +144,7 @@ export default {
       if(res == undefined) {
         this.examStatus = "No exam available."
       } else {
+        console.log(res.data)
         if(res.data.submissions == 0) {
           this.submissionStatus = "Submission List is empty!"
         } else {
@@ -146,10 +153,15 @@ export default {
         this.examContent = res.data.exam.questionList
 		let gradeJson = res.data.gradeMap
     this.gradeMap = JSON.parse(gradeJson);
-    // console.log(gradeMap["thimoe14"])
 		this.startTime = res.data.startTime
 		this.day = new Date(res.data.startDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
     this.submissions = res.data.submissions
+    for(let taken of res.data.takenList) {
+      if(taken == this.userName) {
+        this.closed = "You already submitted this exam."
+        break;
+      }
+    }
     this.loading = ''
     this.length = res.data.length
       }
@@ -204,6 +216,10 @@ export default {
   },
   examUpdate(update) {
     this.update += update
+  },
+  questionsUpdate(list) {
+    console.log("list",list)
+    this.questions = list
   }
   },
   mounted() {
