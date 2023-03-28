@@ -105,8 +105,16 @@ export const store = createStore({
 											role: 'student',
 										});
 										console.log('save');
-									} else {
-										console.log('skip');
+									} else if (
+										!checkUserMongoDB.data.data.email_verified ||
+										checkUserMongoDB.data.data.email_verified === 'false'
+									) {
+										//update for email verified
+										await axios.put(`${import.meta.env.VITE_URI}/users/${username}`, {
+											picture: user.picture,
+											email_verified: user.email_verified,
+										});
+										console.log('STOREEEEEEEE');
 									}
 
 									//Check user's role
@@ -123,6 +131,11 @@ export const store = createStore({
 									localStorage.setItem('user_name', checkUserInfo.data.data.username);
 									localStorage.setItem('@email', checkUserInfo.data.data.email);
 
+									//Use this instead of without encript about ( change to Base64 for more security)
+									localStorage.setItem('username', btoa(String.fromCharCode(...new Uint8Array([...checkUserInfo.data.data.username].map(c => c.charCodeAt(0))))))
+									localStorage.setItem('profile', user.picture);
+									localStorage.setItem('lastname', checkUserInfo.data.data.lastname);
+									localStorage.setItem('firstname', checkUserInfo.data.data.firstname);
 									// console.log('role :', userRole);
 									if (userRole === 'admin') {
 										console.log('go to admin dashboard now');

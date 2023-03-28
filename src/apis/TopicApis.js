@@ -30,9 +30,9 @@ const getTopicById = async (topicId) => {
 			return null;
 		});
 };
-const createTopic = async (topicBody) => {
+const createTopic = async (topicBody, sid) => {
 	return await instance
-		.post('/topics', topicBody)
+		.post(`/topics/${sid}`, topicBody)
 
 		.then((res) => {
 			console.log('created');
@@ -67,9 +67,9 @@ const deleteTopic = async (topicId) => {
 		});
 };
 
-const createAnswer = async (topicId, answer, username) => {
+const createAnswer = async (topicId, answer) => {
 	return await instance
-		.post(`/topicanswer/${topicId}/answer/${username}`, answer)
+		.post(`/topicanswer/${topicId}/answer`, answer)
 
 		.then((res) => {
 			console.log('created');
@@ -79,9 +79,9 @@ const createAnswer = async (topicId, answer, username) => {
 		});
 };
 
-const createReply = async (answerId, reply, username) => {
+const createReply = async (answerId, reply) => {
 	return await instance
-		.post(`/replies/${answerId}/reply/${username}`, reply)
+		.post(`/replies/${answerId}/reply`, reply)
 
 		.then((res) => {
 			console.log('created');

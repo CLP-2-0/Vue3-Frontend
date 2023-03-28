@@ -1,4 +1,5 @@
 <template>
+	<div id="notification-box"></div>
 	<div class="discussion">
 		<h2 class="discussion-title">
 			<div>{{ topic.title }}</div>
@@ -10,14 +11,10 @@
 			<div v-for="(answer, index) in answersdb" :key="index" class="answer">
 				<div class="header-custom">
 					<div class="answer-header">
-						<img
-							:src="answer.answerCreator.picture"
-							alt="User Profile Picture"
-							class="profile-picture"
-						/>
+						<img :src="answer.pictureProfile" alt="User Profile Picture" class="profile-picture" />
 						<div class="user-info">
 							<div class="username">
-								{{ answer.answerCreator.firstname }} {{ answer.answerCreator.lastname }}
+								{{ answer.ansCreator }}
 							</div>
 							<div class="answer-date">{{ formatDate(answer.createdDate) }}</div>
 						</div>
@@ -47,14 +44,10 @@
 				<div v-if="answer.replies.length > 0" class="answer-replies mt-0 mb-2">
 					<div v-for="(reply, index) in answer.replies" :key="index" class="mb-4">
 						<div class="reply-header">
-							<img
-								:src="reply.replyCreator.picture"
-								alt="User Profile Picture"
-								class="profile-picture"
-							/>
+							<img :src="reply.pictureProfile" alt="User Profile Picture" class="profile-picture" />
 							<div class="user-info">
 								<div class="username">
-									{{ reply.replyCreator.firstname }} {{ reply.replyCreator.lastname }}
+									{{ reply.repCreator }}
 								</div>
 								<div class="reply-date">{{ formatDate(reply.createdDate) }}</div>
 							</div>
@@ -85,7 +78,6 @@
 
 <script>
 	import TopicApis from '@/apis/TopicApis';
-	import UserApis from '@/apis/UserApis.js';
 	import { QuillEditor } from '@vueup/vue-quill';
 	import cuid from 'cuid';
 	export default {
@@ -101,7 +93,6 @@
 		},
 		data() {
 			return {
-				answers: [],
 				answersdb: [],
 				newAnswerText: '',
 				topic: {},
@@ -131,13 +122,13 @@
 				this.answersdb = res.data.topicAnswer;
 
 				for (const answer of this.answersdb) {
-					const username = answer.answerCreator.username;
+					const username = answer.answerCreatorUsername;
 					if (!this.answerUsers.includes(username)) {
 						this.answerUsers.push(username);
 					}
 
 					for (const reply of answer.replies) {
-						const username = reply.replyCreator.username;
+						const username = reply.repCreatorUsername;
 						if (!this.replyUsers.includes(username)) {
 							this.replyUsers.push(username);
 						}
@@ -163,28 +154,20 @@
 				// console.log(this.numPosts);
 			},
 			async addAnswer() {
-				const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
 				const newAnswer = {
 					id: cuid(),
-					answerCreator: {
-						lastname: res.data.lastname,
-						firstname: res.data.firstname,
-						picture: res.data.picture,
-					},
+					ansCreatorUsername: localStorage.getItem('user_name'),
+					ansCreator: localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname'),
+					pictureProfile: localStorage.getItem('profile'),
 					createdDate: new Date().toISOString(),
 					content: this.newAnswerText,
-
 					replies: [],
 				};
 
-				await TopicApis.createAnswer(
-					this.topic.id,
-					newAnswer,
-					localStorage.getItem('user_name')
-				).then(async (res) => {
+				await TopicApis.createAnswer(this.topic.id, newAnswer).then(async (res) => {
 					this.answersdb.push(newAnswer);
 				});
-
+				this.showNotification('Answer posted successfully');
 				this.newAnswerText = '';
 				this.showAnswerForm = false;
 			},
@@ -195,32 +178,21 @@
 			},
 			async addReply() {
 				if (this.replyText !== null && this.replyText.trim() !== '') {
-					const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
 					const reply = {
-						// user: {
-						// 	name: 'John Doe',
-						// 	picture: 'https://via.placeholder.com/150',
-						// },
-						// date: new Date().toLocaleDateString(),
-						// text: this.replyText,
 						id: cuid(),
-						replyCreator: {
-							lastname: res.data.lastname,
-							firstname: res.data.firstname,
-							picture: res.data.picture,
-						},
+						repCreatorUsername: localStorage.getItem('user_name'),
+						repCreator: localStorage.getItem('firstname') + ' ' + localStorage.getItem('lastname'),
+						pictureProfile: localStorage.getItem('profile'),
 						createdDate: new Date().toISOString(),
 						content: this.replyText,
 					};
 
-					await TopicApis.createReply(
-						this.answersdb[this.replyIndex].id,
-						reply,
-						localStorage.getItem('user_name')
-					).then(async (res) => {
-						this.answersdb[this.replyIndex].replies.push(reply);
-					});
-
+					await TopicApis.createReply(this.answersdb[this.replyIndex].id, reply).then(
+						async (res) => {
+							this.answersdb[this.replyIndex].replies.push(reply);
+						}
+					);
+					this.showNotification('Reply posted successfully');
 					this.cancelReply();
 				}
 			},
@@ -239,7 +211,15 @@
 				const year = date.getFullYear().toString().slice(2);
 				const hours = date.getHours().toString().padStart(2, '0');
 				const minutes = date.getMinutes().toString().padStart(2, '0');
-				return `${day}/${month}/${year} ${hours}:${minutes}`;
+				return `${month}/${day}/${year} ${hours}:${minutes}`;
+			},
+			showNotification(message) {
+				const notificationBox = document.getElementById('notification-box');
+				notificationBox.innerHTML = message;
+				notificationBox.style.display = 'block';
+				setTimeout(function () {
+					notificationBox.style.display = 'none';
+				}, 3000);
 			},
 		},
 		mounted() {

@@ -1,23 +1,18 @@
 <template>
 	<div>
-		<nav class="navbar navbar-dark bg-dark">
-			<div class="container-fluid m-2">
-				<img
-					src="https://brand.tcu.edu/wp-content/uploads/2015/12/TCULogo_purple_5X7-01.jpg"
-					class="float-start"
-					alt="..."
-					style="width: 60px"
-				/>
+		<nav class="navbar navbar-dark bg-dark p-0">
+			<div class="container-fluid d-flex justify-content-spacebetween align-items-center mx-3">
+				<img src="../assets/Logo1CLP.png" class="float-start" alt="..." style="width: 80px" />
 
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
 					<router-link to="/profile"
-						><i class="fa fa-solid fa-user px-3" style="color: white"></i>{{ username }}
+						><i class="fa fa-solid fa-user px-3 py-0" style="color: white"></i>{{ username }}
 					</router-link>
 
 					<button
 						type="button"
-						class="btn btn-primary btn-sm mt-1 ms-3"
+						class="btn btn-primary btn-sm m-0 px-2"
 						@click="logout()"
 						v-if="this.$store.state.userIsAuthorized"
 					>

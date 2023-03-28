@@ -1,4 +1,5 @@
 <template>
+	<div id="notification-box"></div>
 	<div class="forum">
 		<button class="btn btn-primary mb-5" @click="toggleCreateTopic">Create Topic</button>
 		<!-- <create-topic /> -->
@@ -24,10 +25,22 @@
 					:options="editorOption"
 				/>
 				<div class="btn-container">
-					<button type="button" class="btn btn-outline-secondary mx-3" @click="cancel">
+					<button
+						type="button"
+						class="btn btn-outline-secondary mx-3"
+						@click="cancel"
+						:disabled="isLoading"
+					>
 						Cancel
 					</button>
-					<button type="button" class="btn btn-outline-success" @click="submit">Create</button>
+					<button
+						type="button"
+						class="btn btn-outline-success"
+						@click="submit"
+						:disabled="isLoading"
+					>
+						{{ isLoading ? 'Creating . . .' : 'Create' }}
+					</button>
 				</div>
 			</div>
 		</div>
@@ -69,6 +82,7 @@
 					</tbody>
 				</table>
 			</div>
+
 			<div class="detail-container">
 				<TopicDetail :id="selectedTopicId" v-if="selectedTopicId" />
 			</div>
@@ -89,6 +103,7 @@
 		},
 		data() {
 			return {
+				isLoading: false,
 				showCreateTopic: false,
 				title: '',
 				content: '',
@@ -105,21 +120,6 @@
 							[{ align: [] }],
 							['link', 'image', 'video'],
 						],
-						// toolbar: [
-						// 	['bold', 'italic', 'underline'],
-						// 	['blockquote', 'code-block'],
-						// 	[{ list: 'ordered' }, { list: 'bullet' }],
-						// 	[{ script: 'sub' }, { script: 'super' }],
-						// 	[{ indent: '-1' }, { indent: '+1' }],
-						// 	[{ direction: 'rtl' }],
-						// 	[{ size: ['small', false, 'large', 'huge'] }],
-						// 	[{ header: [1, 2, 3, 4, 5, 6, false] }],
-						// 	[{ color: [] }, { background: [] }],
-						// 	[{ font: [] }],
-						// 	[{ align: [] }],
-						// 	['clean'],
-						// 	['link', 'image', 'video'],
-						// ],
 					},
 				},
 				topics: [],
@@ -131,17 +131,21 @@
 				this.showCreateTopic = !this.showCreateTopic;
 			},
 			async submit() {
+				this.isLoading = true;
 				const topicData = {
 					title: this.title,
 					content: this.content,
 					createdDate: new Date().toISOString(),
 					lastPostDate: new Date().toISOString(),
 				};
-				await TopicApis.createTopic(topicData).then(async (res) => {
+				await TopicApis.createTopic(topicData, this.$route.params.sid).then(async (res) => {
 					await this.getAllTopics(); // make the post request
 				});
+
 				this.showCreateTopic = false;
 				this.resetForm();
+				this.isLoading = false;
+				this.showNotification('Created successfully!');
 			},
 			cancel() {
 				this.showCreateTopic = false;
@@ -153,12 +157,12 @@
 			},
 			async getAllTopics() {
 				const res = await TopicApis.getAllTopics();
-				this.topics = res.data;
+				this.topics = res.data.filter((topic) => topic.belongSection === this.$route.params.sid);
 				console.log(this.topics);
 			},
 			formatDate(dateString) {
 				const date = new Date(dateString);
-				return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear().toString().slice(2)}`;
+				return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear().toString().slice(2)}`;
 			},
 			async deleteTopic(id) {
 				if (!confirm('Are you sure you want to delete')) {
@@ -171,6 +175,14 @@
 			},
 			showTopicDetails(id) {
 				this.selectedTopicId = id;
+			},
+			showNotification(message) {
+				const notificationBox = document.getElementById('notification-box');
+				notificationBox.innerHTML = message;
+				notificationBox.style.display = 'block';
+				setTimeout(function () {
+					notificationBox.style.display = 'none';
+				}, 5000);
 			},
 		},
 		mounted() {
