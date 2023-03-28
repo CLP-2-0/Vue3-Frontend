@@ -122,6 +122,7 @@
   
   export default {
     props: ["lessonIdx", "sid", "exam", "time", "examContent"],
+    emits:['questions-update'],
     components: {
       Audio,
     },
@@ -161,7 +162,8 @@
             this.questions = res.data.exam.questionList
               this.startTime = res.data.startTime
               this.day = new Date(res.data.startDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
-        
+              this.$emit('questions-update', this.questions)
+              console.log("ok")
             }
             
             })
@@ -270,7 +272,7 @@
           examAnswers.push(examAnswer)
         });
         this.stop = true
-        // await HomeworkApis.saveExamSubmission(this.sid, this.lessonIdx, examAnswers)
+        await HomeworkApis.saveExamSubmission(this.sid, this.lessonIdx, examAnswers)
       },
       updateTimer(time) {
       // Set the date we're counting down to
