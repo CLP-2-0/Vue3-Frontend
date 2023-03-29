@@ -95,6 +95,14 @@
 
   <!-- Show question bank and able to assign new assignment/ exam  -->
   <div class="container tab-adjuster">
+    <div :hidden="!show">
+      <div v-if="isTeacher" class="form-check">
+			<input class="form-check-input" type="checkbox" value="" v-model="use" id="flexCheckDefault" @change="$event => usePredefined()">
+			<label class="form-check-label" for="flexCheckDefault">
+				Use predefined questions
+			</label>
+			</div>
+            </div>
 				<div class="row">
 					<div class="question-bank col">
 						<div
@@ -232,7 +240,9 @@
         day: '',
         picked: new Date(),
         startTime: '',
-        newBtn: "+ Add Question"
+        newBtn: "+ Add Question",
+        predefined: [],
+        use: false
       };
     },
     methods: {
@@ -276,7 +286,13 @@
         this.getQuestionBank().then(async () => {
           const res = await LessonApis.getLessonById(this.lessonIdx);
         if(this.type == 'assignment') {
-          this.questionsBank = res.data.questionsBank.concat(this.sectionQBank)
+          if(this.userRole == 'teacher') {
+            this.questionsBank = res.data.questionsBank.concat(this.sectionQBank)
+          } else if(this.userRole == 'admin') {
+          this.questionsBank = res.data.questionsBank
+          console.log(this.questionsBank)
+
+          }
         } else if(this.type == 'exam') {
             this.questionsBank = res.data.examBank.concat(this.sectionQBank)
           }
@@ -288,11 +304,21 @@
 					this.chosenQuestions.push(question)
 				}
         })
+
+        const res = await LessonApis.getLessonById(this.lessonIdx)
+          console.log(res)
+        if(this.type == 'exam'){
+          this.predefined = res.data.exam.questionList
+        } else {
+          this.predefined = res.data.predefined.questionList
+          
+        }
         
         
       },
       async getQuestionBank() {
-        if(this.type == 'assignment') {
+        if(this.userRole == 'teacher') {
+          if(this.type == 'assignment') {
         const res = await QuestionApis.getQuestionBankByLesson(this.lessonIdx, this.sid)
         this.sectionQBank = res.data
         } else {
@@ -300,6 +326,8 @@
           this.sectionQBank = res.data  
         }
         console.log(this.sectionQBank)
+        }
+        
       },
       creationShow() {
         this.show = !this.show
@@ -313,13 +341,9 @@
         // this.numOfQuestion = this.questionsBank.length
       },
       async saveExam() {
-        this.day = this.picked.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
+        if(this.userRole == 'teacher') {
+          this.day = this.picked.toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' });
         this.day = this.day.replaceAll("/", "-")
-        // let exam = {
-        //   startTime: this.startTime,
-        //   startDate: this.day,
-        //   length: this.examLength
-        // }
         await HomeworkApis.saveExamToSection(this.$route.params.sid, this.$route.params.id, this.startTime, this.picked, this.examLength, this.gradedQuestions).then(() => {
 					for (let idx in this.$refs.forGrade) {
 						this.$refs.forGrade[idx].reset();
@@ -329,6 +353,17 @@
           this.$emit('exam-update', 1)
 
 				});
+        } else if(this.userRole == 'admin') {
+          await LessonApis.saveExam(this.lessonIdx, this.gradedQuestions).then(() => {
+            for (let idx in this.$refs.forGrade) {
+						this.$refs.forGrade[idx].reset();
+						document.getElementById('Row_' + idx + this.type).hidden = true;
+					}
+          })
+          this.message = "Your exam has been created. Scroll up to see the new exam."
+          this.$emit('exam-update', 1)
+        }
+        
         // await LessonApis.saveExam(this.lessonIdx, this.gradedQuestions, time)
       },
       check(e, idx, type) {
@@ -381,6 +416,8 @@
 						this.$refs.forGrade[idx].reset();
 						document.getElementById('Row_' + idx + this.type).hidden = true;
 					}
+          this.message = "Your assignment has been created. Scroll up to see the new assignment."
+          this.$emit('exam-update', 1)
 				});
 				}
 				this.total = 0;
@@ -406,7 +443,40 @@
         } else {
           this.newBtn = "+ Add Question"
         }
-      }
+      },
+      async usePredefined() {
+        this.gradedQuestions = []
+        console.log(this.predefined)
+				let pIdx = 0
+				let len = this.predefined.length
+				for(let q of this.questionsBank){
+					let idx = this.questionsBank.indexOf(q)
+					
+					if(pIdx < len && q.question == this.predefined[pIdx].question.question) {	
+						this.chosenQuestions[idx].checked = this.use ? true : false				
+						document.getElementById('Row_' + idx + this.type).hidden = this.use ? false : true;
+						document.getElementById('inputGrade_' + idx + this.type).value = this.use ? this.predefined[pIdx].point : null
+            if(this.use) {
+              let gradedQuestion = {
+							question: this.predefined[pIdx].question,
+							point: this.predefined[pIdx].point,
+						};
+						this.gradedQuestions.push(gradedQuestion);
+            this.numOfQuestion++
+            } else {
+              this.numOfQuestion--
+            }
+						
+						// let p = this.predefined[pIdx].point;
+						// this.total += p;
+
+						pIdx++
+            
+
+					}
+				}
+				// this.numOfQuestion = this.gradedQuestions.length
+			}
     },
     
     mounted() {

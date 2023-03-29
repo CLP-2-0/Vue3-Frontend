@@ -196,7 +196,7 @@
 									role="tabpanel"
 									aria-labelledby="v-pills-grammar-tab"
 								>
-									<GrammarEditor :lessonIdx="this.$route.params.id" />
+									<GrammarEditor :lessonIdx="this.$route.params.id" :editable=false />
 								</div>
 								<div
 									class="tab-pane fade"
@@ -216,10 +216,10 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						<QuestionBank :lessonIdx="this.$route.params.id" />
+						<QuestionBank :lessonIdx="this.$route.params.id" type="assignment"/>
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
-						<Exam />
+						<QuestionBank :lessonIdx="this.$route.params.id" type="exam"/>
 					</div>
 					<div class="tab-pane fade" id="nav-forum" role="tabpanel" aria-labelledby="nav-forum-tab">
 						<Forum />

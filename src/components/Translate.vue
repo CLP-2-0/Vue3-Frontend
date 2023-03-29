@@ -41,11 +41,22 @@
 			async chineseToPinyin() {
 				const res = await LessonApis.getLessonById(this.lessonIdx);
 				this.title = await pinyin(res.data.title).toString();
-				this.PinyinContent = await pinyin(res.data.content);
-				this.chineseTitle = res.data.title;
-				this.chineseContent = res.data.content;
-				this.chineseContent = this.chineseContent.replace(/(<([^>]+)>)/gi, '');
+				// Create a new DOMParser
+				const parser = new DOMParser();
 
+				// Parse the HTML text to create a new DOM tree
+				const doc = parser.parseFromString(res.data.content, "text/html");
+
+				// Get all <sup> elements and remove them from their parent
+				const supTags = doc.querySelectorAll("sup");
+				supTags.forEach(supTag => supTag.parentNode.removeChild(supTag));
+
+				// Get the modified HTML text
+				const modifiedHtmlText = doc.documentElement.innerHTML;
+				this.PinyinContent = await pinyin(modifiedHtmlText);
+				this.chineseTitle = res.data.title;
+				this.chineseContent = modifiedHtmlText;
+				this.chineseContent = this.chineseContent.replace(/(<([^>]+)>)/gi, '');
 				this.characters = this.chineseContent.split('');
 
 				for (let ch of this.characters) {
