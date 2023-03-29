@@ -141,7 +141,9 @@ export default {
           this.questions = res.data.exam.questionList
         } else {
           this.questions = res.data.predefined.questionList
+          
         }
+        console.log(this.questions)
         
 
       }
@@ -149,7 +151,6 @@ export default {
         this.question = this.questions[0].question.question;
       this.point = this.questions[0].point;
       this.answer_s = this.questions[0].question.answer
-      console.log(this.questions[0].question.answer)
       this.idx = this.questions[0].id;
       }
       

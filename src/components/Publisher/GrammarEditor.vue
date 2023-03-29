@@ -8,14 +8,18 @@
       </tr>
     </thead>
     <tr v-for="(group, index) in gralist" :key="index">
-      <td>{{ group.superscript }}</td>
-      <td>{{ group.underlinedChars.join("...") }}</td>
-      <td><input type="text" v-model="meaning[index]" /></td>
+      <td>{{ group.num }}</td>
+      <td>{{ group.structure}}</td>
+      <td ><input type="text" v-model="group.meaning" :disabled="!editable"/></td>
     </tr>
   </table>
-  <div class="btn-container">
-    <button @click="saveMeanings" type="button" class="btn btn-outline-success">
-      Save
+  <div v-if="editable" class="btn-container">
+    <button @click="saveMeanings" type="button" class="btn btn-outline-success" 
+    data-bs-toggle="collapse"
+      data-bs-target="#collapseTwo"
+      aria-expanded="false"
+      aria-controls="collapseTwo">
+      Done
     </button>
   </div>
 </template>
@@ -25,32 +29,49 @@ import LessonApis from "@/apis/LessonApis.js";
 // import GrammarApis from "@/apis/GrammarApis.js";
 
 export default {
-  props: ["lessonIdx"],
+  props: ["lessonIdx", "content", "editable", "update"],
   data() {
     return {
       gralist: [],
-      content: "",
       meaning: [],
     };
   },
   methods: {
     async getGrammarMeanings() {
-      console.log(this.meaning);
+      // console.log(this.meaning);
       const res = await LessonApis.getLessonGrammarMeanings(this.lessonIdx);
-      this.meaning = res.data;
-      console.log(this.meaning);
+      this.gralist = res.data
+      if(this.update >= 1) {
+        let grammars = this.testing()
+        console.log(grammars.length)
+        if(grammars.length != this.gralist.length) {
+          this.gralist = grammars
+        }
+      }
+      // if(grammars.length != res.data.length){
+      //   this.gralist = grammars
+      // } else {
+      //   this.gralist = res.data
+      // }
+      // if(res.data.length == 0 ) {
+      //   this.testing()
+      // } else {
+      // this.gralist = res.data;
+
+      // }
     },
     async saveMeanings() {
+      console.log(this.gralist)
       await LessonApis.saveLessonGrammarMeanings(
         this.lessonIdx,
-        this.meaning
+        this.gralist
       ).then(async (res) => {
         this.getGrammarMeanings();
       });
     },
-    async testing() {
-      const res = await LessonApis.getLessonById(this.lessonIdx);
-      this.content = res.data.content;
+    testing() {
+      // const res = await LessonApis.getLessonById(this.lessonIdx);
+      // this.content = res.data.content;
       let parser = new DOMParser();
       let doc = parser.parseFromString(this.content, "text/html");
       let underlined = doc.body.querySelectorAll("u");
@@ -60,28 +81,26 @@ export default {
         let underlinedChar = element.textContent;
         let next = element.nextElementSibling;
         if (next && next.tagName === "SUP") {
-          let superscript = next.textContent;
-          if (superscriptMap.has(superscript)) {
-            superscriptMap
-              .get(superscript)
-              .underlinedChars.push(underlinedChar);
-            if (this.meaning.length == 0) {
-              this.meaning.push("");
-            }
+          let num = next.textContent;
+          if (superscriptMap.has(num)) {
+            let structure = superscriptMap.get(num) +"..."+underlinedChar
+            superscriptMap.set(num, structure)
           } else {
-            superscriptMap.set(superscript, {
-              superscript,
-              underlinedChars: [underlinedChar],
-            });
+            let structure = underlinedChar
+            superscriptMap.set(num, structure)
           }
         }
       }
-      this.gralist = Array.from(superscriptMap.values());
+      let list = Array.from(superscriptMap, ([num, structure]) => ({ num, structure, meaning: "" }));
+      // this.gralist = Array.from(superscriptMap, ([num, structure]) => ({ num, structure, meaning: "" }));
+      console.log(list)
+      return list
     },
   },
   mounted() {
-    this.testing();
     this.getGrammarMeanings();
+    // this.testing();
+    console.log("update ", this.update)
   },
 };
 </script>

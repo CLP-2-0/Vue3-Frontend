@@ -1,22 +1,14 @@
 <template>
   <div class="container tab-adjuster">
-    <!-- Button trigger modal -->
-    <button
-      type="button"
-      class="btn btn-success"
-      data-bs-toggle="collapse"
-      data-bs-target="#collapseHWCreation"
-      aria-expanded="false"
-      aria-controls="collapseHWCreation"
-    >
-      Pre-defined Assignment
-    </button>
-    <div class="collapse" id="collapseHWCreation">
-      <Homework :lessonIdx="this.$route.params.id"/>
+    <div >
+      <Assignment 
+          :lessonIdx="this.$route.params.id"
+          :key="update"
+          :exam="type!='assignment'"
+           />
     </div>
     <hr />
-    <h2>Question Bank</h2>
-    <QuestionCreation :lessonIdx="this.$route.params.id" type="assignment"/>
+    <QuestionCreation :lessonIdx="this.$route.params.id" :type=type @exam-update="examUpdate($event)"/>
 
 </div>
 
@@ -27,23 +19,29 @@ import QuestionApis from '@/apis/QuestionApis';
 import LessonApis from '@/apis/LessonApis';
 import Homework from '../Homework.vue';
 import QuestionCreation from './QuestionCreation.vue';
+import Assignment from '../Assignment.vue';
 
 export default {
   name: "Question Bank",
   components: {
     Homework,
-    QuestionCreation
+    QuestionCreation,
+    Assignment
   },
-  props: ["lessonIdx"],
+  props: ["lessonIdx", "type"],
   data() {
     return {
+      update: 0
     };
   },
   methods: {
-
+    examUpdate(update) {
+    this.update += update
+  },
   },
   
   mounted() {
+    console.log(this.type)
   },
 };
 </script>

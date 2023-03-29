@@ -1,4 +1,13 @@
 <template>
+  <div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Edit Vocab
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      
   <table class="table" id="vocabTable">
     <thead>
       <tr>
@@ -50,28 +59,46 @@
       type="button"
       class="btn btn-outline-success"
       data-bs-toggle="collapse"
-      data-bs-target="#collapseExample"
+      data-bs-target="#collapseOne"
       aria-expanded="false"
-      aria-controls="collapseExample"
+      aria-controls="collapseOne"
       @click="saveTable"
     >
-      Save vocab
+      Done
     </button>
   </div>
+  
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Edit Grammar
+      </button>
+    </h2>
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <GrammarEditor :lessonIdx="lessonIdx" :content="content" :editable=true :update="update"/>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>
 import axios from "axios";
 import VocabApis from "@/apis/VocabApis";
+import GrammarEditor from "./GrammarEditor.vue";
 
 export default {
-  props: ["red", "lessonIdx", "title", "content"],
+  props: ["red", "lessonIdx", "title", "content", "update"],
 
   name: "Mock",
-  components: {},
+  components: {
+    GrammarEditor
+  },
   data() {
     return {
       vocabs: [],
+      htmlContent: this.content,
     };
   },
 
@@ -104,11 +131,12 @@ export default {
         .then(async () => {
           const res = await VocabApis.saveVocabs(this.lessonIdx, this.red);
         })
-        .then(() => {
-          this.$router.go(this.$router.currentRoute);
-        });
+        // .then(() => {
+        //   this.$router.go(this.$router.currentRoute);
+        // });
     },
   },
-  mounted() {},
+  mounted() {
+  },
 };
 </script>

@@ -22,7 +22,7 @@
       />
       <div class="btn-container">
         <button type="button" class="btn btn-outline-success" @click="save">
-          Save
+          Generate Vocabs and Grammars
         </button>
       </div>
       <!-- for binding content from quill-editor need v-model:content='' and contentType='html' -->
@@ -38,7 +38,12 @@
     </div>
   </div>
 
-  <Mock :red="red" :lessonIdx="lessonIdx" :title="title" :content="content" />
+  <Mock :red="red" :lessonIdx="lessonIdx" :title="title" :content="content" :key="update" :update="update"/>
+  <div class="btn-container">
+        <button type="button" class="btn btn-outline-success" @click="reload()">
+          Save Book
+        </button>
+      </div>
 </template>
 
 <script>
@@ -83,6 +88,7 @@ export default {
 
       yellow: [],
       modelName: "",
+      update: 0
     };
   },
   methods: {
@@ -117,7 +123,6 @@ export default {
               n < this.oldVocabs.length &&
               spanChild.innerHTML.trim() == this.oldVocabs[n].word
             ) {
-              console.log("old word", this.oldVocabs[n].word);
               vocabs.push(this.oldVocabs[n]);
               n++;
             } else {
@@ -138,7 +143,11 @@ export default {
       }
       console.log("v", vocabs);
       this.red = vocabs;
+      this.update++
     },
+    reload() {
+      this.$router.go(this.$router.currentRoute);
+    }
   },
   mounted() {
     this.getLesson();

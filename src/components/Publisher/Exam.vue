@@ -26,7 +26,7 @@
 	</div>
     
     <hr />
-    <div v-if="this.type == 'exam' && closed != '' ">
+    <div v-if="this.type == 'exam' && closed != '' || isTeacher ">
     <h4>Exam Submission</h4>
     <div>{{submissionStatus}}</div>
     <div v-for="(submission, i) in submissions" >
@@ -37,7 +37,7 @@
       :data-bs-target="'#collapseSubmission' + i"
       aria-expanded="false"
       aria-controls="collapseHWCreation"
-      v-if="submission[0].student == userName"
+      v-if="isTeacher || submission[0].student == userName"
     >
      <h6>Exam {{this.$route.params.id}}: {{ submission[0].student }}</h6>
     </div>
@@ -156,6 +156,7 @@ export default {
 		this.startTime = res.data.startTime
 		this.day = new Date(res.data.startDate).toLocaleDateString('en-US', { month: 'numeric', day: 'numeric', year: 'numeric' })
     this.submissions = res.data.submissions
+    console.log(this.submissions)
     for(let taken of res.data.takenList) {
       if(taken == this.userName) {
         this.closed = "You already submitted this exam."

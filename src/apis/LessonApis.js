@@ -114,10 +114,10 @@ const saveHomework = async (lessonId, homework) => {
 		});
 };
 
-const saveExam = async (lessonId, homework, time) => {
-	console.log(lessonId, homework, time);
+const saveExam = async (lessonId, homework) => {
+	console.log(lessonId, homework);
 	return await instance
-		.post(`/lessons/exam/${lessonId}/${time}`, homework)
+		.post(`/lessons/exam/${lessonId}`, homework)
 
 		.then((res) => {
 			console.log('sent');
