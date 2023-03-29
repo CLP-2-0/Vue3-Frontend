@@ -1,5 +1,6 @@
 <template>
 	<NavbarActive />
+	<div id="notification-box"></div>
 	<div class="container-fluid header-container" v-if="isTeacherorStudent">
 		<div class="container">
 			<nav aria-label="breadcrumb">
@@ -49,7 +50,7 @@
 								Change Picture
 							</button> -->
 						</div>
-						<div class="card-footer pb-3">
+						<div class="card-footer pb-3" v-if="isStudent">
 							<div class="d-block">
 								<button class="btn btn-secondary btn-block px-2" @click="requestTeacher()">
 									I'm Teacher
@@ -116,20 +117,6 @@
 									{{ errors.lastname }}
 								</div>
 							</div>
-
-							<!-- <div class="form-group">
-								<label for="hometown">Hometown:</label>
-								<input
-									type="text"
-									class="form-control"
-									id="hometown"
-									v-model="hometown"
-									:class="{ 'is-invalid': errors.hometown }"
-								/>
-								<div class="invalid-feedback" v-if="errors.hometown">
-									{{ errors.hometown }}
-								</div>
-							</div> -->
 							<br />
 
 							<hr />
@@ -139,7 +126,33 @@
 						</div>
 					</div>
 				</div>
-				<div id="notification-box"></div>
+
+				<div
+					class="modal fade"
+					id="requiredModal"
+					tabindex="-1"
+					aria-labelledby="requiredModalLabel"
+					aria-hidden="true"
+					role="dialog"
+				>
+					<div class="modal-dialog modal-dialog-centered">
+						<div class="modal-content">
+							<div class="modal-header justify-content-center">
+								<h5 class="modal-title text-uppercase text-danger" id="requiredModalLabel">
+									Action required!
+								</h5>
+							</div>
+							<div class="modal-body text-center p-5">
+								{{ this.message }}
+							</div>
+							<div class="modal-footer justify-content-center">
+								<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+									Close
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -165,12 +178,11 @@
 					email_verified: '',
 					emailStatus: '',
 					picture: '',
+					requestedRole: '',
+					role: '',
 				},
-				updatedInfo: {
-					nickname: '',
-					firstname: '',
-					lastname: '',
-				},
+				message:
+					'Require: Please update account with your first and last name, and verify your email for future access.',
 				errors: {},
 				userRole: localStorage.getItem('user_role'),
 			};
@@ -197,12 +209,15 @@
 				this.userInfo.lastname = res.data.lastname;
 				this.userInfo.firstname = res.data.firstname;
 				this.userInfo.picture = res.data.picture;
+				this.userInfo.role = res.data.role;
 				this.userInfo.email_verified = res.data.email_verified;
+
 				if (res.data.email_verified === 'true') {
 					this.userInfo.emailStatus = 'Active';
 				} else {
 					this.userInfo.emailStatus = 'Pending';
 				}
+				this.showModal();
 			},
 			async updateUser() {
 				this.errors = {};
@@ -221,7 +236,9 @@
 			},
 
 			async requestTeacher() {
-				this.requestSuccess = true;
+				this.userInfo.requestedRole = 'teacher';
+				await UserApis.updateUser(localStorage.getItem('user_name'), this.userInfo);
+				console.log(this.userInfo);
 				this.showNotification('Requested role successful!');
 				setTimeout(() => {
 					this.requestSuccess = false;
@@ -235,6 +252,16 @@
 					notificationBox.style.display = 'none';
 				}, 5000);
 			},
+			async showModal() {
+				if (
+					this.userInfo.firstname === null ||
+					this.userInfo.lastname === null ||
+					!this.userInfo.lastname ||
+					!this.userInfo.firstname
+				) {
+					$('#requiredModal').modal('show');
+				}
+			},
 		},
 		computed: {
 			...mapState(['userInfo']),
@@ -243,6 +270,9 @@
 			},
 			isAdmin() {
 				return this.userRole === 'admin';
+			},
+			isStudent() {
+				return this.userRole === 'student';
 			},
 		},
 		mounted() {

@@ -23,7 +23,6 @@ export const store = createStore({
 			responseType: import.meta.env.VITE_AUTH0_CONFIG_RESPONSETYPE,
 			scope: import.meta.env.VITE_AUTH0_CONFIG_SCOPE,
 		}),
-
 	},
 	mutations: {
 		setUserIsAuthenticated(state, replacement) {
@@ -86,7 +85,7 @@ export const store = createStore({
                                     */
 
 									// console.log(userInfo.data);
-									console.log(user);
+									// console.log(user);
 									const username = user.email.split('@')[0];
 
 									//Check if the user is existed in MongoDB
@@ -106,11 +105,15 @@ export const store = createStore({
 										});
 										console.log('save');
 									} else if (
-										!checkUserMongoDB.data.data.email_verified ||
-										checkUserMongoDB.data.data.email_verified === 'false'
+										(!checkUserMongoDB.data.data.email_verified ||
+											checkUserMongoDB.data.data.email_verified === 'false') &&
+										(checkUserMongoDB.data.data.lastname !== null ||
+											checkUserMongoDB.data.data.firstname !== null)
 									) {
 										//update for email verified
 										await axios.put(`${import.meta.env.VITE_URI}/users/${username}`, {
+											lastname: checkUserMongoDB.data.data.lastname,
+											firstname: checkUserMongoDB.data.data.firstname,
 											picture: user.picture,
 											email_verified: user.email_verified,
 										});
@@ -132,7 +135,16 @@ export const store = createStore({
 									localStorage.setItem('@email', checkUserInfo.data.data.email);
 
 									//Use this instead of without encript about ( change to Base64 for more security)
-									localStorage.setItem('username', btoa(String.fromCharCode(...new Uint8Array([...checkUserInfo.data.data.username].map(c => c.charCodeAt(0))))))
+									localStorage.setItem(
+										'username',
+										btoa(
+											String.fromCharCode(
+												...new Uint8Array(
+													[...checkUserInfo.data.data.username].map((c) => c.charCodeAt(0))
+												)
+											)
+										)
+									);
 									localStorage.setItem('profile', user.picture);
 									localStorage.setItem('lastname', checkUserInfo.data.data.lastname);
 									localStorage.setItem('firstname', checkUserInfo.data.data.firstname);
@@ -141,8 +153,15 @@ export const store = createStore({
 										console.log('go to admin dashboard now');
 										router.push('/publisher/dashboard');
 									} else {
-										console.log('go to dashboard now');
-										router.push('/dashboard');
+										if (
+											checkUserMongoDB.data.data.lastname === null ||
+											checkUserMongoDB.data.data.firstname === null
+										) {
+											router.push('/profile');
+										} else {
+											console.log('go to dashboard now');
+											router.push('/dashboard');
+										}
 									}
 								} catch (error) {
 									console.error(error);

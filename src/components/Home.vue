@@ -4,7 +4,7 @@
 			<div class="loading-spinner"></div>
 			<div class="loading-spinner-1"></div>
 		</div>
-		<p class="mt-4 text-uppercase fs-6 fw-bold">L o a d i n g . . .</p>
+		<p class="mt-4 text-uppercase fs-6 fw-bold loading">L o a d i n g . . .</p>
 	</div>
 </template>
 
@@ -69,7 +69,7 @@
 		animation: spin 1.2s linear infinite;
 	}
 
-	p {
+	.loading {
 		color: #8e6e5e;
 	}
 	@keyframes spin {

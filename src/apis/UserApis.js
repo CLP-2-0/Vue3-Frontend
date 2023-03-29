@@ -67,11 +67,23 @@ const deleteUser = async (username) => {
 			console.log(error);
 		});
 };
+const getUserByRequestedRole = async (requestedRole) => {
+	return await instance
+		.get(`/users/all/${requestedRole}`)
+		.then((res) => {
+			return res.data;
+		})
+		.catch((error) => {
+			console.error(error);
+			return null;
+		});
+};
 
 export default {
 	getUsers,
 	getUserByUsername,
 	createUser,
 	updateUser,
-	deleteUser
+	deleteUser,
+	getUserByRequestedRole,
 };
