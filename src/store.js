@@ -116,6 +116,7 @@ export const store = createStore({
 											firstname: checkUserMongoDB.data.data.firstname,
 											picture: user.picture,
 											email_verified: user.email_verified,
+											role:'student'
 										});
 										console.log('STOREEEEEEEE');
 									}
@@ -152,17 +153,18 @@ export const store = createStore({
 									if (userRole === 'admin') {
 										console.log('go to admin dashboard now');
 										router.push('/publisher/dashboard');
-									} else {
-										if (
-											checkUserMongoDB.data.data.lastname === null ||
-											checkUserMongoDB.data.data.firstname === null
+									} else if (
+											checkUserInfo.data.data.lastname === null ||
+											checkUserInfo.data.data.firstname === null
 										) {
 											router.push('/profile');
-										} else {
-											console.log('go to dashboard now');
+										}
+									else {
+										console.log("check")
+		
 											router.push('/dashboard');
 										}
-									}
+									
 								} catch (error) {
 									console.error(error);
 								}
