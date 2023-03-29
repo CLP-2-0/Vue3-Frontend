@@ -6,14 +6,7 @@
 					<tr
 						v-for="(lesson, index) in lessons"
 						:key="lesson.id"
-						class="m-4 lesson"
-						:class="{ dragging: dragIndex === index, dragover: dragOverIndex === index }"
-						:draggable="true"
-						@dragstart="handleDragStart($event, index)"
-						@dragenter="handleDragEnter($event, index)"
-						@dragleave="handleDragLeave"
-						@dragover.prevent
-						@drop="handleDrop($event, index)"
+		
 					>
 						<td>
 							<router-link :to="{ name: 'Lesson', params: { id: lesson.id } }" draggable="false">
@@ -46,43 +39,7 @@
 				console.log('this from list', res.data);
 				console.log('lessons res:', this.lessons);
 			},
-			handleDragStart(event, index) {
-				this.dragIndex = index;
-			},
-			handleDragEnter(event, index) {
-				if (index !== this.dragIndex) {
-					this.dragOverIndex = index;
-				}
-			},
-			handleDragLeave(event) {
-				this.dragOverIndex = null;
-			},
-			async handleDrop(event, index) {
-				if (index !== this.dragIndex) {
-					const temp = this.lessons[index];
-					this.lessons[index] = this.lessons[this.dragIndex];
-					this.lessons[this.dragIndex] = temp;
-				}
-				this.dragIndex = null;
-				this.dragOverIndex = null;
-
-				// create new update Lessons after drag and drop
-				const updatedLessons = this.lessons.map((lesson, index) => ({
-					...lesson,
-					order: index,
-				}));
-
-				// Log the updated lessons to the console
-				console.log('this new array:', updatedLessons);
-
-				// Call the saveAllLessons to update the backend with new order
-				try {
-					await LessonApis.saveAllLessons(updatedLessons);
-					console.log('All lessons save');
-				} catch (error) {
-					console.log(error);
-				}
-			},
+			
 		},
 		mounted() {
 			this.getLessons();

@@ -11,13 +11,16 @@
 				<tbody>
 					<tr v-for="student in sortedAndFilteredStudents" :key="student.id">
 						<td>
+							<div class="text-dark m-3">{{ student.firstname }}, {{ student.lastname }}</div>
+						</td>
+						<td>
 							<div class="text-dark m-3">{{ student.email }}</div>
 						</td>
-						<td class="text-right">
+						<!-- <td class="text-right">
 							<div>
 								<i class="fa-solid fa-pen-to-square mx-5 mt-4" @click="editUser(student.id)"></i>
 							</div>
-						</td>
+						</td> -->
 					</tr>
 				</tbody>
 			</table>

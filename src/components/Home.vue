@@ -4,7 +4,7 @@
 			<div class="loading-spinner"></div>
 			<div class="loading-spinner-1"></div>
 		</div>
-		<p class="mt-4 text-uppercase fs-6 fw-bold">L o a d i n g . . .</p>
+		<p class="mt-4 text-uppercase fs-6 fw-bold loading">L o a d i n g . . .</p>
 	</div>
 </template>
 
@@ -52,8 +52,8 @@
 	.loading-spinner {
 		position: absolute;
 		/* border: 10px solid #f3f3f3; */
-		border-top: 10px solid #5f278d;
-		border-bottom: 10px solid #5f278d;
+		border-top: 5px solid #8e6e5e;
+		border-bottom: 5px solid #8e6e5e;
 		border-radius: 50%;
 		width: 40px;
 		height: 100px;
@@ -61,16 +61,16 @@
 	}
 	.loading-spinner-1 {
 		/* border: 10px solid #f3f3f3; */
-		border-left: 10px solid #5f278d;
-		border-right: 10px solid #5f278d;
+		border-left: 5px solid #8e6e5e;
+		border-right: 5px solid #8e6e5e;
 		border-radius: 50%;
 		width: 100px;
 		height: 40px;
 		animation: spin 1.2s linear infinite;
 	}
 
-	p {
-		color: #581e88;
+	.loading {
+		color: #8e6e5e;
 	}
 	@keyframes spin {
 		0% {
