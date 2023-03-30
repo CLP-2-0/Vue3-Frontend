@@ -74,7 +74,7 @@
 							</td>
 							<td>{{ formatDate(topic.lastPostDate) }}</td>
 							<td class="text-right">
-								<i class="fa-solid fa-pen-to-square mx-3" @click="editTopic(topic.id)"></i>
+								<!-- <i class="fa-solid fa-pen-to-square mx-3" @click="editTopic(topic.id)"></i> -->
 
 								<i class="fa-solid fa-sm fa-x" @click="deleteTopic(topic.id)"></i>
 							</td>
