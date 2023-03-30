@@ -173,7 +173,7 @@
 									role="tabpanel"
 									aria-labelledby="v-pills-grammar-tab"
 								>
-									<!-- <Grammar :lessonIdx="this.$route.params.id" /> -->
+								<GrammarEditor :lessonIdx="this.$route.params.id" :editable=false />
 								</div>
 								<div
 									class="tab-pane fade"
@@ -219,7 +219,7 @@
 	import Book from './Book.vue';
 	import Homework from './Homework.vue';
 	import UserList from './UserList.vue';
-	import Grammar from './Grammar.vue';
+	import GrammarEditor from './Publisher/GrammarEditor.vue'
 	import Exam from './Publisher/Exam.vue';
 	import Forum from './Forum.vue';
 	export default {
@@ -231,7 +231,7 @@
 			Book,
 			Homework,
 			UserList,
-			Grammar,
+			GrammarEditor,
 			Exam,
 			Forum,
 		},
