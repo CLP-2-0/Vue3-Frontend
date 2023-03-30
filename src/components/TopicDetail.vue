@@ -3,10 +3,12 @@
 	<div class="discussion">
 		<h2 class="discussion-title">
 			<div>{{ topic.title }}</div>
-			<h4>
-				<div v-html="topic.content"></div>
-			</h4>
 		</h2>
+		<div class="bg-light p-3 fs-6">
+			<h5>Question:</h5>
+			<div v-html="topic.content"></div>
+		</div>
+
 		<div class="discussion-answers">
 			<div v-for="(answer, index) in answersdb" :key="index" class="answer">
 				<div class="header-custom">
@@ -203,6 +205,10 @@
 			},
 			toggleAnswerForm() {
 				this.showAnswerForm = !this.showAnswerForm;
+				//Scroll to the last page
+				this.$nextTick(() => {
+					window.scrollTo(0, document.body.scrollHeight);
+				});
 			},
 			formatDate(dateString) {
 				const date = new Date(dateString);

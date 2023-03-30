@@ -232,6 +232,10 @@
 					await UserApis.updateUser(localStorage.getItem('user_name'), this.userInfo);
 
 					this.showNotification('Save successful!');
+
+					setTimeout(() => {
+						window.location.reload();
+					}, 1000);
 				}
 			},
 
