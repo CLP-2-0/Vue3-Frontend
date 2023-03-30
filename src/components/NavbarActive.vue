@@ -28,8 +28,13 @@
 									</button></router-link
 								>
 							</li>
-							<li v-if="isAdmin"><router-link to="/request"><button class="dropdown-item text-end" type="button">Request Teacher</button></router-link
-								></li>
+							<li v-if="isAdmin">
+								<router-link to="/request"
+									><button class="dropdown-item text-end" type="button">
+										Request Teacher
+									</button></router-link
+								>
+							</li>
 							<li><hr class="m-1 p-0" /></li>
 							<li>
 								<button
@@ -55,18 +60,23 @@
 
 <script>
 	import { mapState } from 'vuex';
+	import UserApis from '@/apis/UserApis.js';
 	export default {
 		data() {
 			return {
 				username: localStorage.getItem('user_name'),
-				lastname: localStorage.getItem('lastname'),
+				lastname: '',
 				showGreeting: false,
 				userRole: localStorage.getItem('user_role'),
 			};
 		},
 		methods: {
-			checkLastname() {
-				if (this.lastname == '' || !this.lastname) {
+			async checkLastname() {
+				const res = await UserApis.getUserByUsername(localStorage.getItem('user_name'));
+				console.log(res);
+				this.lastname = res.data.lastname;
+				console.log('this is lastname', this.lastname);
+				if (this.lastname === null || !this.lastname) {
 					this.showGreeting = true;
 				} else {
 					this.showGreeting = false;
