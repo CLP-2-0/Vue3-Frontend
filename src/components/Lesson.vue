@@ -2,7 +2,7 @@
 	<div>
 		<NavbarActive />
 		<!-- justfornow - need change later -->
-		<div class="container-fluid header-container">
+		<div class="container-fluid header-container tab-adjuster">
 			<div class="container">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -24,7 +24,7 @@
 				<nav>
 					<div class="nav nav-tabs" id="nav-tab" role="tablist">
 						<button
-							class="nav-link active"
+							class="nav-link active nav-link-custom"
 							id="nav-book-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-book"
@@ -36,7 +36,7 @@
 							Book
 						</button>
 						<button
-							class="nav-link"
+							class="nav-link nav-link-custom"
 							id="nav-assignment-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-assignment"
@@ -48,7 +48,7 @@
 							Assignment
 						</button>
 						<button
-							class="nav-link"
+							class="nav-link nav-link-custom"
 							id="nav-exam-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-exam"
@@ -60,7 +60,7 @@
 							Exam
 						</button>
 						<button
-							class="nav-link"
+							class="nav-link nav-link-custom"
 							id="nav-forum-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-forum"
@@ -72,7 +72,7 @@
 							Forum
 						</button>
 						<button
-							class="nav-link"
+							class="nav-link nav-link-custom"
 							id="nav-class-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-class"
@@ -102,7 +102,7 @@
 								aria-orientation="vertical"
 							>
 								<button
-									class="nav-link active"
+									class="nav-link active nav-link-custom vertical"
 									id="v-pills-chinese-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-chinese"
@@ -114,7 +114,7 @@
 									Chinese
 								</button>
 								<button
-									class="nav-link"
+									class="nav-link nav-link-custom vertical"
 									id="v-pills-pinyin-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-pinyin"
@@ -126,7 +126,7 @@
 									Pinyin
 								</button>
 								<button
-									class="nav-link"
+									class="nav-link nav-link-custom vertical"
 									id="v-pills-grammar-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-grammar"
@@ -138,7 +138,7 @@
 									Grammar
 								</button>
 								<button
-									class="nav-link"
+									class="nav-link nav-link-custom vertical"
 									id="v-pills-vocab-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-vocab"
@@ -152,7 +152,7 @@
 							</div>
 							<div class="tab-content flex-grow-1 ms-3" id="v-pills-tabContent">
 								<div
-									class="tab-pane fade show active"
+									class="tab-pane fade show active tab-pane-custom"
 									id="v-pills-chinese"
 									role="tabpanel"
 									aria-labelledby="v-pills-chinese-tab"
@@ -173,7 +173,7 @@
 									role="tabpanel"
 									aria-labelledby="v-pills-grammar-tab"
 								>
-								<GrammarEditor :lessonIdx="this.$route.params.id" :editable=false />
+									<GrammarEditor :lessonIdx="this.$route.params.id" :editable="false" />
 								</div>
 								<div
 									class="tab-pane fade"
@@ -195,10 +195,10 @@
 						aria-labelledby="nav-assignment-tab"
 					>
 						<!-- <Homework :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" /> -->
-						<Exam type="assignment"/>
+						<Exam type="assignment" />
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
-						<Exam type="exam"/>
+						<Exam type="exam" />
 					</div>
 					<div class="tab-pane fade" id="nav-forum" role="tabpanel" aria-labelledby="nav-forum-tab">
 						<Forum />
@@ -219,7 +219,7 @@
 	import Book from './Book.vue';
 	import Homework from './Homework.vue';
 	import UserList from './UserList.vue';
-	import GrammarEditor from './Publisher/GrammarEditor.vue'
+	import GrammarEditor from './Publisher/GrammarEditor.vue';
 	import Exam from './Publisher/Exam.vue';
 	import Forum from './Forum.vue';
 	export default {

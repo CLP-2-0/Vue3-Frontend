@@ -27,9 +27,9 @@
 		</div>
 	</div>
 
-	<div class="container mt-5">
+	<div class="container">
 		<h2 class="text-left">User Profile</h2>
-		<div class="container mt-5">
+		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-3">
 					<div class="card text-center">
@@ -52,10 +52,16 @@
 						</div>
 						<div class="card-footer pb-3" v-if="isStudent">
 							<div class="d-block">
-								<button class="btn btn-secondary btn-block px-2" @click="requestTeacher()">
+								<button
+									class="btn btn-secondary btn-block px-2 btn-custom create"
+									@click="requestTeacher()"
+								>
 									I'm Teacher
 								</button>
-								<button class="btn btn-secondary btn-block mx-1 px-2" @click="requestTeacher()">
+								<button
+									class="btn btn-secondary btn-block mx-1 px-2 btn-custom create"
+									@click="requestTeacher()"
+								>
 									<router-link to="/student">Join Section</router-link>
 								</button>
 							</div>
@@ -120,7 +126,10 @@
 							<br />
 
 							<hr />
-							<button class="btn btn-primary btn-block d-block m-auto" @click="updateUser">
+							<button
+								class="btn btn-primary btn-block d-block m-auto btn-custom"
+								@click="updateUser"
+							>
 								Save Changes
 							</button>
 						</div>

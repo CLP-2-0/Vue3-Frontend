@@ -2,7 +2,7 @@
 	<div class="container addBtn" v-if="isTeacherorAdmin">
 		<button
 			type="button"
-			class="btn btn-primary"
+			class="btn btn-primary btn-custom"
 			data-bs-toggle="modal"
 			data-bs-target="#addModal"
 			@click="addClick()"
@@ -111,7 +111,7 @@
 	<div class="container addBtn" v-if="isStudent">
 		<button
 			type="button"
-			class="btn btn-primary"
+			class="btn btn-primary btn-custom"
 			data-bs-toggle="modal"
 			data-bs-target="#addModal"
 			@click="addClick()"

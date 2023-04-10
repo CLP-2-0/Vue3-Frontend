@@ -84,6 +84,7 @@ const router = createRouter({
 			path: '/publisher/dashboard',
 			name: 'Publisher Dashboard',
 			component: PublisherDashboard,
+			props: true,
 			meta: {
 				requiresAuth: true,
 			},

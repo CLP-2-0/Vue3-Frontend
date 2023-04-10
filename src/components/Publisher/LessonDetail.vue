@@ -3,7 +3,7 @@
 		<NavbarActive />
 
 		<!-- justfornow - need change later -->
-		<div class="container-fluid header-container">
+		<div class="container-fluid header-container tab-adjuster">
 			<div class="container">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb">
@@ -23,9 +23,9 @@
             <br/><br/> -->
 
 				<nav>
-					<div class="nav nav-tabs" id="nav-tab" role="tablist">
+					<div class="nav nav-tabs mb-4" id="nav-tab" role="tablist">
 						<button
-							class="nav-link active"
+							class="nav-link active nav-link-custom"
 							id="nav-book-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-book"
@@ -37,7 +37,7 @@
 							Book
 						</button>
 						<button
-							class="nav-link"
+							class="nav-link nav-link-custom"
 							id="nav-assignment-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-assignment"
@@ -49,7 +49,7 @@
 							Assignment
 						</button>
 						<button
-							class="nav-link"
+							class="nav-link nav-link-custom"
 							id="nav-exam-tab"
 							data-bs-toggle="tab"
 							data-bs-target="#nav-exam"
@@ -104,7 +104,7 @@
 								aria-orientation="vertical"
 							>
 								<button
-									class="nav-link active"
+									class="nav-link active nav-link-custom vertical"
 									id="v-pills-chinese-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-chinese"
@@ -116,7 +116,7 @@
 									Chinese
 								</button>
 								<button
-									class="nav-link"
+									class="nav-link nav-link-custom vertical"
 									id="v-pills-pinyin-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-pinyin"
@@ -128,7 +128,7 @@
 									Pinyin
 								</button>
 								<button
-									class="nav-link"
+									class="nav-link nav-link-custom vertical"
 									id="v-pills-grammar-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-grammar"
@@ -140,7 +140,7 @@
 									Grammar
 								</button>
 								<button
-									class="nav-link"
+									class="nav-link nav-link-custom vertical"
 									id="v-pills-vocab-tab"
 									data-bs-toggle="pill"
 									data-bs-target="#v-pills-vocab"
@@ -154,14 +154,14 @@
 							</div>
 							<div class="tab-content flex-grow-1 ms-3" id="v-pills-tabContent">
 								<div
-									class="tab-pane fade show active"
+									class="tab-pane fade show active tab-pane-custom"
 									id="v-pills-chinese"
 									role="tabpanel"
 									aria-labelledby="v-pills-chinese-tab"
 								>
 									<div class="container btn-container">
 										<button
-											class="btn btn-primary"
+											class="btn btn-primary btn-custom"
 											type="button"
 											data-bs-toggle="collapse"
 											data-bs-target="#collapseExample"
@@ -183,7 +183,7 @@
 									</div>
 								</div>
 								<div
-									class="tab-pane fade"
+									class="tab-pane fade tab-pane-custom"
 									id="v-pills-pinyin"
 									role="tabpanel"
 									aria-labelledby="v-pills-pinyin-tab"
@@ -191,15 +191,15 @@
 									<Translate :lessonIdx="this.$route.params.id" />
 								</div>
 								<div
-									class="tab-pane fade"
+									class="tab-pane fade tab-pane-custom"
 									id="v-pills-grammar"
 									role="tabpanel"
 									aria-labelledby="v-pills-grammar-tab"
 								>
-									<GrammarEditor :lessonIdx="this.$route.params.id" :editable=false />
+									<GrammarEditor :lessonIdx="this.$route.params.id" :editable="false" />
 								</div>
 								<div
-									class="tab-pane fade"
+									class="tab-pane fade tab-pane-custom"
 									id="v-pills-vocab"
 									role="tabpanel"
 									aria-labelledby="v-pills-vocab-tab"
@@ -216,10 +216,10 @@
 						role="tabpanel"
 						aria-labelledby="nav-assignment-tab"
 					>
-						<QuestionBank :lessonIdx="this.$route.params.id" type="assignment"/>
+						<QuestionBank :lessonIdx="this.$route.params.id" type="assignment" />
 					</div>
 					<div class="tab-pane fade" id="nav-exam" role="tabpanel" aria-labelledby="nav-exam-tab">
-						<QuestionBank :lessonIdx="this.$route.params.id" type="exam"/>
+						<QuestionBank :lessonIdx="this.$route.params.id" type="exam" />
 					</div>
 					<div class="tab-pane fade" id="nav-forum" role="tabpanel" aria-labelledby="nav-forum-tab">
 						<Forum />
@@ -261,9 +261,9 @@
 		},
 		props: ['id'],
 		data() {
-		  return {
-		    showAdminFeature: false,
-		  };
+			return {
+				showAdminFeature: false,
+			};
 		},
 	};
 </script>

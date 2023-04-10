@@ -8,6 +8,18 @@
 	margin: 0;
 	padding: 0;
 	box-sizing: border-box;
+	--background-color: rgba(240, 240, 240, 0.2);
+	--hover-color: rgba(160, 108, 84, 1);
+	--primary-color: rgba(148, 113, 101, 1);
+	--secondary-color: rgb(151, 146, 142);
+	--shadow-color: rgba(114, 114, 114, 0.6);
+	/* --background-color: rgba(96, 202, 183, 0.1); */
+	--text-color1: rgba(155, 151, 147, 0.5);
+	--decor-color2: rgb(241, 241, 241);
+	--decor-color: rgb(236, 236, 236);
+	--question-color: rgba(209, 183, 154, 0.096);
+
+	--success-color: rgb(0, 151, 0);
 }
 * {
 	margin: 0;
@@ -23,14 +35,6 @@ li {
 	list-style: none;
 }
 
-nav {
-	height: 7vh;
-	min-height: 60px;
-}
-.fullscreen {
-	height: auto;
-	min-height: 93vh;
-}
 .tab-adjuster {
 	max-width: 80vw !important;
 }
@@ -42,7 +46,131 @@ nav {
 	padding: 15px;
 	background-color: #f3f3f3;
 	border-left: 3px solid rgb(0, 151, 0);
-	box-shadow: 15px 15px 20px rgba(128, 128, 128, 0.6);
+	box-shadow: 15px 15px 20px var(--shadow-color);
 	z-index: 9999;
 	display: none;
+}
+
+/* .gradient {
+	background-image: linear-gradient(var(--background-color) 2%, #fff);
+} */
+
+/* button  */
+.btn-custom {
+	/* border-radius: 0% !important; */
+	background-color: var(--primary-color) !important;
+	border: 1px solid var(--secondary-color) !important;
+	box-shadow: 5px 5px 10px var(--shadow-color);
+	transition: transform 0.2s ease-in-out !important;
+}
+
+.btn-custom:hover {
+	background-color: var(--hover-color) !important;
+	transform: translateY(-3px);
+}
+.btn-custom.question {
+	background-color: var(--question-color) !important;
+	border-radius: 0% !important;
+	border: none !important;
+}
+.btn-custom.question:hover {
+	background-color: var(--secondary-color) !important;
+	border-radius: 0% !important;
+	border: none !important;
+}
+.btn-custom.create {
+	background-color: var(--secondary-color) !important;
+	border: none !important;
+	color: #fff !important;
+}
+.btn-custom.create:hover {
+	background-color: var(--hover-color) !important;
+	border: none !important;
+	color: #fff !important;
+}
+/* accordion-button */
+.accordion-button {
+	background-color: var(--secondary-color) !important;
+	color: #fff !important;
+	border-radius: 0% !important;
+}
+.accordion-button:focus,
+.accordion-button:active {
+	box-shadow: none !important;
+}
+.accordion-button::after {
+	filter: brightness(0) invert(1) !important;
+}
+
+/* form control  */
+.form-control-custom:focus {
+	border: 1px solid var(--shadow-color) !important;
+	box-shadow: 0px 0px 2px 3px var(--shadow-color) !important ;
+}
+
+/* nav-link-custom */
+.nav-tabs {
+	border-bottom: 1px solid var(--shadow-color) !important;
+}
+.nav-link-custom {
+	border-radius: 0 !important;
+	border-left: none !important;
+	border-right: none !important;
+	padding: 7px 30px !important;
+	width: 170px !important;
+	color: var(--secondary-color) !important;
+	border-top: none !important;
+	font-weight: 500 !important;
+}
+.nav-link-custom:hover {
+	color: var(--primary-color) !important;
+	background-color: var(--decor-color2) !important;
+	border-bottom: 1px solid var(--shadow-color) !important;
+	border-top: none !important;
+}
+
+.nav-link-custom.active {
+	color: var(--primary-color) !important;
+	border-top: none !important;
+	border-bottom: 2px solid var(--primary-color) !important;
+	background-color: var(--decor-color) !important;
+}
+
+.nav-link-custom.vertical {
+	text-align: left !important;
+	width: 130px !important;
+	padding: 15px 15px !important;
+	margin: 1px 0px !important;
+}
+.nav-link-custom.vertical:hover {
+	border-left: 2px solid var(--shadow-color) !important;
+	border-bottom: none !important;
+}
+.nav-link-custom.vertical.active {
+	border-left: 2px solid var(--primary-color) !important;
+	border-bottom: none !important;
+}
+
+/* tab-pane-custom */
+.tab-pane-custom {
+	min-height: 70vh;
+	/* background-color: #f3f3f3 !important; */
+}
+
+.background-content {
+	background-image: linear-gradient(to right, var(--secondary-color) 10%, rgba(0, 0, 0, 0) 40%);
+	margin: 20px 0px;
+	padding: 5px;
+}
+.question-wrp {
+	border-right: 1px solid rgb(228, 228, 228) !important;
+}
+.card-box {
+	width: 100% !important;
+}
+.ans-box {
+	border: none !important;
+	border-right: none !important;
+	margin-bottom: 5px;
+	border-bottom: 1px solid rgb(228, 228, 228) !important;
 }

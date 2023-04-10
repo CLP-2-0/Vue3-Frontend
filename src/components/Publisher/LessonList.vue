@@ -4,7 +4,7 @@
 		<!-- Button trigger modal -->
 		<button
 			type="button"
-			class="btn btn-primary"
+			class="btn btn-primary btn-custom"
 			data-bs-toggle="modal"
 			data-bs-target="#exampleModal"
 			@click="addClick()"
@@ -36,7 +36,7 @@
 								<label for="#" class="form-label center-label">Lesson # (*)</label>
 								<input
 									type="text"
-									class="form-control"
+									class="form-control form-control-custom"
 									v-model="newLessons.LessonId"
 									v-if="flagEdit == 0"
 									:class="{ 'is-invalid': errors.error }"
@@ -47,7 +47,7 @@
 
 								<input
 									type="text"
-									class="form-control"
+									class="form-control form-control-custom"
 									v-model="newLessons.LessonId"
 									v-if="flagEdit == 1"
 									disabled
@@ -55,14 +55,18 @@
 							</div>
 							<div class="mb-3">
 								<label for="#" class="form-label">Tilte</label>
-								<input type="text" class="form-control" v-model="newLessons.LessonTitle" />
+								<input
+									type="text"
+									class="form-control form-control-custom"
+									v-model="newLessons.LessonTitle"
+								/>
 							</div>
 						</form>
 					</div>
 					<div class="modal-footer">
 						<button
 							type="submit"
-							class="btn btn-primary text-center"
+							class="btn btn-primary text-center btn-custom"
 							data-bs-dismiss="modal"
 							v-if="flagEdit == 0"
 							@click="createLesson()"
@@ -71,7 +75,7 @@
 						</button>
 						<button
 							type="submit"
-							class="btn btn-primary text-center"
+							class="btn btn-primary text-center btn-custom"
 							data-bs-dismiss="modal"
 							v-if="flagEdit == 1"
 							@click="updateLesson()"

@@ -1,7 +1,7 @@
 <template>
 	<div id="notification-box"></div>
 	<div class="forum">
-		<button class="btn btn-primary mb-5" @click="toggleCreateTopic">Create Topic</button>
+		<button class="btn btn-primary btn-custom mb-5" @click="toggleCreateTopic">Create Topic</button>
 		<!-- <create-topic /> -->
 		<div class="create-topic" v-if="showCreateTopic">
 			<div class="form-group row">
@@ -73,7 +73,7 @@
 								<i class="fa fa-comments mx-2"></i> {{ topic.replyCount }}
 							</td>
 							<td>{{ formatDate(topic.lastPostDate) }}</td>
-							<td class="text-right">
+							<td class="text-right" v-if="isTeacherorAdmin">
 								<!-- <i class="fa-solid fa-pen-to-square mx-3" @click="editTopic(topic.id)"></i> -->
 
 								<i class="fa-solid fa-sm fa-x" @click="deleteTopic(topic.id)"></i>
@@ -187,6 +187,14 @@
 		},
 		mounted() {
 			this.getAllTopics();
+		},
+		computed: {
+			isTeacherorAdmin() {
+				return this.userRole === 'teacher' || this.userRole === 'admin';
+			},
+			isStudent() {
+				return this.userRole === 'student';
+			},
 		},
 	};
 </script>
