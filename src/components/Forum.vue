@@ -1,7 +1,9 @@
 <template>
 	<div id="notification-box"></div>
 	<div class="forum">
-		<button class="btn btn-primary btn-custom mb-5" @click="toggleCreateTopic">Create Topic</button>
+		<button class="btn btn-primary btn-custom" v-if="isTeacherorAdmin" @click="toggleCreateTopic">
+			Create Topic
+		</button>
 		<!-- <create-topic /> -->
 		<div class="create-topic" v-if="showCreateTopic">
 			<div class="form-group row">
@@ -17,7 +19,7 @@
 				</div>
 			</div>
 			<div class="content-block">
-				<label class="col-sm-1 col-form-label">Content:</label>
+				<label class="col-sm-1 col-form-label">Question:</label>
 				<quill-editor
 					v-model:content="content"
 					contentType="html"
@@ -47,7 +49,7 @@
 
 		<!-- TopicList section  -->
 
-		<div class="topic-container">
+		<div class="topic-container mt-5">
 			<div class="table-container">
 				<table class="table table-hover table-responsive">
 					<thead>
@@ -124,6 +126,7 @@
 				},
 				topics: [],
 				selectedTopicId: null,
+				userRole: localStorage.getItem('user_role'),
 			};
 		},
 		methods: {

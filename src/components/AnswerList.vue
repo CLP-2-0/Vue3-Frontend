@@ -9,8 +9,9 @@
 				v-model="searchTerm"
 				placeholder="Search for a student "
 			/> -->
+		<div class="my-3 mt-4">Classmates' responses:</div>
 		<div id="allAnswers" v-for="(answer, i) in this.answerList" :key="i">
-			<div class="card ans-box">
+			<div class="card ans-box px-3 py-2 mb-2">
 				<div class="card-body" :id="['Ans_' + i]">
 					<div id="user-info" style="display: flex; justify-content: space-between">
 						<h5>{{ answer.username }}</h5>
@@ -25,17 +26,16 @@
 						</audio>
 					</div>
 					<button
-						class="btn btn-outline-success"
+						class="btn btn-outline-success text-end"
 						data-bs-toggle="collapse"
-						data-bs-target="#collapseComment"
+						:data-bs-target="'#collapseComment' + i"
 						aria-expanded="false"
-						aria-controls="collapseComment"
+						:aria-controls="'collapseComment' + i"
 						@click="showComments(answer.id)"
 					>
 						Comment
 					</button>
-
-					<div id="collapseComment" class="collapse" style="margin-top: 5%">
+					<div :id="['collapseComment' + i]" class="collapse" style="margin-top: 5%">
 						<div
 							id="allComments"
 							v-for="(comment, i) in this.commentList"
@@ -48,14 +48,13 @@
 										<h5>{{ comment.username }}</h5>
 										<p>{{ comment.timestamp }}</p>
 									</div>
-
 									<p>{{ comment.comment }}</p>
 								</div>
 							</div>
 						</div>
 						<textarea
 							class="form-control"
-							id="text_answer"
+							:id="['text_' + i]"
 							rows="3"
 							placeholder="Type your comment here..."
 							v-model="comment"

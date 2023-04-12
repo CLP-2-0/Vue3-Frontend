@@ -76,7 +76,7 @@
 							}
 						"
 					>
-						Save
+						+ Add
 					</button>
 					<div
 						class="modal fade"
@@ -111,10 +111,11 @@
 			</div>
 		</div>
 	</div>
-	<div class="mt-4 mb-2">{{ listField }}</div>
+
 	<!-- Show question bank and able to assign new assignment/ exam  -->
-	<div class="container tab-adjuster">
-		<div :hidden="!show">
+	<div class="container tab-adjuster" :hidden="!show">
+		<div class="mt-4 mb-2">{{ listField }}</div>
+		<div>
 			<div v-if="isTeacher" class="form-check">
 				<input
 					class="form-check-input"
@@ -264,7 +265,7 @@
 				total: 0,
 				examLength: '',
 				chosenQuestions: [],
-				createBtn: 'Create ' + this.type,
+				createBtn: 'Create new ' + this.type,
 				listField: 'List of ' + this.type + "'s questions:",
 				sectionQBank: [],
 				message: '',
@@ -307,8 +308,14 @@
 
 				this.question = '';
 				this.answer = '';
+				this.resetForm();
+				console.log('reset');
 				this.questionsBank = [];
 				this.getLessonById();
+			},
+			resetForm() {
+				this.question = '';
+				this.answer = '';
 			},
 			async getLessonById() {
 				this.chosenQuestions = [];
@@ -460,8 +467,7 @@
 				this.gradedQuestions = [];
 			},
 			createSuccess() {
-				this.message =
-					'Your new question has been created. Close this window to see the new question list below.';
+				this.message = 'Your new question has been created.';
 				this.disable = true;
 			},
 			create() {

@@ -35,9 +35,9 @@ li {
 	list-style: none;
 }
 
-.tab-adjuster {
+/* .tab-adjuster {
 	max-width: 80vw !important;
-}
+} */
 #notification-box {
 	position: fixed;
 	width: 450px;
@@ -88,6 +88,11 @@ li {
 	border: none !important;
 	color: #fff !important;
 }
+
+.btn-exam {
+	border: 1px solid var(--primary-color) !important;
+	color: var(--primary-color) !important;
+}
 /* accordion-button */
 .accordion-button {
 	background-color: var(--secondary-color) !important;
@@ -102,8 +107,19 @@ li {
 	filter: brightness(0) invert(1) !important;
 }
 
+/* exam-submission */
+.exam-submission {
+	background-color: var(--secondary-color) !important;
+	color: #fff !important;
+	border-radius: 0% !important;
+	border: none !important;
+}
 /* form control  */
 .form-control-custom:focus {
+	border: 1px solid var(--shadow-color) !important;
+	box-shadow: 0px 0px 2px 3px var(--shadow-color) !important ;
+}
+.form-select:focus {
 	border: 1px solid var(--shadow-color) !important;
 	box-shadow: 0px 0px 2px 3px var(--shadow-color) !important ;
 }
@@ -165,12 +181,15 @@ li {
 .question-wrp {
 	border-right: 1px solid rgb(228, 228, 228) !important;
 }
+
+/* question box */
+.card-body {
+}
 .card-box {
 	width: 100% !important;
+	box-shadow: -5px 0 5px -4px rgba(240, 240, 240, 1), 5px 0 5px -4px rgba(240, 240, 240, 1);
 }
 .ans-box {
-	border: none !important;
-	border-right: none !important;
-	margin-bottom: 5px;
-	border-bottom: 1px solid rgb(228, 228, 228) !important;
+	box-shadow: -5px 0 5px -5px rgba(240, 240, 240, 1), 5px 0 5px -5px rgba(240, 240, 240, 1);
+	/* border-bottom: 1px solid rgb(228, 228, 228) !important; */
 }

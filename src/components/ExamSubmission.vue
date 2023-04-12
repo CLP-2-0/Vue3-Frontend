@@ -34,7 +34,7 @@
 			</div>
 			<div class="col-auto col-md-9 col-xl-10 p-0">
 				<div class="card-body ml-5 m-auto" style="width: 90%" v-if="curr == num">
-					<div class="card-box p-4 shadow-lg rounded my-3">
+					<div class="card-box p-4 my-3">
 						<h5 class="card-title">Question: ({{ question.point }} points)</h5>
 						<div v-html="question.question"></div>
 						<div v-if="isAdminOrTeacher">

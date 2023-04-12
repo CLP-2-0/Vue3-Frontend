@@ -1,25 +1,27 @@
 <template>
 	<div>
 		<nav class="navbar navbar-custom p-0">
-			<div class="container-fluid d-flex justify-content-spacebetween align-items-center mx-3">
-				<img src="../assets/Logo1CLP.png" class="float-start" alt="..." style="width: 80px" />
+			<div class="container d-flex flex-row justify-content-between align-items-center nav-height">
+				<div class="d-flex">
+					<img src="../assets/Logo1CLP.png" class="" alt="..." style="width: 80px" />
+					<span class="fs-4 ms-4">{{ current }}</span>
+				</div>
 
 				<div class="nav-link">
 					<!-- <router-link to="/teacher/dashboard">Dashboard</router-link> -->
 
-					<i class="fa fa-solid fa-user px-2 py-0"></i
-					><span class="greeting" v-if="showGreeting">Hi, {{ username }}</span>
+					<i class="fa fa-solid fa-user mx-2"></i>
+					<span class="greeting" v-if="showGreeting">Hi, {{ username }}</span>
 					<span class="greeting" v-if="!showGreeting">Hi, {{ lastname }}</span>
-					<span>{{ current }}</span>
 
 					<div class="btn-group">
 						<button
 							type="button"
-							class="btn dropdown-button m-3 p-0"
+							class="btn dropdown-button m-2 p-0"
 							data-bs-toggle="dropdown"
 							aria-expanded="false"
 						>
-							<i class="fa-solid fa-gear me-2"></i>
+							<i class="fa-solid fa-gear"></i>
 						</button>
 						<ul class="dropdown-menu dropdown-menu-end">
 							<li>
@@ -64,9 +66,7 @@
 	import UserApis from '@/apis/UserApis.js';
 	export default {
 		name: 'NavbarActive',
-		props: {
-			props: ['current'], // define the prop
-		},
+		props: ['current'], // define the prop
 		data() {
 			return {
 				username: localStorage.getItem('user_name'),
@@ -115,6 +115,12 @@
 		height: 8vh;
 		min-height: 60px;
 		box-shadow: 0px 10px 20px rgba(240, 240, 240, 1);
+	}
+	.navbar-custom > div > div {
+		margin-top: 0;
+	}
+	.nav-height {
+		height: 100%;
 	}
 	.fullscreen {
 		height: auto;

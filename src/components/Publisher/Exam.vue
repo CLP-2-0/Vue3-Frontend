@@ -14,14 +14,14 @@
 						"Submit" button to submit your work!
 					</p>
 					<button
-						class="btn btn-outline-primary"
+						class="btn btn-outline-success btn-exam"
 						id="startBtn"
 						@click="startExam"
 						:disabled="closed != '' ? true : false"
 					>
 						Start Exam
 					</button>
-					<p>{{ closed }}</p>
+					<p class="mt-2">{{ closed }}</p>
 				</div>
 			</div>
 			<div>
@@ -34,15 +34,15 @@
 					:time="time"
 					@questions-update="questionsUpdate($event)"
 				/>
+				<hr />
 			</div>
 
-			<hr />
 			<div v-if="(this.type == 'exam' && closed != '') || isTeacher">
 				<h4>Exam Submission</h4>
 				<div>{{ submissionStatus }}</div>
-				<div v-for="(submission, i) in submissions">
+				<div class="mb-2" v-for="(submission, i) in submissions">
 					<div
-						class="card p-2"
+						class="card p-2 exam-submission"
 						type="button"
 						data-bs-toggle="collapse"
 						:data-bs-target="'#collapseSubmission' + i"
@@ -50,7 +50,7 @@
 						aria-controls="collapseHWCreation"
 						v-if="isTeacher || submission[0].student == userName"
 					>
-						<h6>Exam {{ this.$route.params.id }}: {{ submission[0].student }}</h6>
+						<h6 class="m-0">Exam {{ this.$route.params.id }}: {{ submission[0].student }}</h6>
 					</div>
 					<div class="collapse bg-light p-3" :id="['collapseSubmission' + i]">
 						<div v-for="(a, idx) in submission">
@@ -93,10 +93,13 @@
 			</div>
 		</div>
 	</div>
-	<div v-if="this.type == 'assignment'">
-		<Assignment :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" :key="update" />
+	<div>
+		<div v-if="this.type == 'assignment'">
+			<Assignment :lessonIdx="this.$route.params.id" :sid="this.$route.params.sid" :key="update" />
+		</div>
+		<hr />
 	</div>
-	<hr />
+
 	<QuestionCreation
 		v-if="isAdmin || isTeacher"
 		:lessonIdx="this.$route.params.id"
@@ -161,7 +164,7 @@
 					} else {
 						console.log(res.data);
 						if (res.data.submissions == 0) {
-							this.submissionStatus = 'Submission List is empty!';
+							this.submissionStatus = 'Submission list is empty!';
 						} else {
 							this.submissionStatus = '';
 						}
@@ -220,7 +223,7 @@
 				}
 			},
 			async grade(submission, i) {
-				this.loading = 'loading...';
+				this.loading = 'Calculating...';
 				await HomeworkApis.gradeExamSubmission(
 					this.$route.params.sid,
 					this.$route.params.id,

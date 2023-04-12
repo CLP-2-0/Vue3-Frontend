@@ -4,7 +4,9 @@
 	</div>
 
 	<div v-else class="row d-flex justify-content-around">
-		<div class="background-content">List of questions :</div>
+		<div class="background-content">
+			{{ exam ? "Exam's questions:" : "Assignment's questions:" }}
+		</div>
 		<div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 question-wrp">
 			<div class="d-flex flex-column align-items-center align-items-sm-center px-3 pt-2 text-white">
 				<ul
@@ -28,7 +30,7 @@
 		</div>
 		<div class="col-auto col-md-9 col-xl-10 p-0">
 			<div class="card-body ml-5 m-auto" style="width: 90%" v-if="curr == num">
-				<div class="card-box p-4 shadow-lg rounded my-3">
+				<div class="card-box p-4 my-3">
 					<h5 class="card-title">Question: ({{ point }} points)</h5>
 					<div v-html="question"></div>
 					<div v-if="isAdminOrTeacher">
@@ -51,7 +53,7 @@
 							<select
 								class="form-select"
 								aria-label="Default select example"
-								style="width: 15%"
+								style="width: 20%"
 								v-model="selected"
 							>
 								<option selected disabled>Select Answer Type</option>
@@ -60,7 +62,7 @@
 							</select>
 							<textarea
 								v-if="selected == 'q1_' + this.curr"
-								class="form-control"
+								class="form-control mt-2"
 								id="text_answer"
 								rows="3"
 								placeholder="Type your answer here..."
@@ -75,7 +77,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="shadow-lg ans-box">
+				<div class="">
 					<AnswerList :key="updateAnswer" :idx="idx" />
 				</div>
 

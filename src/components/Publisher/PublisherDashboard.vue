@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<NavbarActive />
+		<NavbarActive :current="'Dashboard'" />
 
 		<!-- Breadcrumb justfornow - need change later -->
 		<div class="container-fluid header-container">
