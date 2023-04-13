@@ -111,7 +111,6 @@
 		:type="type"
 		@exam-update="examUpdate($event)"
 	/>
-	<div id="notification-box"></div>
 </template>
 
 <script>
@@ -230,7 +229,6 @@
 			},
 			async grade(submission, i) {
 				this.loading = 'Calculating...';
-				this.showNotification('Grade updated successfully!');
 				await HomeworkApis.gradeExamSubmission(
 					this.$route.params.sid,
 					this.$route.params.id,
@@ -277,14 +275,6 @@
 					event.preventDefault();
 					event.returnValue = '';
 				}
-			},
-			showNotification(message) {
-				const notificationBox = document.getElementById('notification-box');
-				notificationBox.innerHTML = message;
-				notificationBox.style.display = 'block';
-				setTimeout(function () {
-					notificationBox.style.display = 'none';
-				}, 5000);
 			},
 		},
 		mounted() {

@@ -61,13 +61,8 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr
-							v-for="(topic, index) in topics"
-							:key="index"
-							@click="showTopicDetails(topic.id)"
-							class="tr-custom"
-						>
-							<td class="p-3">
+						<tr v-for="(topic, index) in topics" :key="index" class="tr-custom">
+							<td class="p-3" @click="showTopicDetails(topic.id)">
 								{{ topic.title }}
 							</td>
 							<td class="p-3">
