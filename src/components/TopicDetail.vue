@@ -10,12 +10,12 @@
 				Back to list of topics
 			</button>
 		</div>
-		<div class="rounded question-wrp p-5">
+		<div class="rounded reply-wrp p-5">
 			<h2 class="discussion-title">
 				<div>{{ topic.title }}</div>
 			</h2>
 			<div class="py-2 fs-6 border-bottom">
-				<h5>Question:</h5>
+				<!-- <h5>Question:</h5> -->
 				<div v-html="topic.content"></div>
 			</div>
 			<div class="d-flex align-items-start justify-content-end mt-3">
@@ -33,11 +33,7 @@
 		</div>
 
 		<div class="discussion-answers">
-			<div
-				v-for="(answer, index) in answersdb"
-				:key="index"
-				class="answer question-wrp rounded p-5"
-			>
+			<div v-for="(answer, index) in answersdb" :key="index" class="answer reply-wrp rounded p-5">
 				<div class="header-custom">
 					<div class="answer-header">
 						<img :src="answer.pictureProfile" alt="User Profile Picture" class="profile-picture" />
@@ -359,7 +355,7 @@
 		font-style: italic;
 		color: #808080;
 	}
-	.question-wrp {
+	.reply-wrp {
 		margin-top: 20px;
 		box-shadow: 0 0 15px 15px rgba(235, 235, 235, 0.5);
 		border: none;

@@ -31,27 +31,12 @@
 						:data-bs-target="'#collapseComment' + i"
 						aria-expanded="false"
 						:aria-controls="'collapseComment' + i"
-						@click="showComments(answer.id)"
+						@click="showComments()"
 					>
 						Comment
 					</button>
 					<div :id="['collapseComment' + i]" class="collapse" style="margin-top: 5%">
-						<div
-							id="allComments"
-							v-for="(comment, i) in this.commentList"
-							:key="i"
-							style="margin-bottom: 2%"
-						>
-							<div class="card bg-light">
-								<div class="card-body" :id="['Ans_' + i]">
-									<div id="user-info" style="display: flex; justify-content: space-between">
-										<h5>{{ comment.username }}</h5>
-										<p>{{ comment.timestamp }}</p>
-									</div>
-									<p>{{ comment.comment }}</p>
-								</div>
-							</div>
-						</div>
+						<CommentList :idx="answer.id" :key="update" />
 						<textarea
 							class="form-control"
 							:id="['text_' + i]"
@@ -68,10 +53,12 @@
 </template>
 <script>
 	import HomeworkApis from '@/apis/HomeworkApis';
+	import CommentList from './CommentList.vue';
 	export default {
 		props: ['idx'],
 		components: {
 			Audio,
+			CommentList,
 		},
 		data() {
 			return {
@@ -82,6 +69,7 @@
 				comment: '',
 				commentList: [],
 				show: false,
+				update: 0,
 			};
 		},
 		methods: {
@@ -114,29 +102,13 @@
 				let username = localStorage.getItem('user_name');
 				await HomeworkApis.saveCommentToAnAnswer(username, id, this.comment).then(() => {
 					this.commentList = [];
-					this.showComments(id);
+					this.showComments();
 					this.comment = '';
 				});
 			},
 
-			async showComments(id) {
-				if (this.commentList.length == 0) {
-					const response = await HomeworkApis.getCommentsByAnswer(id);
-					console.log(response.data);
-					for (let c of response.data) {
-						let userInfo = c.split('_');
-						let timestamp = new Date(parseInt(userInfo[0]));
-						let username = userInfo[1];
-						let content = c.substring(userInfo[0].length + username.length + 2);
-						let comment = {
-							timestamp: timestamp.toLocaleString(),
-							username: username,
-							comment: content,
-						};
-						console.log(comment);
-						this.commentList.push(comment);
-					}
-				}
+			showComments() {
+				this.update++;
 			},
 		},
 		async mounted() {

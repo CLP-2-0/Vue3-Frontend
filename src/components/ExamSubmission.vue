@@ -1,6 +1,6 @@
 <template>
 	<div
-		v-if="questions.length == 0"
+		v-if="questions.length == 0 && isTeacher"
 		class="d-flex justify-content-center alert alert-secondary mt-3"
 	>
 		{{ statusMessage }}

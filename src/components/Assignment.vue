@@ -114,14 +114,14 @@
 				updateAnswer: 0,
 				userRole: localStorage.getItem('user_role'),
 				answer: '',
-				statusMessage: 'Loading...',
+				statusMessage: 'There are no assignment at the moment',
 			};
 		},
 		methods: {
 			async getAssignment() {
 				console.log('get assignment...');
 				let res = 0;
-				if (this.userRole != 'admin') {
+				if (this.userRole == 'teacher') {
 					if (this.exam) {
 						res = await LessonApis.getLessonById(this.lessonIdx);
 						console.log(res);
