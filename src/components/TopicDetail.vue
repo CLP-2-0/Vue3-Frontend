@@ -1,16 +1,43 @@
 <template>
 	<div id="notification-box"></div>
+
 	<div class="discussion">
-		<h2 class="discussion-title">
-			<div>{{ topic.title }}</div>
-		</h2>
-		<div class="bg-light p-3 fs-6">
-			<h5>Question:</h5>
-			<div v-html="topic.content"></div>
+		<div class="d-flex justify-content-center">
+			<button
+				@click="$emit('close')"
+				class="btn btn-exam m-0 px-3 text-uppercase list-group-item-secondary shadow"
+			>
+				Back to list of topics
+			</button>
+		</div>
+		<div class="rounded question-wrp p-5">
+			<h2 class="discussion-title">
+				<div>{{ topic.title }}</div>
+			</h2>
+			<div class="py-2 fs-6 border-bottom">
+				<h5>Question:</h5>
+				<div v-html="topic.content"></div>
+			</div>
+			<div class="d-flex align-items-start justify-content-end mt-3">
+				<button v-if="!showAnswerForm" @click="toggleAnswerForm" class="btn btn-primary">
+					Create Post
+				</button>
+			</div>
+			<form @submit.prevent="addAnswer" class="answer-form mt-5" v-if="showAnswerForm">
+				<div class="form-group">
+					<label for="answer-text">Your answer:</label>
+					<textarea v-model="newAnswerText" id="answer-text" class="form-control mt-1"></textarea>
+				</div>
+				<button type="submit" class="btn btn-sm btn-primary">Post Answer</button>
+			</form>
 		</div>
 
 		<div class="discussion-answers">
-			<div v-for="(answer, index) in answersdb" :key="index" class="answer">
+			<div
+				v-for="(answer, index) in answersdb"
+				:key="index"
+				class="answer question-wrp rounded p-5"
+			>
 				<div class="header-custom">
 					<div class="answer-header">
 						<img :src="answer.pictureProfile" alt="User Profile Picture" class="profile-picture" />
@@ -21,11 +48,13 @@
 							<div class="answer-date">{{ formatDate(answer.createdDate) }}</div>
 						</div>
 					</div>
-					<div class="answer-body p-4 fs-6 rounded-4 bg-light">{{ answer.content }}</div>
+					<div class="answer-body p-4 fs-6 bg-light">{{ answer.content }}</div>
 				</div>
 
 				<div class="answer-actions d-flex align-items-start justify-content-end">
-					<button @click="replyToAnswer(index)" class="btn btn-sm reply-btn m-2 p-2">Reply</button>
+					<button @click="replyToAnswer(index)" class="btn btn-sm reply-btn m-2 me-4 p-2">
+						Reply
+					</button>
 				</div>
 
 				<div
@@ -54,7 +83,7 @@
 								<div class="reply-date">{{ formatDate(reply.createdDate) }}</div>
 							</div>
 						</div>
-						<div class="reply-body bg-light p-4 rounded-4">{{ reply.content }}</div>
+						<div class="reply-body bg-light p-4 rounded">{{ reply.content }}</div>
 					</div>
 				</div>
 			</div>
@@ -62,19 +91,6 @@
 				No answers yet. Be the first to answer!
 			</div>
 		</div>
-
-		<div class="d-flex align-items-start justify-content-end mb-5">
-			<button v-if="!showAnswerForm" @click="toggleAnswerForm" class="btn btn-primary">
-				Create Post
-			</button>
-		</div>
-		<form @submit.prevent="addAnswer" class="answer-form mb-5" v-if="showAnswerForm">
-			<div class="form-group">
-				<label for="answer-text">Your answer:</label>
-				<textarea v-model="newAnswerText" id="answer-text" class="form-control mt-1"></textarea>
-			</div>
-			<button type="submit" class="btn btn-sm btn-primary">Post Answer</button>
-		</form>
 	</div>
 </template>
 
@@ -206,9 +222,9 @@
 			toggleAnswerForm() {
 				this.showAnswerForm = !this.showAnswerForm;
 				//Scroll to the last page
-				this.$nextTick(() => {
-					window.scrollTo(0, document.body.scrollHeight);
-				});
+				// this.$nextTick(() => {
+				// 	window.scrollTo(0, document.body.scrollHeight);
+				// });
 			},
 			formatDate(dateString) {
 				const date = new Date(dateString);
@@ -253,7 +269,7 @@
 
 <style>
 	.discussion {
-		margin-top: 50px;
+		margin-top: 10px;
 		width: 100%;
 		margin-left: auto;
 		margin-right: auto;
@@ -342,5 +358,10 @@
 		font-size: 18px;
 		font-style: italic;
 		color: #808080;
+	}
+	.question-wrp {
+		margin-top: 20px;
+		box-shadow: 0 0 15px 15px rgba(235, 235, 235, 0.5);
+		border: none;
 	}
 </style>

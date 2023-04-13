@@ -5,7 +5,7 @@
 			Create Topic
 		</button>
 		<!-- <create-topic /> -->
-		<div class="create-topic" v-if="showCreateTopic">
+		<div class="create-topic mt-5" v-if="showCreateTopic">
 			<div class="form-group row">
 				<label for="title" class="col-sm-1 col-form-label">Title:</label>
 				<div class="col-sm-11">
@@ -50,8 +50,8 @@
 		<!-- TopicList section  -->
 
 		<div class="topic-container mt-5">
-			<div class="table-container">
-				<table class="table table-hover table-responsive">
+			<div class="">
+				<table :class="['table', 'table-hover', { 'topic-contaniner-trigger': trigger }]">
 					<thead>
 						<tr>
 							<th class="w-70">Topic</th>
@@ -67,18 +67,18 @@
 							@click="showTopicDetails(topic.id)"
 							class="tr-custom"
 						>
-							<td>
+							<td class="p-3">
 								{{ topic.title }}
 							</td>
-							<td>
+							<td class="p-3">
 								<i class="fa fa-user"></i> {{ topic.userActive }}
 								<i class="fa fa-comments mx-2"></i> {{ topic.replyCount }}
 							</td>
-							<td>{{ formatDate(topic.lastPostDate) }}</td>
+							<td class="p-3">{{ formatDate(topic.lastPostDate) }}</td>
 							<td class="text-right" v-if="isTeacherorAdmin">
 								<!-- <i class="fa-solid fa-pen-to-square mx-3" @click="editTopic(topic.id)"></i> -->
 
-								<i class="fa-solid fa-sm fa-x" @click="deleteTopic(topic.id)"></i>
+								<i class="fa-solid fa-sm fa-x p-3 pt-4" @click="deleteTopic(topic.id)"></i>
 							</td>
 						</tr>
 					</tbody>
@@ -86,7 +86,7 @@
 			</div>
 
 			<div class="detail-container">
-				<TopicDetail :id="selectedTopicId" v-if="selectedTopicId" />
+				<TopicDetail :id="selectedTopicId" v-if="selectedTopicId" @close="hideDetail" />
 			</div>
 		</div>
 	</div>
@@ -107,6 +107,7 @@
 			return {
 				isLoading: false,
 				showCreateTopic: false,
+				trigger: false,
 				title: '',
 				content: '',
 				editorOption: {
@@ -177,7 +178,12 @@
 				});
 			},
 			showTopicDetails(id) {
+				this.trigger = true;
 				this.selectedTopicId = id;
+			},
+			hideDetail() {
+				this.trigger = false;
+				this.selectedTopicId = null;
 			},
 			showNotification(message) {
 				const notificationBox = document.getElementById('notification-box');
@@ -210,18 +216,22 @@
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
-		width: 100%;
 	}
-
-	.table-container {
-		width: 100%;
-		overflow: hidden;
+	.topic-contaniner-trigger {
+		display: none;
 	}
 
 	.detail-container {
 		width: 100%;
 	}
+	table {
+		width: 70%;
+		border-collapse: collapse;
+	}
 	tr {
-		overflow: hidden;
+		overflow: hidden !important;
+	}
+	.tr-custom {
+		cursor: pointer;
 	}
 </style>

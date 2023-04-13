@@ -39,7 +39,9 @@
 
 			<div v-if="(this.type == 'exam' && closed != '') || isTeacher">
 				<h4>Exam Submission</h4>
-				<div>{{ submissionStatus }}</div>
+				<div class="d-flex justify-content-center alert alert-secondary mt-3">
+					{{ submissionStatus }}
+				</div>
 				<div class="mb-2" v-for="(submission, i) in submissions">
 					<div
 						class="card p-2 exam-submission"

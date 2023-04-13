@@ -1,5 +1,8 @@
 <template>
-	<div v-if="questions.length == 0">
+	<div
+		v-if="questions.length == 0"
+		class="d-flex justify-content-center alert alert-secondary mt-3"
+	>
 		{{ statusMessage }}
 	</div>
 
