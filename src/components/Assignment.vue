@@ -121,7 +121,7 @@
 			async getAssignment() {
 				console.log('get assignment...');
 				let res = 0;
-				if (this.userRole == 'teacher') {
+				if (this.userRole != 'admin') {
 					if (this.exam) {
 						res = await LessonApis.getLessonById(this.lessonIdx);
 						console.log(res);
