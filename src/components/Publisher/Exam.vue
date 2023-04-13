@@ -86,7 +86,7 @@
 							Done
 						</button>
 
-						<h5>Total: {{ gradeMap[submission[0].student] }}</h5>
+						<h5>Total: {{ gradeMap[submission[0].student] }} / {{ maxTotal }}</h5>
 						<p>{{ loading }}</p>
 					</div>
 				</div>
@@ -138,6 +138,7 @@
 				submissionStatus: 'Loading...',
 				userName: localStorage.getItem('user_name'),
 				questions: [],
+				maxTotal: 0
 			};
 		},
 		name: 'Exam',
@@ -161,6 +162,7 @@
 					console.log(res);
 					if (res == undefined) {
 						this.examStatus = 'No exam available.';
+						this.submissionStatus = 'Submission list is empty!';
 					} else {
 						console.log(res.data);
 						if (res.data.submissions == 0) {
@@ -253,6 +255,10 @@
 			questionsUpdate(list) {
 				console.log('list', list);
 				this.questions = list;
+				this.maxTotal = 0
+				for(let q of this.questions) {
+					this.maxTotal += q.point
+				}
 			},
 
 			//method prevent default
