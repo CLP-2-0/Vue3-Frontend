@@ -1,4 +1,5 @@
 <template>
+	
 	<div class="container mt-5">
 		<div class="form-group row">
 			<label for="title" class="col-sm-1 col-form-label">Title:</label>
@@ -13,7 +14,19 @@
 			</div>
 		</div>
 		<div class="content-block">
-			<label class="col-sm-1 col-form-label">Content:</label>
+			<label class="col-sm-12 col-form-label">Content:</label>
+			<button type="button" class="btn btn-outline-danger"
+			data-bs-toggle="collapse"
+			data-bs-target="#collapseInstruction"
+			aria-expanded="false"
+			aria-controls='collapseInstruction'
+			>?</button>
+			<div id="collapseInstruction" class="collapse">
+				<p style="color:darkgrey">Red words are vocabulary. Underlined words with superscript number are grammars. A word which is both vocab and grammar has red color and is underlined. </p>
+				<p style="color:darkgrey">Example:</p>  
+				<p><u style="color: red;" id="vocab0" type="button" tabindex="0">无论</u><sup style="color: black;" type="button" tabindex="0" id="sup0"><u>1</u></sup><span style="color: black;">是否学习</span><u style="color: black;">过</u><sup style="color: black;" type="button" tabindex="0" id="sup1"><u>2</u></sup><span style="color: black;">中文，大家对“你好”这</span><span style="color: red;" id="vocab1" type="button" tabindex="0">句</span><span style="color: black;"> </span><span style="color: red;" id="vocab2" type="button" tabindex="0">问候语</span><u style="color: black;">都</u><sup style="color: black;" type="button" tabindex="0" id="sup2"><u>1</u></sup><span style="color: black;">很</span><span style="color: red;" id="vocab3" type="button" tabindex="0">熟悉</span><span style="color: black;">。</span></p>
+				<p style="color:darkgrey">(*) superscript number must remain black</p>
+			</div>
 			<quill-editor
 				v-model:content="content"
 				contentType="html"
@@ -102,6 +115,20 @@
 
 				//Binding content to QuillEditor
 				this.$refs.quillEditor.setHTML(this.content);
+
+				$(`#instruction`).popover({
+				container: "body",
+				html: true,
+				placement: "right",
+				trigger: 'focus',
+				content: function () {
+				return (
+					"Red words are vocabulary. Underlined words with superscript number are grammars. A word which is both vocab and grammar has red color and is underlined." 
+					+ "<br/>" +"Example: " + "<br/>" +
+					'<p>	<u style="color: red;" id="vocab0" type="button" tabindex="0">无论</u><sup style="color: black;" type="button" tabindex="0" id="sup0"><u>1</u></sup><span style="color: black;">是否学习</span><u style="color: black;">过</u><sup style="color: black;" type="button" tabindex="0" id="sup1"><u>2</u></sup><span style="color: black;">中文，大家对“你好”这</span><span style="color: red;" id="vocab1" type="button" tabindex="0">句</span><span style="color: black;"> </span><span style="color: red;" id="vocab2" type="button" tabindex="0">问候语</span><u style="color: black;">都</u><sup style="color: black;" type="button" tabindex="0" id="sup2"><u>1</u></sup><span style="color: black;">很</span><span style="color: red;" id="vocab3" type="button" tabindex="0">熟悉</span><span style="color: black;">。</p>'
+				);
+				},
+			});
 			},
 			save() {
 				// this.red.length = 0;
