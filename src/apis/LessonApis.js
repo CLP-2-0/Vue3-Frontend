@@ -127,6 +127,18 @@ const saveExam = async (lessonId, homework) => {
 		});
 };
 
+const updateLessonContent = async (lessonIdx, title, content) => {
+	return await instance
+	.put(`/lessons/${lessonIdx}`, {
+		id: lessonIdx,
+		title: title,
+		content: content,
+		})
+		.then((res) => {
+			console.log('new content', content);
+			});
+}
+
 export default {
 	getLessons,
 	createLesson,
@@ -138,5 +150,5 @@ export default {
 	getLessonGrammarMeanings,
 	saveExam,
 	saveAllLessons,
-	
+	updateLessonContent
 };

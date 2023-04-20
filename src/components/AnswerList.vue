@@ -31,12 +31,16 @@
 						:data-bs-target="'#collapseComment' + i"
 						aria-expanded="false"
 						:aria-controls="'collapseComment' + i"
-						@click="showComments()"
+
+						@click="showComment()"
 					>
 						Comment
 					</button>
+
 					<div :id="['collapseComment' + i]" class="collapse" style="margin-top: 5%">
-						<CommentList :idx="answer.id" :key="update" />
+
+						<CommentList :idx="answer.id" :key="update"/>
+
 						<textarea
 							class="form-control"
 							:id="['text_' + i]"
@@ -58,7 +62,7 @@
 		props: ['idx'],
 		components: {
 			Audio,
-			CommentList,
+			CommentList
 		},
 		data() {
 			return {
@@ -69,7 +73,7 @@
 				comment: '',
 				commentList: [],
 				show: false,
-				update: 0,
+				update: 0
 			};
 		},
 		methods: {
@@ -102,13 +106,13 @@
 				let username = localStorage.getItem('user_name');
 				await HomeworkApis.saveCommentToAnAnswer(username, id, this.comment).then(() => {
 					this.commentList = [];
-					this.showComments();
+					this.showComment();
 					this.comment = '';
 				});
 			},
 
-			showComments() {
-				this.update++;
+			showComment() {
+				this.update++
 			},
 		},
 		async mounted() {

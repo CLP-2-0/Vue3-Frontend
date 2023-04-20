@@ -142,6 +142,7 @@
 				submissionStatus: 'Loading...',
 				userName: localStorage.getItem('user_name'),
 				questions: [],
+				maxTotal: 0
 			};
 		},
 		name: 'Exam',
@@ -261,6 +262,7 @@
 				this.maxTotal = 0;
 				for (let q of this.questions) {
 					this.maxTotal += q.point;
+
 				}
 			},
 
