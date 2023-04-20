@@ -2,14 +2,27 @@
 	<NavbarActive />
 	<div id="notification-box"></div>
 	<!-- Breadcrumb justfornow - need change later -->
-	<div class="container-fluid header-container" v-if="isAdmin">
+	<div class="container-fluid header-container" v-if="isTeacherorStudent">
 		<div class="container">
 			<nav aria-label="breadcrumb">
 				<ol class="breadcrumb">
 					<li class="breadcrumb-item">
 						<router-link to="/dashboard" class="text-dark">Dashboard</router-link>
 					</li>
-					<li class="breadcrumb-item active" aria-current="page">Request</li>
+					<li class="breadcrumb-item active" aria-current="page">Profile</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+
+	<div class="container-fluid header-container" v-if="isAdmin">
+		<div class="container">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item">
+						<router-link to="publisher/dashboard" class="text-dark">Dashboard</router-link>
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">Profile</li>
 				</ol>
 			</nav>
 		</div>
@@ -27,6 +40,9 @@
 				v-if="noRequest"
 			>
 				There are no request at the moment
+			</div>
+			<div class="d-flex justify-content-center alert mt-3" v-if="loading" role="alert">
+				L O A D I N G . . .
 			</div>
 			<table class="table table-hover" v-if="!noRequest">
 				<tbody>
@@ -68,16 +84,22 @@
 				students: [],
 				userRole: localStorage.getItem('user_role'),
 				noRequest: false,
+				loading: true,
 			};
 		},
 		methods: {
 			async getUserByRequestedRole() {
-				const res = await UserApis.getUserByRequestedRole('teacher');
-				console.log(res.data);
-				if (res.data == null) {
+				const res = await UserApis.getUsers();
+				// console.log(res.data);
+				const usersWithRequestedRole = res.data.filter((user) => user.requestedRole === 'teacher');
+				console.log('teacher', usersWithRequestedRole);
+				this.loading = false;
+				if (usersWithRequestedRole.length == 0) {
 					this.noRequest = true;
-				} else this.students.push(res.data);
+					this.loading = false;
+				} else this.students = usersWithRequestedRole;
 			},
+
 			async accept(username) {
 				// this.showNotification('Assign Teacher role successfully');
 				const res = await UserApis.getUserByUsername(username);
@@ -124,6 +146,12 @@
 		computed: {
 			isAdmin() {
 				return this.userRole === 'admin';
+			},
+			isTeacherorStudent() {
+				return this.userRole === 'teacher' || this.userRole === 'student';
+			},
+			isStudent() {
+				return this.userRole === 'student';
 			},
 		},
 	};
