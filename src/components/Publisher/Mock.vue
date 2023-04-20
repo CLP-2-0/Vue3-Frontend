@@ -114,6 +114,7 @@
 	import axios from 'axios';
 	import VocabApis from '@/apis/VocabApis';
 	import GrammarEditor from './GrammarEditor.vue';
+	import LessonApis from '@/apis/LessonApis';
 
 	export default {
 		props: ['red', 'lessonIdx', 'title', 'content', 'update'],
@@ -137,15 +138,7 @@
 				this.red[index].type = document.getElementById('typeId' + index).value;
 			},
 			async updateLesson() {
-				await axios
-					.put('http://localhost:8000/lessons/' + this.lessonIdx, {
-						id: this.lessonIdx,
-						title: this.title,
-						content: this.content,
-					})
-					.then((res) => {
-						console.log('new content', this.content);
-					});
+				await LessonApis.updateLessonContent(this.lessonIdx, this.title, this.content)
 			},
 			async saveTable() {
 				console.log('mock', this.red);
