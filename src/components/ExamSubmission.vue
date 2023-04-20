@@ -1,5 +1,8 @@
 <template>
-	<div v-if="questions.length == 0">
+	<div
+		v-if="questions.length == 0 && isTeacher"
+		class="d-flex justify-content-center alert alert-secondary mt-3"
+	>
 		{{ statusMessage }}
 	</div>
 	<div v-else>
@@ -135,7 +138,9 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="isStudent && stop">You submitted the exam!</div>
+		<div v-if="isStudent && stop" class="d-flex justify-content-center alert alert-secondary mt-3">
+			You submitted the exam!
+		</div>
 		<p v-if="isStudent">{{ message }}</p>
 	</div>
 </template>

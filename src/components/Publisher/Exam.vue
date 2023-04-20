@@ -2,7 +2,9 @@
 	<div v-if="this.type == 'exam'">
 		<div>
 			<div v-if="isStudent && !started">
-				<p v-if="startTime == ''">{{ examStatus }}</p>
+				<p v-if="startTime == ''" class="d-flex justify-content-center alert alert-secondary mt-3">
+					{{ examStatus }}
+				</p>
 				<div v-else>
 					<p>
 						The exam will begin at {{ startTime }} on {{ day }}. The length of this exam is
@@ -39,7 +41,9 @@
 
 			<div v-if="(this.type == 'exam' && closed != '') || isTeacher">
 				<h4>Exam Submission</h4>
-				<div>{{ submissionStatus }}</div>
+				<div class="d-flex justify-content-center alert alert-secondary mt-3">
+					{{ submissionStatus }}
+				</div>
 				<div class="mb-2" v-for="(submission, i) in submissions">
 					<div
 						class="card p-2 exam-submission"
@@ -83,7 +87,7 @@
 							<hr />
 						</div>
 						<button v-if="isTeacher" class="btn btn-success" @click="grade(submission, i)">
-							Done
+							Grade
 						</button>
 
 						<h5>Total: {{ gradeMap[submission[0].student] }} / {{ maxTotal }}</h5>
@@ -168,7 +172,7 @@
 						if (res.data.submissions == 0) {
 							this.submissionStatus = 'Submission list is empty!';
 						} else {
-							this.submissionStatus = '';
+							this.submissionStatus = 'List of submissions';
 						}
 						this.examContent = res.data.exam.questionList;
 						let gradeJson = res.data.gradeMap;
@@ -255,9 +259,10 @@
 			questionsUpdate(list) {
 				console.log('list', list);
 				this.questions = list;
-				this.maxTotal = 0
-				for(let q of this.questions) {
-					this.maxTotal += q.point
+				this.maxTotal = 0;
+				for (let q of this.questions) {
+					this.maxTotal += q.point;
+
 				}
 			},
 

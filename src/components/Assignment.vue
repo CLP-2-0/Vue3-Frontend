@@ -1,5 +1,8 @@
 <template>
-	<div v-if="questions.length == 0">
+	<div
+		v-if="questions.length == 0"
+		class="d-flex justify-content-center alert alert-secondary mt-3"
+	>
 		{{ statusMessage }}
 	</div>
 
@@ -111,7 +114,7 @@
 				updateAnswer: 0,
 				userRole: localStorage.getItem('user_role'),
 				answer: '',
-				statusMessage: 'Loading...',
+				statusMessage: 'There are no assignment at the moment',
 			};
 		},
 		methods: {

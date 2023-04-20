@@ -101,8 +101,8 @@
 
 		<div class="col-6 col-md-4 mb-4" v-for="section in sections" :key="section.id">
 			<!-- <router-link :to="{ name: 'SectionDetail', params: { sid: section.id } }"> -->
-			<div class="image" type="button">
-				<div @click="redirect(section.id)">{{ section.section }}</div>
+			<div class="image" type="button" @click="redirect(section.id)">
+				<div>{{ section.section }}</div>
 			</div>
 			<!-- </router-link
       > -->
@@ -144,8 +144,8 @@
 				courses: [],
 				id: '',
 				sectionName: '',
-				// username: localStorage.getItem('user_name'),
-				username: 'gamer_std1',
+				username: localStorage.getItem('user_name'),
+				// username: 'gamer_std1',
 				userRole: localStorage.getItem('user_role'),
 				userEmail: localStorage.getItem('@email'),
 			};
@@ -220,7 +220,7 @@
 		width: 18vw;
 		min-width: 200px;
 		max-width: 300px;
-		background: url('../assets/class-logo.png');
+		background: url('../assets/class-logo1.png');
 		background-size: cover;
 		background-position: center;
 		background-repeat: no-repeat;

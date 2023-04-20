@@ -31,13 +31,16 @@
 						:data-bs-target="'#collapseComment' + i"
 						aria-expanded="false"
 						:aria-controls="'collapseComment' + i"
+
 						@click="showComment()"
 					>
 						Comment
 					</button>
 
 					<div :id="['collapseComment' + i]" class="collapse" style="margin-top: 5%">
+
 						<CommentList :idx="answer.id" :key="update"/>
+
 						<textarea
 							class="form-control"
 							:id="['text_' + i]"

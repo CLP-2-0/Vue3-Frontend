@@ -27,7 +27,6 @@
 			</div>
 			<!-- for binding content from quill-editor need v-model:content='' and contentType='html' -->
 		</div>
-		
 		<div class="preview" hidden>
 			<div class="title-container"><div id="title-preview"></div></div>
 			<div id="content-preview" v-html="content" class="content ql-editor"></div>
@@ -171,5 +170,8 @@
 	.title-container {
 		display: flex;
 		justify-content: center;
+	}
+	.preview {
+		display: none;
 	}
 </style>
